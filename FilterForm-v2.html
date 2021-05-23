@@ -3,13 +3,38 @@
 <head>
     <title>Page Title</title>
 </head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="src/jquery.table2excel.js"></script>
 <body>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
     <script>
-        $(document).ready(function()
+    $(document).ready(function()
+    {
+        $("#btnExportExcel").click(function()
         {
+            var currentdate = new Date();
+            var datetime =
+            + currentdate.getFullYear()+ "/"
+            + (currentdate.getMonth()+1)  + "/"
+            +currentdate.getDate() + " "
+
+            + currentdate.getHours() + ":"
+            + currentdate.getMinutes() + ":"
+            + currentdate.getSeconds() + "Order List";
+
+            $("#table").table2excel(
+                {
+                    exclude:".noExl",
+                    name:"Worksheet Name",
+                    filename:datetime,
+                    fileext:".xls"
+                });
+
+            });
             $("#txt").keyup(function()
             {
+                $("tr[name ='tblTr']").remove();
                 var v=$(this).val();
                 //alert(v.split('\t')[1]);
                 var sp=v.split("close add to cart");
@@ -22,22 +47,25 @@
                     if(sp[c].includes("Received")==true)
                     {
                         txtReturn="R";
-                        rtn=txtFilter(sp[c],"Received");
+                        rtn=txtFilter(c,sp[c],"Received");
                     }
                     else if(sp[c].includes("Order Part")==true)
                     {
                         txtReturn="O";
-                        rtn=txtFilter(sp[c],"Order Part");
+                        rtn=txtFilter(c,sp[c],"Order Part");
                     }
                     else if(sp[c].includes("Installed")==true)
                     {
                         txtReturn="I";
-                        rtn=txtFilter(sp[c],"Installed");
+                        rtn=txtFilter(c,sp[c],"Installed");
                     }
                     else
                     {
                         txtReturn="N";
                     }
+
+                    generateTable(rtn);
+                    /*
                     t+=c+". "+sp[c]+"<br>"+
                     "State = "+txtReturn+"<br>"+
                     "~~~"+rtn[0]+"<br>"+
@@ -46,13 +74,13 @@
                     "Quantity = "+rtn[3]+"<br>"+
                     "Name = "+rtn[4]+"<br>"+
 
-                    "<br><br>";
+                    "<br><br>";*/
                 }
-                $("#aa").html(t);
+                //$("#aa").html(t);
             });
         });
 
-        function txtFilter(txtAry,state)
+        function txtFilter(no,txtAry,state)
         {
             var rAry = new Array();
             var txt=txtAry;
@@ -106,11 +134,12 @@
 
             var txtName = txt.split('\t')[0];
 
-            rAry[0]=txt;
-            rAry[1]=txtSubString;
-            rAry[2]=txtWO;
-            rAry[3]=txtQuantity;
-            rAry[4]=txtName;
+            rAry[0]=no;
+            rAry[1]=txtName;
+            rAry[2]=txtQuantity;
+            rAry[3]=txtWO;
+            rAry[4]=txtSubString;
+            rAry[5]=txt;
 
 
             /*  locStateLoc+
@@ -120,20 +149,45 @@
         }
         function generateTable(ary)
         {
-            
+            var tbl=$("#table");
+
+            var tr=$("<tr></tr>");
+            tr.attr({"name": "tblTr"})
+            tbl.append(tr);
+
+
+            var td0=$("<td></td>");
+            td0.html((ary[0]+1));
+
+            var td1=$("<td></td>");
+            td1.html(ary[1]);
+
+            var td2=$("<td></td>");
+            td2.html(ary[2]);
+            td2.css({"text-align": "center"});
+
+            var td3=$("<td></td>");
+            td3.html(ary[3]);
+
+            tr.append(td0);
+            tr.append(td1);
+            tr.append(td2);
+            tr.append(td3);
         }
-    </script>
 
-    <textarea id="txt" rows="10" cols="90"></textarea>
-    <div id="aa"></div>
+        </script>
 
-    <table>
-        <tr>
-            <th>No.</th>
-            <th>Name</th>
-            <th>Quantity</th>
-            <th>WO#</th>
-        </tr>
-    </table>
-</body>
-</html>
+        <textarea id="txt" rows="10" cols="90"></textarea>
+        <div id="aa"></div>
+
+        <table id="table">
+            <tr>
+                <th>No.</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>WO#</th>
+            </tr>
+        </table>
+        <button id="btnExportExcel">ExportExcel</button>
+    </body>
+    </html>
