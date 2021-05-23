@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Title</title>
+</head>
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function()
+        {
+            $("#txt").keyup(function()
+            {
+                var v=$(this).val();
+                var sp=v.split("close add to cart");
+                var t="";
+                for(var c=0;c<sp.length;c++)
+                {
+                    var txtReturn="";
+
+                    var txtSubString="";
+                    var locStateLoc=0;
+                    var locPrices=0;
+                    var txtPrice="";
+
+                    if(sp[c].includes("Received")==true)
+                    {
+                        txtReturn="R";
+
+                        locStateLoc=sp[c].search("Received");
+
+                        sp[c]=sp[c].replace("Received", "");
+                        sp[c]=sp[c].replace("delete", "");
+                        sp[c]=sp[c].replace("edit", "");
+                        txtSubString=sp[c].substring(locStateLoc);
+                        sp[c]=sp[c].replace(txtSubString, "");
+
+                        locPrices=sp[c].indexOf("$");
+                        txtPrice=sp[c].substring(locPrices,locStateLoc);
+                        sp[c]=sp[c].replace(txtPrice, "");
+
+
+                    }
+                    else if(sp[c].includes("Order Part")==true)
+                    {
+                        txtReturn="O";
+
+                        locStateLoc=sp[c].search("Order Part");
+
+                        sp[c]=sp[c].replace("Order Part", "");
+                        sp[c]=sp[c].replace("delete", "");
+                        sp[c]=sp[c].replace("edit", "");
+                        txtSubString=sp[c].substring(locStateLoc);
+                        sp[c]=sp[c].replace(txtSubString, "");
+
+                        locPrices=sp[c].indexOf("$");
+                        txtPrice=sp[c].substring(locPrices,locStateLoc);
+                        sp[c]=sp[c].replace(txtPrice, "");
+
+
+                    }
+                    else
+                    {
+                        txtReturn="N";
+                    }
+                    t+=c+". "+sp[c]+"<br>"+
+                    "-->"+txtReturn+"<br>"+
+                    "~~"+txtSubString+"<br>";
+                }
+                $("#aa").html(t);
+            });
+        });
+
+
+    </script>
+    <textarea id="txt" rows="10" cols="90"></textarea>
+    <div id="aa"></div>
+</body>
+</html>

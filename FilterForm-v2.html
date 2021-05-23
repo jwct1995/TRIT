@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Title</title>
+</head>
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function()
+        {
+            $("#txt").keyup(function()
+            {
+                var v=$(this).val();
+                //alert(v.split('\t')[1]);
+                var sp=v.split("close add to cart");
+                var t="";
+                for(var c=0;c<sp.length;c++)
+                {
+                    var txtReturn="";
+                    var rtn;
+
+                    if(sp[c].includes("Received")==true)
+                    {
+                        txtReturn="R";
+                        rtn=txtFilter(sp[c],"Received");
+                    }
+                    else if(sp[c].includes("Order Part")==true)
+                    {
+                        txtReturn="O";
+                        rtn=txtFilter(sp[c],"Order Part");
+                    }
+                    else if(sp[c].includes("Installed")==true)
+                    {
+                        txtReturn="I";
+                        rtn=txtFilter(sp[c],"Installed");
+                    }
+                    else
+                    {
+                        txtReturn="N";
+                    }
+                    t+=c+". "+sp[c]+"<br>"+
+                    "State = "+txtReturn+"<br>"+
+                    "~~~"+rtn[0]+"<br>"+
+                    "Note = "+rtn[1]+"<br>"+
+                    "WO   = "+rtn[2]+"<br>"+
+                    "Quantity = "+rtn[3]+"<br>"+
+                    "Name = "+rtn[4]+"<br>"+
+
+                    "<br><br>";
+                }
+                $("#aa").html(t);
+            });
+        });
+
+        function txtFilter(txtAry,state)
+        {
+            var rAry = new Array();
+            var txt=txtAry;
+
+            /*
+            HG - iPad 5 LCD	1
+            $0.00
+            $0.00				Repair at AMK	2021-05-20	'v3'v1 Installed'
+            for testing	'v4 #28626''	 'v2 delete edit'
+            'v0 close add to cart'
+            */
+
+            //v1
+            var locStateLoc=txt.search(state);
+            //v2
+            txt=txt.replace("delete", "");
+            txt=txt.replace("edit", "");
+            //v3
+            var txtSubString="";
+            txtSubString=txt.substring(locStateLoc);
+            txtSubString=txtSubString.replace(state, "");
+            //v4
+            var LocWO=txtSubString.search("#");
+            var txtWO="";
+            if(LocWO != -1)
+            {
+                txtWO=txtSubString.substring(LocWO);
+                txtSubString=txtSubString.replace(txtWO, "");
+            }
+            //v5
+            txt=txt.replace(txtSubString, "");
+            txt=txt.replace(state, "");
+
+            //v6
+
+            //v1
+            //var locQuantity=$("#txt").val().search('\t');
+            //v2
+            //var txtQuantity=$("#txt").val().substring(locQuantity);
+            //v3
+            //var locPrice=txtQuantity.search('$0.00');
+            //v4
+            //var Quantity=txtQuantity.substring(locPrice);
+
+            //var aa = $("#txt").val().substring(locQuantity,$("#txt").val().lastIndexOf("$"));
+
+            //var aa = $("#txt").val().split('\t').pop().split('$')[0];
+
+            var txtQuantity = txt.split('\t')[1];
+            txtQuantity = txtQuantity.split('$')[0];
+
+            var txtName = txt.split('\t')[0];
+
+            rAry[0]=txt;
+            rAry[1]=txtSubString;
+            rAry[2]=txtWO;
+            rAry[3]=txtQuantity;
+            rAry[4]=txtName;
+
+
+            /*  locStateLoc+
+            "<br> txtSubString ="+txtSubString+
+            "<br> txtWO ="+txtWO;*/
+            return rAry;
+        }
+        function generateTable(ary)
+        {
+            
+        }
+    </script>
+
+    <textarea id="txt" rows="10" cols="90"></textarea>
+    <div id="aa"></div>
+
+    <table>
+        <tr>
+            <th>No.</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>WO#</th>
+        </tr>
+    </table>
+</body>
+</html>
