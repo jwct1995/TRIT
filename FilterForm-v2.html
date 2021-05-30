@@ -47,12 +47,34 @@
             //alert(v.split('\t')[1]);
             var sp=v.split("close add to cart");
             var t="";
+
+
+
+
+
+            //////////////////
             for(var c=0;c<sp.length;c++)
             {
                 var txtReturn="";
                 var rtn;
+    //            statusOption
 
-                if(sp[c].includes("Received")==true)
+                statusOption.forEach((sopt,index) =>
+                {
+                    if(sp[c].includes(sopt)==true)
+                    {
+                        txtReturn=sopt;
+                        rtn=txtFilter(c,sp[c],sopt);
+                        return;
+                    }
+                })
+                /*
+                if(sp[c].includes()==true)
+                {
+                    txtReturn="R";
+                    rtn=txtFilter(c,sp[c],"Received");
+                }*/
+                /*if(sp[c].includes("Received")==true)
                 {
                     txtReturn="R";
                     rtn=txtFilter(c,sp[c],"Received");
@@ -71,11 +93,12 @@
                 {
                     txtReturn="N";
                 }
+                */
 
                 generateTable(rtn);
                 /*
                 t+=c+". "+sp[c]+"<br>"+
-                "State = "+txtReturn+"<br>"+
+                "status = "+txtReturn+"<br>"+
                 "~~~"+rtn[0]+"<br>"+
                 "Note = "+rtn[1]+"<br>"+
                 "WO   = "+rtn[2]+"<br>"+
@@ -85,7 +108,7 @@
                 "<br><br>";*/
             }
         }
-        function txtFilter(no,txtAry,state)
+        function txtFilter(no,txtAry,status)
         {
             var rAry = new Array();
             var txt=txtAry;
@@ -99,14 +122,14 @@
             */
 
             //v1
-            var locStateLoc=txt.search(state);
+            var locStatus=txt.search(status);
             //v2
             txt=txt.replace("delete", "");
             txt=txt.replace("edit", "");
             //v3
             var txtSubString="";
-            txtSubString=txt.substring(locStateLoc);
-            txtSubString=txtSubString.replace(state, "");
+            txtSubString=txt.substring(locStatus);
+            txtSubString=txtSubString.replace(status, "");
             //v4
             var LocWO=txtSubString.search("#");
             var txtWO="";
@@ -117,7 +140,7 @@
             }
             //v5
             txt=txt.replace(txtSubString, "");
-            txt=txt.replace(state, "");
+            txt=txt.replace(status, "");
 
             //v6
 
@@ -145,9 +168,11 @@
             rAry[3]=txtWO;
             rAry[4]=txtSubString;
             rAry[5]=txt;
+            rAry[6]=status;
 
 
-            /*  locStateLoc+
+
+            /*  locStatus+
             "<br> txtSubString ="+txtSubString+
             "<br> txtWO ="+txtWO;*/
             return rAry;
@@ -172,24 +197,34 @@
             td2.css({"text-align": "center"});
 
             var td3=$("<td></td>");
-            td3.html(ary[3]);
+            td3.html(ary[6]);
+
+            var td4=$("<td></td>");
+            td4.html(ary[3]);
 
             tr.append(td0);
             tr.append(td1);
             tr.append(td2);
             tr.append(td3);
+            tr.append(td4);
         }
+
 
         </script>
 
         <textarea id="txt" rows="10" cols="90"></textarea>
         <div id="aa"></div>
-        <button id="btnExportExcel">ExportExcel</button>
+
+        <div>
+            <button id="btnExportExcel">ExportExcel</button>
+        </div>
+
         <table id="table">
             <tr>
                 <th>No.</th>
                 <th>Name</th>
                 <th>Quantity</th>
+                <th>Status</th>
                 <th>WO#</th>
             </tr>
         </table>
