@@ -11,6 +11,11 @@
     <script>
     var statusOption=["Awaiting Customer Approval","Order Part","On Order","Received","Installed","Wrong Part","Bad/Damaged Part","Abandoned Part","Unable to Locate Part","Shipped"]
 
+    $(function()
+    {
+        generateStatusOnOffCheckbox();
+    });
+
     $(document).ready(function()
     {
         $("#btnExportExcel").click(function()
@@ -209,12 +214,43 @@
             tr.append(td4);
         }
 
+        function generateStatusOnOffCheckbox()
+        {
+            var divStatus = $("#divStatusOnOffCheckBox");
+            var table=$("<table></table>");
+            divStatus.append(table);
 
+            var c=1;
+
+
+
+
+
+            statusOption.forEach((sopt,index) =>
+            {
+                var tr
+                if(c%3==0)
+                {
+                    var tr
+                }
+                //var aa = $("#aa");
+                //aa.html(aa.html()+"<br>"+sopt);
+                //,{"":""},{"":""}
+                $('<input />', { type: 'checkbox', id: 'cb'+index, name: 'cbStatus', value: sopt }).appendTo(divStatus);
+                $('<label />', { 'for': 'cb'+index, text: sopt }).appendTo(divStatus);
+            })
+
+
+        }
         </script>
 
         <textarea id="txt" rows="10" cols="90"></textarea>
-        <div id="aa"></div>
+        <div id="aa">
+            <p style="background-color:red;padding: 5px;font-size: 20px;font-weight: bold;"> ignore red background color element/item</p>
+        </div>
 
+        <div id="divStatusOnOffCheckBox" style="background-color:red">
+        Filter Status</div>
         <div>
             <button id="btnExportExcel">ExportExcel</button>
         </div>
