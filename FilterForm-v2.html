@@ -9,6 +9,8 @@
 
 
     <script>
+    var statusOption=["Awaiting Customer Approval","Order Part","On Order","Received","Installed","Wrong Part","Bad/Damaged Part","Abandoned Part","Unable to Locate Part","Shipped"]
+
     $(document).ready(function()
     {
         $("#btnExportExcel").click(function()
@@ -34,52 +36,55 @@
             });
             $("#txt").keyup(function()
             {
-                $("tr[name ='tblTr']").remove();
-                var v=$(this).val();
-                //alert(v.split('\t')[1]);
-                var sp=v.split("close add to cart");
-                var t="";
-                for(var c=0;c<sp.length;c++)
-                {
-                    var txtReturn="";
-                    var rtn;
-
-                    if(sp[c].includes("Received")==true)
-                    {
-                        txtReturn="R";
-                        rtn=txtFilter(c,sp[c],"Received");
-                    }
-                    else if(sp[c].includes("Order Part")==true)
-                    {
-                        txtReturn="O";
-                        rtn=txtFilter(c,sp[c],"Order Part");
-                    }
-                    else if(sp[c].includes("Installed")==true)
-                    {
-                        txtReturn="I";
-                        rtn=txtFilter(c,sp[c],"Installed");
-                    }
-                    else
-                    {
-                        txtReturn="N";
-                    }
-
-                    generateTable(rtn);
-                    /*
-                    t+=c+". "+sp[c]+"<br>"+
-                    "State = "+txtReturn+"<br>"+
-                    "~~~"+rtn[0]+"<br>"+
-                    "Note = "+rtn[1]+"<br>"+
-                    "WO   = "+rtn[2]+"<br>"+
-                    "Quantity = "+rtn[3]+"<br>"+
-                    "Name = "+rtn[4]+"<br>"+
-
-                    "<br><br>";*/
-                }
+                statusFilter();
                 //$("#aa").html(t);
             });
         });
+        function statusFilter()
+        {
+            $("tr[name ='tblTr']").remove();
+            var v=$("#txt").val();
+            //alert(v.split('\t')[1]);
+            var sp=v.split("close add to cart");
+            var t="";
+            for(var c=0;c<sp.length;c++)
+            {
+                var txtReturn="";
+                var rtn;
 
+                if(sp[c].includes("Received")==true)
+                {
+                    txtReturn="R";
+                    rtn=txtFilter(c,sp[c],"Received");
+                }
+                else if(sp[c].includes("Order Part")==true)
+                {
+                    txtReturn="O";
+                    rtn=txtFilter(c,sp[c],"Order Part");
+                }
+                else if(sp[c].includes("Installed")==true)
+                {
+                    txtReturn="I";
+                    rtn=txtFilter(c,sp[c],"Installed");
+                }
+                else
+                {
+                    txtReturn="N";
+                }
+
+                generateTable(rtn);
+                /*
+                t+=c+". "+sp[c]+"<br>"+
+                "State = "+txtReturn+"<br>"+
+                "~~~"+rtn[0]+"<br>"+
+                "Note = "+rtn[1]+"<br>"+
+                "WO   = "+rtn[2]+"<br>"+
+                "Quantity = "+rtn[3]+"<br>"+
+                "Name = "+rtn[4]+"<br>"+
+
+                "<br><br>";*/
+            }
+        }
         function txtFilter(no,txtAry,state)
         {
             var rAry = new Array();
