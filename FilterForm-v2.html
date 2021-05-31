@@ -6,18 +6,51 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="src/jquery.table2excel.js"></script>
 <body>
+    <style>
+    /*[name="testing"]{ display: none;}*/
+    td:nth-child(4){ width: 100px; text-align: center;}
+</style>
 
-
-    <script>
-    var statusOption=["Awaiting Customer Approval","Order Part","On Order","Received","Installed","Wrong Part","Bad/Damaged Part","Abandoned Part","Unable to Locate Part","Shipped"]
+<script>
+    var statusOption=["Awaiting Customer Approval","Order Part","On Order","Received","Installed","Wrong Part","Bad/Damaged Part","Abandoned Part","Unable to Locate Part","Shipped"];
 
     $(function()
     {
         generateStatusOnOffCheckbox();
+        $("[name='cbStatus']").prop("checked", true);
     });
-//var cc=0;
+    //var cc=0;
     $(document).ready(function()
     {
+        $("#btnTest").click(function()
+        {
+            if($("#btnTest").attr("TF")=="T")
+            {
+                $("#btnTest").attr("TF","F");
+                $("[name='testing']").css({"display": "none"});
+            }
+            else
+            {
+                $("#btnTest").attr("TF","T");
+                $("[name='testing']").css({"display": "unset"});
+            }
+
+        });
+
+
+
+        /*$("#btnTest").toggle(function ()
+        {
+        $("#btnTest").attr("TF","T");
+        //$("[name='testing']").css({"display": "unset"});
+    }, function ()
+    {
+    $("#btnTest").attr("TF","F");
+    //$("[name='testing']").css({"display": "none"});
+    });
+    */
+
+
         $("#btnExportExcel").click(function()
         {
             var currentdate = new Date();
@@ -31,250 +64,349 @@
             + currentdate.getSeconds() + "Order List";
 
             $("#table").table2excel(
-                {
-                    exclude:".noExl",
-                    name:"Worksheet Name",
-                    filename:datetime,
-                    fileext:".xls"
-                });
-
-            });
-            //$("#txt").keyup(function()
-            $("#txt").bind("keyup change click paste mousemove mousemove", function ()
             {
-                //cc+=1;
-                //$("#aa").html(cc);
-                statusFilter();
-                //alert(cc);
-
-
+                exclude:".noExl",
+                name:"Worksheet Name",
+                filename:datetime,
+                fileext:".xls"
             });
+
         });
-        function statusFilter()
+        //$("#txt").keyup(function()
+        //mousemove
+        $("#txt , [name='cbStatus']").bind("keyup change click paste ", function ()
         {
-            $("tr[name ='tblTr']").remove();
-            var v=$("#txt").val();
-            //alert(v.split('\t')[1]);
-            var sp=v.split("close add to cart");
-            var t="";
+            //cc+=1;
+            //$("#aa").html(cc);
+            statusFilter();
+            //alert(cc);
+        });
+    });
 
 
 
+    function statusFilter()
+    {
+        $("tr[name ='tblTr']").remove();
+        var v=$("#txt").val();
+        //alert(v.split('\t')[1]);
+        var sp=v.split("close add to cart");
+        var t="";
 
-
-            //////////////////
-            for(var c=0;c<sp.length;c++)
+        var checkboxAry=new Array();
+        var checkboxArycount=0;
+        $("[name='cbStatus']").each(function()
+        {
+            if(this.checked==false)
             {
-                var txtReturn="";
-                var rtn;
-    //            statusOption
-                //alert("v1 "+c);
-                statusOption.forEach((sopt,index) =>
+                checkboxAry[checkboxArycount]=$(this).val();
+                checkboxArycount+=1;
+            }
+        });
+        //alert(checkboxAry);
+
+
+        //////////////////
+        var tableRowCount=0;
+        for(var c=0;c<sp.length;c++)
+        {
+            var txtReturn="";
+            var rtn;
+            //            statusOption
+            //alert("v1 "+c);
+
+            ////////////////////////////////////
+            /*for(var i=0;i<statusOption.length;i++)
+            {
+            var founded=0;
+            if(checkboxAry.length>=1)
+            {
+            var tf=0;
+            checkboxAry.forEach((cbA,index) =>
+            {
+            if(cbA==statusOption[i])
+            tf=1;
+        })
+
+        if(sp[c].includes(statusOption[i])==true && tf==0)
+        {
+        //alert("v2 "+c);
+        txtReturn=statusOption[i];
+        rtn=txtFilter(c,sp[c],statusOption[i]);
+        generateTable(rtn);
+        founded=1;
+    }
+    else
+
+    }
+    else
+    {
+    if(sp[c].includes(statusOption[i])==true)
+    {
+    //alert("v2 "+c);
+    txtReturn=statusOption[i];
+    rtn=txtFilter(c,sp[c],statusOption[i]);
+    generateTable(rtn);
+    break;
+    }
+    }
+
+    }*/
+    //////////////////////////////////////
+
+        statusOption.forEach((sopt,index) =>
+        {
+            var founded=0;
+            if(checkboxAry.length>=1)
+            {
+                var matchCheckBoxUnshow=0;
+                checkboxAry.forEach((cbA,index) =>
                 {
-                    if(sp[c].includes(sopt)==true)
-                    {
-                        //alert("v2 "+c);
-                        txtReturn=sopt;
-                        rtn=txtFilter(c,sp[c],sopt);
-                        return;
-                    }
+                    if(cbA==sopt)
+                    matchCheckBoxUnshow=1;
                 })
-                /*
-                if(sp[c].includes()==true)
+                if(sp[c].includes(sopt)==true && matchCheckBoxUnshow==0)
                 {
-                    txtReturn="R";
-                    rtn=txtFilter(c,sp[c],"Received");
-                }*/
-                /*if(sp[c].includes("Received")==true)
-                {
-                    txtReturn="R";
-                    rtn=txtFilter(c,sp[c],"Received");
+                    //alert("v2 "+c);
+                    txtReturn=sopt;
+                    tableRowCount+=1;
+                    rtn=txtFilter(tableRowCount,sp[c],sopt);
+                    generateTable(rtn);
+                    return;
                 }
-                else if(sp[c].includes("Order Part")==true)
-                {
-                    txtReturn="O";
-                    rtn=txtFilter(c,sp[c],"Order Part");
-                }
-                else if(sp[c].includes("Installed")==true)
-                {
-                    txtReturn="I";
-                    rtn=txtFilter(c,sp[c],"Installed");
-                }
-                else
-                {
-                    txtReturn="N";
-                }
-                */
 
-                generateTable(rtn);
-                /*
-                t+=c+". "+sp[c]+"<br>"+
-                "status = "+txtReturn+"<br>"+
-                "~~~"+rtn[0]+"<br>"+
-                "Note = "+rtn[1]+"<br>"+
-                "WO   = "+rtn[2]+"<br>"+
-                "Quantity = "+rtn[3]+"<br>"+
-                "Name = "+rtn[4]+"<br>"+
-
-                "<br><br>";*/
             }
-        }
-        function txtFilter(no,txtAry,status)
-        {
-            var rAry = new Array();
-            var txt=txtAry;
-
-            /*
-            HG - iPad 5 LCD	1
-            $0.00
-            $0.00				Repair at AMK	2021-05-20	'v3'v1 Installed'
-            for testing	'v4 #28626''	 'v2 delete edit'
-            'v0 close add to cart'
-            */
-
-            //v1
-            var locStatus="";
-            locStatus=txt.search(status);
-            //v2
-            txt=txt.replace("delete", "");
-            txt=txt.replace("edit", "");
-            //v3
-            var txtSubString="";
-            txtSubString=txt.substring(locStatus);
-            txtSubString=txtSubString.replace(status, "");
-            //v4
-            var LocWO="";
-            LocWO=txtSubString.search("#");
-            var txtWO="";
-            if(LocWO != -1)
+            else
             {
-                txtWO=txtSubString.substring(LocWO);
-                txtSubString=txtSubString.replace(txtWO, "");
+                if(sp[c].includes(sopt)==true)
+                {
+                    //alert("v2 "+c);
+                    txtReturn=sopt;
+                    tableRowCount+=1;
+                    rtn=txtFilter(tableRowCount,sp[c],sopt);
+                    generateTable(rtn);
+                    return;
+                }
             }
-            //v5
-            txt=txt.replace(txtSubString, "");
-            txt=txt.replace(status, "");
 
-            //v6
-
-            //v1
-            //var locQuantity=$("#txt").val().search('\t');
-            //v2
-            //var txtQuantity=$("#txt").val().substring(locQuantity);
-            //v3
-            //var locPrice=txtQuantity.search('$0.00');
-            //v4
-            //var Quantity=txtQuantity.substring(locPrice);
-
-            //var aa = $("#txt").val().substring(locQuantity,$("#txt").val().lastIndexOf("$"));
-
-            //var aa = $("#txt").val().split('\t').pop().split('$')[0];
-
-            var txtQuantity="";
-            txtQuantity = txt.split('\t')[1];
-            txtQuantity = txtQuantity.split('$')[0];
-
-            var txtName="";
-            txtName = txt.split('\t')[0];
-
-            rAry[0]=no;
-            rAry[1]=txtName;
-            rAry[2]=txtQuantity;
-            rAry[3]=txtWO;
-            rAry[4]=txtSubString;
-            rAry[5]=txt;
-            rAry[6]=status;
+        })
 
 
 
-            /*  locStatus+
-            "<br> txtSubString ="+txtSubString+
-            "<br> txtWO ="+txtWO;*/
-            return rAry;
+
+    /*statusOption.forEach((sopt,index) =>
+    {
+    if(sp[c].includes(sopt)==true)
+    {
+    //alert("v2 "+c);
+    txtReturn=sopt;
+    rtn=txtFilter(c,sp[c],sopt);
+    return;
+    }
+    })*/
+    /*
+    if(sp[c].includes()==true)
+    {
+    txtReturn="R";
+    rtn=txtFilter(c,sp[c],"Received");
+    }*/
+    /*if(sp[c].includes("Received")==true)
+    {
+    txtReturn="R";
+    rtn=txtFilter(c,sp[c],"Received");
+    }
+    else if(sp[c].includes("Order Part")==true)
+    {
+    txtReturn="O";
+    rtn=txtFilter(c,sp[c],"Order Part");
+    }
+    else if(sp[c].includes("Installed")==true)
+    {
+    txtReturn="I";
+    rtn=txtFilter(c,sp[c],"Installed");
+    }
+    else
+    {
+    txtReturn="N";
+    }
+    */
+
+    //generateTable(rtn);
+    /*
+    t+=c+". "+sp[c]+"<br>"+
+    "status = "+txtReturn+"<br>"+
+    "~~~"+rtn[0]+"<br>"+
+    "Note = "+rtn[1]+"<br>"+
+    "WO   = "+rtn[2]+"<br>"+
+    "Quantity = "+rtn[3]+"<br>"+
+    "Name = "+rtn[4]+"<br>"+
+
+    "<br><br>";*/
         }
-        function generateTable(ary)
+    }
+    function txtFilter(no,txtAry,status)
+    {
+        var rAry = new Array();
+        var txt=txtAry;
+
+        /*
+        HG - iPad 5 LCD	1
+        $0.00
+        $0.00				Repair at AMK	2021-05-20	'v3'v1 Installed'
+        for testing	'v4 #28626''	 'v2 delete edit'
+        'v0 close add to cart'
+        */
+
+        //v1
+        var locStatus="";
+        locStatus=txt.search(status);
+        //v2
+        txt=txt.replace("delete", "");
+        txt=txt.replace("edit", "");
+        //v3
+        var txtSubString="";
+        txtSubString=txt.substring(locStatus);
+        txtSubString=txtSubString.replace(status, "");
+        //v4
+        var LocWO="";
+        LocWO=txtSubString.search("#");
+        var txtWO="";
+        if(LocWO != -1)
         {
-            var tbl=$("#table");
-
-            var tr=$("<tr></tr>");
-            tr.attr({"name": "tblTr"})
-            tbl.append(tr);
-
-
-            var td0=$("<td></td>");
-            td0.html((ary[0]+1));
-
-
-            var td1=$("<td></td>");
-            td1.html(ary[1]);
-
-            var td2=$("<td></td>");
-            td2.html(ary[2]);
-            td2.css({"text-align": "center"});
-
-            var td3=$("<td></td>");
-            td3.html(ary[6]);
-
-            var td4=$("<td></td>");
-            td4.html(ary[3]);
-
-            tr.append(td0);
-            tr.append(td1);
-            tr.append(td2);
-            tr.append(td3);
-            tr.append(td4);
+            txtWO=txtSubString.substring(LocWO);
+            txtSubString=txtSubString.replace(txtWO, "");
         }
+        //v5
+        txt=txt.replace(txtSubString, "");
+        txt=txt.replace(status, "");
 
-        function generateStatusOnOffCheckbox()
+        //v6
+
+        //v1
+        //var locQuantity=$("#txt").val().search('\t');
+        //v2
+        //var txtQuantity=$("#txt").val().substring(locQuantity);
+        //v3
+        //var locPrice=txtQuantity.search('$0.00');
+        //v4
+        //var Quantity=txtQuantity.substring(locPrice);
+
+        //var aa = $("#txt").val().substring(locQuantity,$("#txt").val().lastIndexOf("$"));
+
+        //var aa = $("#txt").val().split('\t').pop().split('$')[0];
+
+        var txtQuantity="";
+        txtQuantity = txt.split('\t')[1];
+        txtQuantity = txtQuantity.split('$')[0];
+
+        var txtName="";
+        txtName = txt.split('\t')[0];
+
+        rAry[0]=no;
+        rAry[1]=txtName;
+        rAry[2]=txtQuantity;
+        rAry[3]=txtWO;
+        rAry[4]=txtSubString;
+        rAry[5]=txt;
+        rAry[6]=status;
+
+
+
+        /*  locStatus+
+        "<br> txtSubString ="+txtSubString+
+        "<br> txtWO ="+txtWO;*/
+        return rAry;
+    }
+    function generateTable(ary)
+    {
+        var tbl=$("#table");
+
+        var tr=$("<tr></tr>");
+        tr.attr({"name": "tblTr"})
+        tbl.append(tr);
+
+
+        var td0=$("<td></td>");
+        td0.html((ary[0]));
+        //td0.html((ary[0]+1));
+
+
+        var td1=$("<td></td>");
+        td1.html(ary[1]);
+
+        var td2=$("<td></td>");
+        td2.html(ary[2]);
+        td2.css({"text-align": "center"});
+
+        var td3=$("<td></td>");
+        td3.html(ary[6]);
+
+        var td4=$("<td></td>");
+        td4.html(ary[3]);
+
+        tr.append(td0);
+        tr.append(td1);
+        tr.append(td2);
+        tr.append(td3);
+        tr.append(td4);
+    }
+
+    function generateStatusOnOffCheckbox()
+    {
+        var divStatus = $("#divStatusOnOffCheckBox");
+        var table=$("<table></table>");
+        divStatus.append(table);
+
+        var c=1;
+
+
+
+
+
+        statusOption.forEach((sopt,index) =>
         {
-            var divStatus = $("#divStatusOnOffCheckBox");
-            var table=$("<table></table>");
-            divStatus.append(table);
-
-            var c=1;
-
-
-
-
-
-            statusOption.forEach((sopt,index) =>
+            var tr
+            if(c%3==0)
             {
                 var tr
-                if(c%3==0)
-                {
-                    var tr
-                }
-                //var aa = $("#aa");
-                //aa.html(aa.html()+"<br>"+sopt);
-                //,{"":""},{"":""}
-                $('<input />', { type: 'checkbox', id: 'cb'+index, name: 'cbStatus', value: sopt }).appendTo(divStatus);
-                $('<label />', { 'for': 'cb'+index, text: sopt }).appendTo(divStatus);
-            })
+            }
+            //var aa = $("#aa");
+            //aa.html(aa.html()+"<br>"+sopt);
+            //,{"":""},{"":""}
+            $('<input />', { type: 'checkbox', id: 'cb'+index, name: 'cbStatus', value: sopt }).appendTo(divStatus);
+            $('<label />', { 'for': 'cb'+index, text: sopt }).appendTo(divStatus);
+        })
 
 
-        }
-        </script>
+    }
+</script>
 
-        <textarea id="txt" rows="10" cols="90"></textarea>
-        <div id="aa">
-            <p style="background-color:red;padding: 5px;font-size: 20px;font-weight: bold;"> ignore red background color element/item</p>
-        </div>
+<textarea id="txt" rows="10" cols="90"></textarea>
+<div id="aa" name="testing">
+    <p style="background-color:red;padding: 5px;font-size: 20px;font-weight: bold;"> ignore red background color element/item</p>
+</div>
 
-        <div id="divStatusOnOffCheckBox" style="background-color:red">
-        Filter Status</div>
-        <div>
-            <button id="btnExportExcel">ExportExcel</button>
-        </div>
+<div id="divStatusOnOffCheckBox">Filter Status</div>
 
-        <table id="table">
-            <tr>
-                <th>No.</th>
-                <th>Name</th>
-                <th>Quantity</th>
-                <th>Status</th>
-                <th>WO#</th>
-            </tr>
-        </table>
+    <div>
+        <button id="btnExportExcel">ExportExcel</button>
 
-    </body>
-    </html>
+
+
+
+
+        <button id="btnTest" style="position: fixed;right: 0px;top: 0px;" TF="F">Testing mode TF</button>
+    </div>
+
+    <table id="table">
+        <tr>
+            <th>No.</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            <th>WO#</th>
+        </tr>
+    </table>
+
+</body>
+</html>
