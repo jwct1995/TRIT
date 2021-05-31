@@ -15,7 +15,7 @@
     {
         generateStatusOnOffCheckbox();
     });
-
+//var cc=0;
     $(document).ready(function()
     {
         $("#btnExportExcel").click(function()
@@ -39,10 +39,15 @@
                 });
 
             });
-            $("#txt").keyup(function()
+            //$("#txt").keyup(function()
+            $("#txt").bind("keyup change click paste mousemove mousemove", function ()
             {
+                //cc+=1;
+                //$("#aa").html(cc);
                 statusFilter();
-                //$("#aa").html(t);
+                //alert(cc);
+
+
             });
         });
         function statusFilter()
@@ -63,11 +68,12 @@
                 var txtReturn="";
                 var rtn;
     //            statusOption
-
+                //alert("v1 "+c);
                 statusOption.forEach((sopt,index) =>
                 {
                     if(sp[c].includes(sopt)==true)
                     {
+                        //alert("v2 "+c);
                         txtReturn=sopt;
                         rtn=txtFilter(c,sp[c],sopt);
                         return;
@@ -127,7 +133,8 @@
             */
 
             //v1
-            var locStatus=txt.search(status);
+            var locStatus="";
+            locStatus=txt.search(status);
             //v2
             txt=txt.replace("delete", "");
             txt=txt.replace("edit", "");
@@ -136,7 +143,8 @@
             txtSubString=txt.substring(locStatus);
             txtSubString=txtSubString.replace(status, "");
             //v4
-            var LocWO=txtSubString.search("#");
+            var LocWO="";
+            LocWO=txtSubString.search("#");
             var txtWO="";
             if(LocWO != -1)
             {
@@ -162,10 +170,12 @@
 
             //var aa = $("#txt").val().split('\t').pop().split('$')[0];
 
-            var txtQuantity = txt.split('\t')[1];
+            var txtQuantity="";
+            txtQuantity = txt.split('\t')[1];
             txtQuantity = txtQuantity.split('$')[0];
 
-            var txtName = txt.split('\t')[0];
+            var txtName="";
+            txtName = txt.split('\t')[0];
 
             rAry[0]=no;
             rAry[1]=txtName;
@@ -193,6 +203,7 @@
 
             var td0=$("<td></td>");
             td0.html((ary[0]+1));
+
 
             var td1=$("<td></td>");
             td1.html(ary[1]);

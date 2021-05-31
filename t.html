@@ -2,3 +2,22 @@
 //var locQuantity=txt.search('\t');
 //var loc=$("#txt").val().search('\t');
 //var txtQuantity
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    var c=0;
+    $(document).ready(function()
+    {
+
+        $('#a').bind('keyup change click paste', function ()
+        {
+            c+=1;
+            $("#b").html(c);
+            //alert("aa");
+        });
+    });
+
+</script>
+
+<textarea id="a"></textarea>
+<p id="b"></p>
