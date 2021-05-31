@@ -7,12 +7,18 @@
 <script src="src/jquery.table2excel.js"></script>
 <body>
     <style>
-    /*[name="testing"]{ display: none;}*/
-    td:nth-child(4){ width: 100px; text-align: center;}
+
+    [name="testing"]{ display: none;}
+
+
+
+    table#ListTable td:nth-child(4){ width: 100px; text-align: center;}
+    table#StatusOnOffCheckBoxTable td { width: 200px;}
 </style>
 
 <script>
     var statusOption=["Awaiting Customer Approval","Order Part","On Order","Received","Installed","Wrong Part","Bad/Damaged Part","Abandoned Part","Unable to Locate Part","Shipped"];
+    //var statusOption=["Awaiting Customer Approval","Order Part","On Order","Received","Installed","Wrong Part","Bad/Damaged Part","Abandoned Part","Unable to Locate Part","Shipped"];<<backup
 
     $(function()
     {
@@ -63,7 +69,7 @@
             + currentdate.getMinutes() + ":"
             + currentdate.getSeconds() + "Order List";
 
-            $("#table").table2excel(
+            $("#ListTable").table2excel(
             {
                 exclude:".noExl",
                 name:"Worksheet Name",
@@ -133,7 +139,7 @@
         //alert("v2 "+c);
         txtReturn=statusOption[i];
         rtn=txtFilter(c,sp[c],statusOption[i]);
-        generateTable(rtn);
+        generateListTable(rtn);
         founded=1;
     }
     else
@@ -146,7 +152,7 @@
     //alert("v2 "+c);
     txtReturn=statusOption[i];
     rtn=txtFilter(c,sp[c],statusOption[i]);
-    generateTable(rtn);
+    generateListTable(rtn);
     break;
     }
     }
@@ -171,7 +177,7 @@
                     txtReturn=sopt;
                     tableRowCount+=1;
                     rtn=txtFilter(tableRowCount,sp[c],sopt);
-                    generateTable(rtn);
+                    generateListTable(rtn);
                     return;
                 }
 
@@ -184,7 +190,7 @@
                     txtReturn=sopt;
                     tableRowCount+=1;
                     rtn=txtFilter(tableRowCount,sp[c],sopt);
-                    generateTable(rtn);
+                    generateListTable(rtn);
                     return;
                 }
             }
@@ -231,7 +237,7 @@
     }
     */
 
-    //generateTable(rtn);
+    //generateListTable(rtn);
     /*
     t+=c+". "+sp[c]+"<br>"+
     "status = "+txtReturn+"<br>"+
@@ -317,9 +323,9 @@
         "<br> txtWO ="+txtWO;*/
         return rAry;
     }
-    function generateTable(ary)
+    function generateListTable(ary)
     {
-        var tbl=$("#table");
+        var tbl=$("#ListTable");
 
         var tr=$("<tr></tr>");
         tr.attr({"name": "tblTr"})
@@ -355,20 +361,46 @@
     {
         var divStatus = $("#divStatusOnOffCheckBox");
         var table=$("<table></table>");
+        table.attr("id","StatusOnOffCheckBoxTable");
         divStatus.append(table);
 
-        var c=1;
+        var eleCount=1;
 
 
 
+        var tableTr = 3;
+        var tableTd = Math.ceil(statusOption.length/3);
+
+        var countTd=0;
+        for(c=0;c<tableTr;c++)
+        {
+            var tr=$("<tr></tr>");
+            table.append(tr);
+
+            for(i=0;i<tableTd;i++)
+            {
+                if(countTd<statusOption.length)
+                {
+                    var td =$("<td></td>");
+                    tr.append(td);
+
+                    $('<input />', { type: 'checkbox', id: 'cb'+countTd, name: 'cbStatus', value: statusOption[countTd] }).appendTo(td);
+                    $('<label />', { 'for': 'cb'+countTd, text: statusOption[countTd] }).appendTo(td);
+
+                    countTd+=1;
+                }
+            }
+
+        }
 
 
-        statusOption.forEach((sopt,index) =>
+
+        /*statusOption.forEach((sopt,index) =>
         {
             var tr
-            if(c%3==0)
+            if(elementCount==4)
             {
-                var tr
+                tr
             }
             //var aa = $("#aa");
             //aa.html(aa.html()+"<br>"+sopt);
@@ -376,7 +408,7 @@
             $('<input />', { type: 'checkbox', id: 'cb'+index, name: 'cbStatus', value: sopt }).appendTo(divStatus);
             $('<label />', { 'for': 'cb'+index, text: sopt }).appendTo(divStatus);
         })
-
+*/
 
     }
 </script>
@@ -386,27 +418,24 @@
     <p style="background-color:red;padding: 5px;font-size: 20px;font-weight: bold;"> ignore red background color element/item</p>
 </div>
 
-<div id="divStatusOnOffCheckBox">Filter Status</div>
+<div id="divStatusOnOffCheckBox" style="padding: 10px;background-color: #d4d4d4;">Filter Status</div>
 
-    <div>
-        <button id="btnExportExcel">ExportExcel</button>
-
-
+<div style="padding: 10px;">
+    <button id="btnExportExcel">ExportExcel</button>
 
 
+    <button id="btnTest" style="position: fixed;right: 0px;top: 0px;" TF="F">Testing mode TF</button>
+</div>
 
-        <button id="btnTest" style="position: fixed;right: 0px;top: 0px;" TF="F">Testing mode TF</button>
-    </div>
-
-    <table id="table">
-        <tr>
-            <th>No.</th>
-            <th>Name</th>
-            <th>Quantity</th>
-            <th>Status</th>
-            <th>WO#</th>
-        </tr>
-    </table>
+<table id="ListTable">
+    <tr>
+        <th>No.</th>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Status</th>
+        <th>WO#</th>
+    </tr>
+</table>
 
 </body>
 </html>
