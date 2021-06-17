@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Title</title>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="src/jquery.table2excel.js"></script>
+<body>
+<style>
+
+    [name="testing"]{ display: none;}
+
+    table#ListTable tr:nth-child(even)
+    {
+    	background-color:#b3b3b340;
+    }
+    table#ListTable tr:nth-child(odd)
+    {
+    	background-color:#92b9ff;
+    }
+    table#ListTable tr:first-child
+    {
+      background-color: #525252;
+      color: white;
+    }
+    table#ListTable td:nth-child(4){ width: 100px; text-align: center;}
+    table#StatusOnOffCheckBoxTable td { width: 200px;}
+</style>
+
+<script>
+    var branch=["AMK","Tampines","Yisun","Hougang"];
+    var statusOption=["Awaiting Customer Approval","Order Part","On Order","Received","Installed","Wrong Part","Bad/Damaged Part","Abandoned Part","Unable to Locate Part","Shipped"];
+    var tblDisplayCol=["No","Name","Quantity","Status","WO#"];
+
+    var dataT=[];
+    var dataList = [[],[]];
+
+    //var statusOption=["Awaiting Customer Approval","Order Part","On Order","Received","Installed","Wrong Part","Bad/Damaged Part","Abandoned Part","Unable to Locate Part","Shipped"];<<backup
+
+    $(function()
+    {
+        //dataList[1][0]="aa";
+        //dataList[1][2] = new Array("haha", "hehe");
+        //alert(dataList[1][2][0]);
+        //alert(dataT);
+        //dataT=[];
+        //alert(dataT);
+        //dataT[0]="aa";
+        //alert(dataT);
+
+
+
+        generateStatusOnOffCheckbox();
+        $("[name='cbStatus']").prop("checked", true);
+        generateStoreToBtn();
+        //generateBranchListTable();
+        //alert(dataList[1][0][2]);
+
+    });
+    //var cc=0;
+    $(document).ready(function()
+    {
+        $("#btnTest").click(function()
+        {
+            if($("#btnTest").attr("TF")=="T")
+            {
+                $("#btnTest").attr("TF","F");
+                $("[name='testing']").css({"display": "none"});
+            }
+            else
+            {
+                $("#btnTest").attr("TF","T");
+                $("[name='testing']").css({"display": "unset"});
+            }
+
+        });
+
+//test end
+
+        $("[name='btnStoreTo']").click(function()
+        {
+            alert(branch[$(this).attr("ary")]);
+            var num=$(this).attr("ary");
+            dataList[num] = new Array(dataT);
+            generateBranchTableList(num);
+        });
+
+        $("#btnExportExcel").click(function()
+        {
+            var currentdate = new Date();
+            var datetime =
+            + currentdate.getFullYear()+ "/"
+            + (currentdate.getMonth()+1)  + "/"
+            +currentdate.getDate() + " "
+
+            + currentdate.getHours() + ":"
+            + currentdate.getMinutes() + ":"
+            + currentdate.getSeconds() + "Order List";
+
+            $("#ListTable").table2excel(
+            {
+                exclude:".noExl",
+                name:"Worksheet Name",
+                filename:datetime,
+                fileext:".xls"
+            });
+
+        });
+        //$("#txt").keyup(function()
+        //mousemove
+        $("#txt , [name='cbStatus']").bind("keyup change click paste ", function ()
+        {
+            //cc+=1;
+            //$("#aa").html(cc);
+            statusFilter();
+            //alert(cc);
+        });
+    });
+
+
+
+    function statusFilter()
+    {
+        dataT=[];
+
+        $("tr[name ='tblTr']").remove();
+        var v=$("#txt").val();
+        //alert(v.split('\t')[1]);
+        var sp=v.split("close add to cart");
+        var t="";
+
+        var checkboxAry=new Array();
+        var checkboxArycount=0;
+        $("[name='cbStatus']").each(function()
+        {
+            if(this.checked==false)
+            {
+                checkboxAry[checkboxArycount]=$(this).val();
+                checkboxArycount+=1;
+            }
+        });
+
+        var tableRowCount=0;
+        for(var c=0;c<sp.length;c++)
+        {
+            var txtReturn="";
+            var rtn;
+
+
+        statusOption.forEach((sopt,index) =>
+        {
+            var founded=0;
+            if(checkboxAry.length>=1)
+            {
+                var matchCheckBoxUnshow=0;
+                checkboxAry.forEach((cbA,index) =>
+                {
+                    if(cbA==sopt)
+                    matchCheckBoxUnshow=1;
+                })
+                if(sp[c].includes(sopt)==true && matchCheckBoxUnshow==0)
+                {
+                    //alert("v2 "+c);
+                    txtReturn=sopt;
+                    tableRowCount+=1;
+                    rtn=txtFilter(tableRowCount,sp[c],sopt);
+                    dataT[tableRowCount] = new Array(rtn);
+                    generateListTable(rtn);
+                    return;
+                }
+
+            }
+            else
+            {
+                if(sp[c].includes(sopt)==true)
+                {
+                    //alert("v2 "+c);
+                    txtReturn=sopt;
+                    tableRowCount+=1;
+                    rtn=txtFilter(tableRowCount,sp[c],sopt);
+                    dataT[tableRowCount] = new Array(rtn);
+                    generateListTable(rtn);
+                    return;
+                }
+            }
+
+        })
+
+
+        }
+    }
+    function txtFilter(no,txtAry,status)
+    {
+        var rAry = new Array();
+        var txt=txtAry;
+
+        //v1
+        var locStatus="";
+        locStatus=txt.search(status);
+        //v2
+        txt=txt.replace("delete", "");
+        txt=txt.replace("edit", "");
+        //v3
+        var txtSubString="";
+        txtSubString=txt.substring(locStatus);
+        txtSubString=txtSubString.replace(status, "");
+        //v4
+        var LocWO="";
+        LocWO=txtSubString.search("#");
+        var txtWO="";
+        if(LocWO != -1)
+        {
+            txtWO=txtSubString.substring(LocWO);
+            txtSubString=txtSubString.replace(txtWO, "");
+        }
+        //v5
+        txt=txt.replace(txtSubString, "");
+        txt=txt.replace(status, "");
+
+
+        var txtQuantity="";
+        txtQuantity = txt.split('\t')[1];
+        txtQuantity = txtQuantity.split('$')[0];
+
+        var txtName="";
+        txtName = txt.split('\t')[0];
+
+        rAry[0]=no;
+        rAry[1]=txtName;
+        rAry[2]=txtQuantity;
+        rAry[3]=status;
+        rAry[4]=txtWO;
+        rAry[5]=txtSubString;
+        rAry[6]=txt;
+
+
+
+
+        /*  locStatus+
+        "<br> txtSubString ="+txtSubString+
+        "<br> txtWO ="+txtWO;*/
+        return rAry;
+    }
+    function generateListTable(ary)
+    {
+        var tbl=$("#ListTable");
+
+        var tr=$("<tr></tr>");
+        tr.attr({"name": "tblTr"})
+        tbl.append(tr);
+
+
+        var td0=$("<td></td>");
+        td0.html((ary[0]));
+        //td0.html((ary[0]+1));
+
+
+        var td1=$("<td></td>");
+        td1.html(ary[1]);
+
+        var td2=$("<td></td>");
+        td2.html(ary[2]);
+        td2.css({"text-align": "center"});
+
+        var td3=$("<td></td>");
+        td3.html(ary[3]);
+
+        var td4=$("<td></td>");
+        td4.html(ary[4]);
+
+        tr.append(td0);
+        tr.append(td1);
+        tr.append(td2);
+        tr.append(td3);
+        tr.append(td4);
+    }
+
+    function generateStatusOnOffCheckbox()
+    {
+        var divStatus = $("#divStatusOnOffCheckBox");
+        var table=$("<table></table>");
+        table.attr("id","StatusOnOffCheckBoxTable");
+        divStatus.append(table);
+
+        var eleCount=1;
+
+
+
+        var tableTr = 3;
+        var tableTd = Math.ceil(statusOption.length/3);
+
+        var countTd=0;
+        for(c=0;c<tableTr;c++)
+        {
+            var tr=$("<tr></tr>");
+            table.append(tr);
+
+            for(i=0;i<tableTd;i++)
+            {
+                if(countTd<statusOption.length)
+                {
+                    var td =$("<td></td>");
+                    tr.append(td);
+
+                    $('<input />', { type: 'checkbox', id: 'cb'+countTd, name: 'cbStatus', value: statusOption[countTd] }).appendTo(td);
+                    $('<label />', { 'for': 'cb'+countTd, text: statusOption[countTd] }).appendTo(td);
+
+                    countTd+=1;
+                }
+            }
+
+        }
+    }
+
+    function generateStoreToBtn()
+    {
+        //<button name="btnStoreTo" ary="">Hougang</button>
+        var divStoretoBtn=$("#divStoretoBtn");
+
+        for(var c=0;c<branch.length;c++)
+        {
+            var btn=$("<button></button>");
+            btn.attr({"name":"btnStoreTo","ary":c});
+            btn.text("store to "+branch[c]);
+            divStoretoBtn.append(btn);
+        }
+    }
+    function generateBranchListTable()
+    {
+        var divBranchListTable=$("#divBranchListTable");
+        divBranchListTable.html("");
+        for(var c=0;c<branch.length;c++)
+        {
+            generateBranchTableList(c);
+        }
+
+    }
+    function generateBranchTableList(num)
+    {
+        //alert(dataList[num]);
+
+        $("table#"+num+"[name='tableList']").remove();
+        var table=$("<table></table>");
+        table.attr({"id":num,"name":"tableList","ty":"table"});
+        $("#divBranchListTable").append(table);
+        var thead=$("<thead></thead>");
+        table.append(thead);
+
+        var thtr==$("<tr></tr>");
+        thead.append(thtr);
+        var thtrth1=$("<th></th>");
+        thtr.append(thtrth1);
+        var thtrth2=$("<th></th>");
+        thtr.append(thtrth2);
+        var thtrth3=$("<th></th>");
+        thtr.append(thtrth3);
+        var thtrth4=$("<th></th>");
+        thtr.append(thtrth4);
+        var thtrth5=$("<th></th>");
+        thtr.append(thtrth5);
+
+        dataList[num].forEach((r,index) =>
+        {
+            var tbody=$("<tbody></tbody>");
+            table.append(tbody);
+
+
+            var tbtr=$("<tr></tr>");
+            tbody.append(tbtr);
+            var trtd1=$("<td></td>");
+            trtd1.text();
+            tbtr.append(trtd1);
+            var trtd2=$("<td></td>");
+            trtd2.text();
+            tbtr.append(trtd2);
+            var trtd3=$("<td></td>");
+            trtd3.text();
+            tbtr.append(trtd3);
+            var trtd4=$("<td></td>");
+            trtd4.text();
+            tbtr.append(trtd4);
+            var trtd5=$("<td></td>");
+            trtd5.text();
+            tbtr.append(trtd5);
+            
+        })
+
+
+
+
+    }
+    function generateTrTd(parentEle,ary)
+    {
+        var tr=$("<tr></tr>");
+        parentEle.append(tr);
+        ary.forEach((r,index) =>
+        {
+            var td=$("<td></td>");
+            td.text(r);
+            tr.append(td);
+        })
+    }
+</script>
+
+<textarea id="txt" rows="10" cols="90"></textarea>
+<div id="aa" name="testing">
+    <p style="background-color:red;padding: 5px;font-size: 20px;font-weight: bold;"> ignore red background color element/item</p>
+</div>
+
+<div id="divStatusOnOffCheckBox" style="padding: 10px;background-color: #d4d4d4;">Filter Status</div>
+
+<div id="divStoretoBtn"style="padding: 10px;">
+    <button id="btnExportExcel">ExportExcel</button>
+
+
+
+    <button id="btnTest" style="position: fixed;right: 0px;top: 0px;" TF="F">Testing mode TF</button>
+</div>
+
+<table id="ListTable">
+    <tr>
+        <th>No.</th>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Status</th>
+        <th>WO#</th>
+    </tr>
+</table>
+
+<div id="divBranchListTable">
+    <table id="aa" name="tableList" ty="table">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Status</th>
+                <th>WO#</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>
