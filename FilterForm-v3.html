@@ -345,7 +345,8 @@
         $("#divBranchListTable").append(table);
         var thead=$("<thead></thead>");
         table.append(thead);
-
+        generateTrTd(thead,tblDisplayCol);
+        /*
         var thtr==$("<tr></tr>");
         thead.append(thtr);
         var thtrth1=$("<th></th>");
@@ -358,13 +359,14 @@
         thtr.append(thtrth4);
         var thtrth5=$("<th></th>");
         thtr.append(thtrth5);
-
+        */
         dataList[num].forEach((r,index) =>
         {
             var tbody=$("<tbody></tbody>");
             table.append(tbody);
 
-
+            generateTrTd(tbody,r);
+            /*
             var tbtr=$("<tr></tr>");
             tbody.append(tbtr);
             var trtd1=$("<td></td>");
@@ -382,7 +384,7 @@
             var trtd5=$("<td></td>");
             trtd5.text();
             tbtr.append(trtd5);
-            
+            */
         })
 
 
