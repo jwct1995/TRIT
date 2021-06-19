@@ -380,6 +380,14 @@
         $("#divBranchListTable").append(table);
         var thead=$("<thead></thead>");
         table.append(thead);
+
+        var trBN=$("<tr></tr>");
+        thead.append(trBN);
+        var thBranchNameOnTable=$("<th></th>");
+        thBranchNameOnTable.attr({"colspan":"99"});
+        thBranchNameOnTable.text(branch[num]);
+        trBN.append(thBranchNameOnTable);
+
         generateTrTd(thead,tblDisplayCol);
         /*
         var thtr==$("<tr></tr>");
@@ -473,7 +481,7 @@
     </tr>
 </table>
 
-<div id="divBranchListTable">
+<div id="divBranchListTable" style="padding-top: 30px;">
 
 </div>
 
