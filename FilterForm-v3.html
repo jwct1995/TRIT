@@ -25,6 +25,15 @@
     }
     table#ListTable td:nth-child(4){ width: 100px; text-align: center;}
     table#StatusOnOffCheckBoxTable td { width: 200px;}
+
+
+
+    table[name="tableList"] thead tr{background-color: #525252;color: white;}
+    table[name="tableList"] tbody tr:nth-child(odd){background-color:#56565640;}
+    table[name="tableList"] tbody tr:nth-child(even){background-color:#a7c2ff;}
+
+
+
 </style>
 
 <script>
@@ -386,10 +395,11 @@
         var thtrth5=$("<th></th>");
         thtr.append(thtrth5);
         */
+
+        var tbody=$("<tbody></tbody>");
+        table.append(tbody);
         dataList[num].forEach((r,index) =>
         {
-            var tbody=$("<tbody></tbody>");
-            table.append(tbody);
             //alert("Number"+dataList[num][0][0]+"... \n Name"+dataList[num][0][1]+"... \n Quantity"+dataList[num][0][2]);
             generateTrTd(tbody,r);
             /*
@@ -464,26 +474,6 @@
 </table>
 
 <div id="divBranchListTable">
-    <table id="aa" name="tableList" ty="table">
-        <thead>
-            <tr>
-                <th>No.</th>
-                <th>Name</th>
-                <th>Quantity</th>
-                <th>Status</th>
-                <th>WO#</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
 
 </div>
 
