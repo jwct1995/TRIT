@@ -421,12 +421,20 @@
     {
         var tr=$("<tr></tr>");
         parentEle.append(tr);
+
+        for(var c=0;c<tblDisplayCol.length;c++)
+        {
+            var td=$("<td></td>");
+            td.text(ary[c]);
+            tr.append(td);
+        }
+        /*
         ary.forEach((r,index) =>
         {
             var td=$("<td></td>");
             td.text(r);
             tr.append(td);
-        })
+        })*/
     }
 </script>
 
