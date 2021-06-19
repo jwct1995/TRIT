@@ -76,13 +76,16 @@
         });
 
 //test end
-
+//dataList[0][0][1][0][4]
         $("[name='btnStoreTo']").click(function()
         {
             alert(branch[$(this).attr("ary")]);
             var num=$(this).attr("ary");
-            dataList[num] = new Array(dataT);
+            //dataList[num] = new Array(dataT);
+            //dataList[num] = new Array(dataT);
+            dataList[num] = dataT.concat();
             generateBranchTableList(num);
+            //alert("~"+dataList[0][0]+"~ /n"+dataList[0][1]+"~ /n"+dataList[0][2]);
         });
 
         $("#btnExportExcel").click(function()
@@ -162,9 +165,20 @@
                 {
                     //alert("v2 "+c);
                     txtReturn=sopt;
-                    tableRowCount+=1;
+
                     rtn=txtFilter(tableRowCount,sp[c],sopt);
-                    dataT[tableRowCount] = new Array(rtn);
+                    //dataT[tableRowCount] = new Array(rtn);
+                    dataT[tableRowCount]=rtn.concat();
+                    tableRowCount+=1;
+                    /*
+                    var xxx="";
+                    for(var x=0;x<rtn.length;x++)
+                    {
+                        xxx+="\n"+x+" ~ "+rtn[x];
+                    }
+                    alert(xxx);
+                    */
+
                     generateListTable(rtn);
                     return;
                 }
@@ -176,9 +190,21 @@
                 {
                     //alert("v2 "+c);
                     txtReturn=sopt;
-                    tableRowCount+=1;
+
                     rtn=txtFilter(tableRowCount,sp[c],sopt);
-                    dataT[tableRowCount] = new Array(rtn);
+                    //dataT[tableRowCount] = new Array(rtn);
+                    dataT[tableRowCount]=rtn.concat();
+                    tableRowCount+=1;
+
+                    /*
+                    cars[5] = xx.concat();
+                    var xxx="";
+                    for(var x=0;x<rtn.length;x++)
+                    {
+                        xxx+="\n"+x+" ~ "+rtn[x];
+                    }
+                    alert(xxx);
+                    */
                     generateListTable(rtn);
                     return;
                 }
@@ -364,7 +390,7 @@
         {
             var tbody=$("<tbody></tbody>");
             table.append(tbody);
-
+            //alert("Number"+dataList[num][0][0]+"... \n Name"+dataList[num][0][1]+"... \n Quantity"+dataList[num][0][2]);
             generateTrTd(tbody,r);
             /*
             var tbtr=$("<tr></tr>");
