@@ -71,6 +71,11 @@
     //var cc=0;
     $(document).ready(function()
     {
+        $("[name='btnStoreTo'][ary='AIO']").click(function()
+        {
+            generateAIOTableList();
+        });
+
         $("#btnTest").click(function()
         {
             if($("#btnTest").attr("TF")=="T")
@@ -90,13 +95,14 @@
 //dataList[0][0][1][0][4]
         $("[name='btnStoreTo']").click(function()
         {
-            alert(branch[$(this).attr("ary")]);
+            //alert(branch[$(this).attr("ary")]);
             var num=$(this).attr("ary");
             //dataList[num] = new Array(dataT);
             //dataList[num] = new Array(dataT);
             dataList[num] = dataT.concat();
             generateBranchTableList(num);
             //alert("~"+dataList[0][0]+"~ /n"+dataList[0][1]+"~ /n"+dataList[0][2]);
+            generateAIOTableList();
         });
 
         $("#btnExportExcel").click(function()
@@ -262,7 +268,7 @@
         var txtName="";
         txtName = txt.split('\t')[0];
 
-        rAry[0]=no;
+        rAry[0]=no+1;
         rAry[1]=txtName;
         rAry[2]=txtQuantity;
         rAry[3]=status;
@@ -361,12 +367,12 @@
             btn.text("store to "+branch[c]);
             divStoretoBtn.append(btn);
         }
-        /*
+
         var btn=$("<button></button>");
-        btn.attr({"name":"btnStoreTo","ary":"All"});
-        btn.text("Show All");
+        btn.attr({"name":"btnStoreTo","ary":"AIO"});
+        btn.text("Show AIO");
         divStoretoBtn.append(btn);
-        */
+
     }
     function generateBranchListTable()
     {
@@ -385,7 +391,12 @@
         $("table#"+num+"[name='tableList']").remove();
         var table=$("<table></table>");
         table.attr({"id":num,"name":"tableList","ty":"table"});
-        $("#divBranchListTable").append(table);
+
+        if(num=="AIO")
+            $("#divBranchAIOTableList").append(table);
+        else
+            $("#divBranchListTable").append(table);
+
         var thead=$("<thead></thead>");
         table.append(thead);
 
@@ -393,10 +404,14 @@
         thead.append(trBN);
         var thBranchNameOnTable=$("<th></th>");
         thBranchNameOnTable.attr({"colspan":"99"});
-        thBranchNameOnTable.text(branch[num]);
+        if(num=="AIO")
+            thBranchNameOnTable.text("AIO");
+        else
+            thBranchNameOnTable.text(branch[num]);
         trBN.append(thBranchNameOnTable);
 
-        generateTrTd(thead,tblDisplayCol);
+        var rnum=0;
+        generateTrTd(thead,tblDisplayCol,rnum);
         /*
         var thtr==$("<tr></tr>");
         thead.append(thtr);
@@ -414,36 +429,54 @@
 
         var tbody=$("<tbody></tbody>");
         table.append(tbody);
-        dataList[num].forEach((r,index) =>
+        var rnum=0;
+        if(num=="AIO")
         {
-            //alert("Number"+dataList[num][0][0]+"... \n Name"+dataList[num][0][1]+"... \n Quantity"+dataList[num][0][2]);
-            generateTrTd(tbody,r);
-            /*
-            var tbtr=$("<tr></tr>");
-            tbody.append(tbtr);
-            var trtd1=$("<td></td>");
-            trtd1.text();
-            tbtr.append(trtd1);
-            var trtd2=$("<td></td>");
-            trtd2.text();
-            tbtr.append(trtd2);
-            var trtd3=$("<td></td>");
-            trtd3.text();
-            tbtr.append(trtd3);
-            var trtd4=$("<td></td>");
-            trtd4.text();
-            tbtr.append(trtd4);
-            var trtd5=$("<td></td>");
-            trtd5.text();
-            tbtr.append(trtd5);
-            */
-        })
+            for(x=0;x<branch.length;x++)
+            {
+                if(!(dataList[x] === undefined || dataList[x] == null || dataList[x].length <= 0))
+                {
+                    dataList[x].forEach((r,index) =>
+                    {
+                        rnum=generateTrTd(tbody,r,rnum);
+                    })
+                }
+            }
+
+        }
+        else
+        {
+            dataList[num].forEach((r,index) =>
+            {
+                //alert("Number"+dataList[num][0][0]+"... \n Name"+dataList[num][0][1]+"... \n Quantity"+dataList[num][0][2]);
+                rnum=generateTrTd(tbody,r,rnum);
+                /*
+                var tbtr=$("<tr></tr>");
+                tbody.append(tbtr);
+                var trtd1=$("<td></td>");
+                trtd1.text();
+                tbtr.append(trtd1);
+                var trtd2=$("<td></td>");
+                trtd2.text();
+                tbtr.append(trtd2);
+                var trtd3=$("<td></td>");
+                trtd3.text();
+                tbtr.append(trtd3);
+                var trtd4=$("<td></td>");
+                trtd4.text();
+                tbtr.append(trtd4);
+                var trtd5=$("<td></td>");
+                trtd5.text();
+                tbtr.append(trtd5);
+                */
+            })
+        }
 
 
 
-
+        //generateAIOTableList();
     }
-    function generateTrTd(parentEle,ary)
+    function generateTrTd(parentEle,ary,rnum)
     {
         var tr=$("<tr></tr>");
         parentEle.append(tr);
@@ -451,7 +484,14 @@
         for(var c=0;c<tblDisplayCol.length;c++)
         {
             var td=$("<td></td>");
-            td.text(ary[c]);
+
+            if(c==0)
+            {
+                rnum++;
+                td.text(rnum);
+            }
+            else
+                td.text(ary[c]);
             tr.append(td);
         }
         /*
@@ -461,6 +501,11 @@
             td.text(r);
             tr.append(td);
         })*/
+        return rnum;
+    }
+    function generateAIOTableList()
+    {
+        generateBranchTableList("AIO");
     }
 </script>
 
@@ -490,7 +535,7 @@
 </table>
 
 <div id="divBranchListTable" style="padding-top: 30px; display: block;"></div>
-
+<div id="divBranchAIOTableList"></div>
 
 </body>
 </html>
