@@ -106,7 +106,18 @@
         });
 
 //<button name="btnExportExcel" ary="0">Export Excel</button>
+    /*    $("#divBranchListTable").add("#divBranchAIOTableList").on("click", "button[name='btnExportExcel']", function()
+        {
+            alert("aa");
+            num=$(this).attr("ary");
 
+            //$("table[name='tableList'][ary='"+num+"']");
+
+            var copyText =$("table[name='tableList'][ary='"+num+"']").html(); //document.getElementById("myInput");
+            copyText.select();
+            document.execCommand("copy");
+            alert("Copied the text: " + copyText.value);
+        });*/
         $("#divBranchListTable").add("#divBranchAIOTableList").on("click", "button[name='btnExportExcel']", function()
         {
             num=$(this).attr("ary");
@@ -542,6 +553,10 @@
         btnExportExcel.attr({"name":"btnExportExcel","ary":num})
         div.append(btnExportExcel);
 
+        var btnCopy=$("<button></button>");
+        btnCopy.text("Copy");
+        btnCopy.attr({"name":"btnCopy","ary":num})
+        div.append(btnCopy);
 
         //<button id="btnExportExcel">ExportExcel</button>
 
