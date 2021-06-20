@@ -8,7 +8,7 @@
 <body>
 <style>
 
-    [name="testing"]{ display: none;}
+    /*[name="testing"]{ display: none;}*/
 
     table#ListTable tr:nth-child(even)
     {
@@ -27,7 +27,7 @@
     table#StatusOnOffCheckBoxTable td { width: 250px;}
 
 
-    table[name="tableList"]{display:inline-block;margin: 10px 5% 10px 5%;}
+    div[name="listinfo"]{display:inline-block;margin: 10px 5% 10px 5%;}
     table[name="tableList"] thead tr{background-color: #525252;color: white;}
     table[name="tableList"] tbody tr:nth-child(odd){background-color:#56565640;}
     table[name="tableList"] tbody tr:nth-child(even){background-color:#a7c2ff;}
@@ -76,7 +76,7 @@
             generateAIOTableList();
         });
 
-        $("#btnTest").click(function()
+        /*$("#btnTest").click(function()
         {
             if($("#btnTest").attr("TF")=="T")
             {
@@ -89,7 +89,7 @@
                 $("[name='testing']").css({"display": "unset"});
             }
 
-        });
+        });*/
 
 //test end
 //dataList[0][0][1][0][4]
@@ -104,6 +104,59 @@
             //alert("~"+dataList[0][0]+"~ /n"+dataList[0][1]+"~ /n"+dataList[0][2]);
             generateAIOTableList();
         });
+
+//<button name="btnExportExcel" ary="0">Export Excel</button>
+
+        $("#divBranchListTable").add("#divBranchAIOTableList").on("click", "button[name='btnExportExcel']", function()
+        {
+            num=$(this).attr("ary");
+            var currentdate = new Date();
+            var datetime =
+            + currentdate.getFullYear()+ "/"
+            + (currentdate.getMonth()+1)  + "/"
+            +currentdate.getDate() + " "
+
+            + currentdate.getHours() + ":"
+            + currentdate.getMinutes() + ":"
+            + currentdate.getSeconds() + "_Special Order List_";
+
+            if(num!="AIO")
+                txt=branch[num];
+            else
+                txt=num;
+            $("table[name='tableList'][ary='"+num+"']").table2excel(
+            {
+                exclude:".noExl",
+                name:"Worksheet Name",
+                filename:datetime+txt+".xls",
+                fileext:".xls"
+            });
+        });
+        //$("#divBranchListTable table").on( "click","button[name='btnExportExcel']", function()
+        //$("[name='btnExportExcel']").click(function()
+        //{
+            //alert("aa");
+            /*num=$(this).attr("ary");
+            var currentdate = new Date();
+            var datetime =
+            + currentdate.getFullYear()+ "/"
+            + (currentdate.getMonth()+1)  + "/"
+            +currentdate.getDate() + " "
+
+            + currentdate.getHours() + ":"
+            + currentdate.getMinutes() + ":"
+            + currentdate.getSeconds() + "Order List";
+
+            $("table[name='tableList'][ary='"+num+"']").table2excel(
+            {
+                exclude:".noExl",
+                name:"Worksheet Name",
+                filename:datetime+"_"+branch[num],
+                fileext:".xls"
+            });
+*/
+        //});
+
 
         $("#btnExportExcel").click(function()
         {
@@ -388,14 +441,19 @@
     {
         //alert(dataList[num]);
 
-        $("table#"+num+"[name='tableList']").remove();
-        var table=$("<table></table>");
-        table.attr({"id":num,"name":"tableList","ty":"table"});
+        //$("table#"+num+"[name='tableList']").remove();
+        $("div[ary='"+num+"'][name='listinfo']").remove();
+        var div=$("<div></div>");
+        div.attr({"ary":num,"name":"listinfo"});
 
         if(num=="AIO")
-            $("#divBranchAIOTableList").append(table);
+            $("#divBranchAIOTableList").append(div);
         else
-            $("#divBranchListTable").append(table);
+            $("#divBranchListTable").append(div);
+
+        var table=$("<table></table>");
+        table.attr({"ary":num,"name":"tableList","ty":"table"});
+        div.append(table);
 
         var thead=$("<thead></thead>");
         table.append(thead);
@@ -411,7 +469,7 @@
         trBN.append(thBranchNameOnTable);
 
         var rnum=0;
-        generateTrTd(thead,tblDisplayCol,rnum);
+        generateTrTd(thead,tblDisplayCol,rnum,"Header");
         /*
         var thtr==$("<tr></tr>");
         thead.append(thtr);
@@ -438,7 +496,7 @@
                 {
                     dataList[x].forEach((r,index) =>
                     {
-                        rnum=generateTrTd(tbody,r,rnum);
+                        rnum=generateTrTd(tbody,r,rnum,"Body");
                     })
                 }
             }
@@ -449,7 +507,7 @@
             dataList[num].forEach((r,index) =>
             {
                 //alert("Number"+dataList[num][0][0]+"... \n Name"+dataList[num][0][1]+"... \n Quantity"+dataList[num][0][2]);
-                rnum=generateTrTd(tbody,r,rnum);
+                rnum=generateTrTd(tbody,r,rnum,"Body");
                 /*
                 var tbtr=$("<tr></tr>");
                 tbody.append(tbtr);
@@ -471,12 +529,26 @@
                 */
             })
         }
+/*
+        var tr=$("<tr></tr>");
+        tbody.append(tr);
 
+        var td=$("<td></td>");
+        td.attr({"colspan":99});
+        tr.append(td);
+*/
+        var btnExportExcel=$("<button></button>");
+        btnExportExcel.text("Export Excel");
+        btnExportExcel.attr({"name":"btnExportExcel","ary":num})
+        div.append(btnExportExcel);
+
+
+        //<button id="btnExportExcel">ExportExcel</button>
 
 
         //generateAIOTableList();
     }
-    function generateTrTd(parentEle,ary,rnum)
+    function generateTrTd(parentEle,currentAry,rnum,typ)
     {
         var tr=$("<tr></tr>");
         parentEle.append(tr);
@@ -485,13 +557,13 @@
         {
             var td=$("<td></td>");
 
-            if(c==0)
+            if(c==0 && typ!="Header")
             {
                 rnum++;
                 td.text(rnum);
             }
             else
-                td.text(ary[c]);
+                td.text(currentAry[c]);
             tr.append(td);
         }
         /*
@@ -510,18 +582,18 @@
 </script>
 
 <textarea id="txt" rows="10" style="width: 99.3%;"></textarea>
-<div id="aa" name="testing">
+<!--<div id="aa" name="testing">
     <p style="background-color:red;padding: 5px;font-size: 20px;font-weight: bold;"> ignore red background color element/item</p>
-</div>
+</div>-->
 
 <div id="divStatusOnOffCheckBox" style="padding: 10px;background-color: #d4d4d4;">Filter Status</div>
 
 <div id="divStoretoBtn"style="padding: 10px;">
-    <button id="btnExportExcel">ExportExcel</button>
 
 
 
-    <button id="btnTest" style="position: fixed;right: 0px;top: 0px;" TF="F">Testing mode TF</button>
+
+    <!--<button id="btnTest" style="position: fixed;right: 0px;top: 0px;" TF="F">Testing mode TF</button>-->
 </div>
 
 <table id="ListTable">
@@ -533,6 +605,7 @@
         <th>WO#</th>
     </tr>
 </table>
+<button id="btnExportExcel">ExportExcel</button>
 
 <div id="divBranchListTable" style="padding-top: 30px; display: block;"></div>
 <div id="divBranchAIOTableList"></div>
