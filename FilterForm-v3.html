@@ -24,14 +24,16 @@
       color: white;
     }
     table#ListTable td:nth-child(4){ width: 100px; text-align: center;}
-    table#StatusOnOffCheckBoxTable td { width: 200px;}
+    table#StatusOnOffCheckBoxTable td { width: 250px;}
 
 
-
+    table[name="tableList"]{display:inline-block;margin: 10px 5% 10px 5%;}
     table[name="tableList"] thead tr{background-color: #525252;color: white;}
     table[name="tableList"] tbody tr:nth-child(odd){background-color:#56565640;}
     table[name="tableList"] tbody tr:nth-child(even){background-color:#a7c2ff;}
+    table[name="tableList"] tbody tr td{padding: 2px 5px 2px 5px;}
 
+/**/
 
 
 </style>
@@ -359,6 +361,12 @@
             btn.text("store to "+branch[c]);
             divStoretoBtn.append(btn);
         }
+        /*
+        var btn=$("<button></button>");
+        btn.attr({"name":"btnStoreTo","ary":"All"});
+        btn.text("Show All");
+        divStoretoBtn.append(btn);
+        */
     }
     function generateBranchListTable()
     {
@@ -456,7 +464,7 @@
     }
 </script>
 
-<textarea id="txt" rows="10" cols="90"></textarea>
+<textarea id="txt" rows="10" style="width: 99.3%;"></textarea>
 <div id="aa" name="testing">
     <p style="background-color:red;padding: 5px;font-size: 20px;font-weight: bold;"> ignore red background color element/item</p>
 </div>
@@ -481,9 +489,8 @@
     </tr>
 </table>
 
-<div id="divBranchListTable" style="padding-top: 30px;">
-
-</div>
+<div id="divBranchListTable" style="padding-top: 30px; display: block;"></div>
+<div id="divBranchTableListAIO"></div>
 
 </body>
 </html>
