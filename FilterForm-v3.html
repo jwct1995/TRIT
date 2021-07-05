@@ -3,8 +3,13 @@
 <head>
     <title>Page Title</title>
 </head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="src/jquery_3.5.1.min.js"></script>
 <script src="src/jquery.table2excel.js"></script>
+<script src="src/clipboard_1.5.16.min.js"></script>
+<script src="src/copyToClipboard.js"></script>
+
+
 <body>
 <style>
 
@@ -27,11 +32,16 @@
     table#StatusOnOffCheckBoxTable td { width: 250px;}
 
 
-    div[name="listinfo"]{display:inline-block;margin: 10px 5% 10px 5%;}
-    table[name="tableList"] thead tr{background-color: #525252;color: white;}
-    table[name="tableList"] tbody tr:nth-child(odd){background-color:#56565640;}
-    table[name="tableList"] tbody tr:nth-child(even){background-color:#a7c2ff;}
-    table[name="tableList"] tbody tr td{padding: 2px 5px 2px 5px;}
+    div[name="listinfo"]{display:inline-block;margin: 10px 2% 10px 2%;}
+    div[name="listinfo"]{background-color: #f9f0c5;padding: 20px;width: 90%;}
+
+    table[name="tableData"] thead tr{background-color: #525252;color: white;}
+    table[name="tableData"] tbody tr:nth-child(odd){background-color:#56565640;}
+    table[name="tableData"] tbody tr:nth-child(even){background-color:#a7c2ff;}
+    table[name="tableData"] tbody tr td{padding: 2px 5px 2px 5px;}
+
+    div[name="listData"]{background-color: #e0e0e0;}
+    div[name="listData"] ol{list-style-type: none;}
 
 /**/
 
@@ -42,6 +52,7 @@
     var branch=["AMK","Tampines","Yisun","Hougang"];
     var statusOption=["Awaiting Customer Approval","Order Part","On Order","Received","Installed","Wrong Part","Bad/Damaged Part","Abandoned Part","Unable to Locate Part","Shipped"];
     var tblDisplayCol=["No","Name","Quantity","Status","WO#"];
+    var lstDisplayCol=["No","Name","Quantity"];
 
     var dataT=[];
     var dataList = [[],[]];
@@ -71,6 +82,23 @@
     //var cc=0;
     $(document).ready(function()
     {
+
+
+        $("#divBranchListTable").add("#divBranchAIOTableList").on("click", "button[name='btnstTable']", function()
+        {
+            var num=$(this).attr("ary");
+            $("#tableBranchData"+num).css("display","block");
+            $("#listBranchData"+num).css("display","none");
+
+        });
+        $("#divBranchListTable").add("#divBranchAIOTableList").on("click", "button[name='btnstList']", function()
+        {
+            var num=$(this).attr("ary");
+            $("#tableBranchData"+num).css("display","none");
+            $("#listBranchData"+num).css("display","block");
+
+        });
+
         $("[name='btnStoreTo'][ary='AIO']").click(function()
         {
             generateAIOTableList();
@@ -118,6 +146,35 @@
             document.execCommand("copy");
             alert("Copied the text: " + copyText.value);
         });*/
+    /*    $("#divBranchListTable").add("#divBranchAIOTableList").on("click", "button[name='btnCopy']", function()
+        {
+            num=$(this).attr("ary");
+            //var tbl=$("table[name='tableList'][ary='"+num+"']")
+            //alert(tbl);
+            //$("#aaa").text(tbl.text());
+
+            //var aaa=$("#txt");
+            //var copyText = document.getElementById("tblb1");
+            /*copyText.select();
+            document.execCommand("copy");
+            alert("Copied the text: " + copyText.value);
+*/
+            /*var urlField = document.querySelector("tblb1");//('table');
+            var range = document.createRange();
+            range.selectNode(urlField);
+            window.getSelection().addRange(range);
+            document.execCommand('copy');
+*/
+/*
+            //var urlField = document.querySelector('table');
+            var urlField = document.querySelector('table');
+            var range = document.createRange();
+            range.selectNode(urlField);
+            window.getSelection().addRange(range);
+            document.execCommand('copy');
+
+
+        });*/
         $("#divBranchListTable").add("#divBranchAIOTableList").on("click", "button[name='btnExportExcel']", function()
         {
             num=$(this).attr("ary");
@@ -135,7 +192,7 @@
                 txt=branch[num];
             else
                 txt=num;
-            $("table[name='tableList'][ary='"+num+"']").table2excel(
+            $("table[name='tableData'][ary='"+num+"']").table2excel(
             {
                 exclude:".noExl",
                 name:"Worksheet Name",
@@ -462,12 +519,12 @@
         else
             $("#divBranchListTable").append(div);
 
-        var table=$("<table></table>");
-        table.attr({"ary":num,"name":"tableList","ty":"table"});
-        div.append(table);
+        var tableBranchData=$("<table></table>");
+        tableBranchData.attr({"id":"tableBranchData"+num,"ary":num,"name":"tableData","ty":"table"});
+        div.append(tableBranchData);
 
         var thead=$("<thead></thead>");
-        table.append(thead);
+        tableBranchData.append(thead);
 
         var trBN=$("<tr></tr>");
         thead.append(trBN);
@@ -479,8 +536,8 @@
             thBranchNameOnTable.text(branch[num]);
         trBN.append(thBranchNameOnTable);
 
-        var rnum=0;
-        generateTrTd(thead,tblDisplayCol,rnum,"Header");
+        var tblrnum=0;
+        generateTrTd(thead,tblDisplayCol,tblrnum,"Header");
         /*
         var thtr==$("<tr></tr>");
         thead.append(thtr);
@@ -497,8 +554,8 @@
         */
 
         var tbody=$("<tbody></tbody>");
-        table.append(tbody);
-        var rnum=0;
+        tableBranchData.append(tbody);
+        var tblrnum=0;
         if(num=="AIO")
         {
             for(x=0;x<branch.length;x++)
@@ -507,7 +564,7 @@
                 {
                     dataList[x].forEach((r,index) =>
                     {
-                        rnum=generateTrTd(tbody,r,rnum,"Body");
+                        tblrnum=generateTrTd(tbody,r,tblrnum,"Body");
                     })
                 }
             }
@@ -518,7 +575,7 @@
             dataList[num].forEach((r,index) =>
             {
                 //alert("Number"+dataList[num][0][0]+"... \n Name"+dataList[num][0][1]+"... \n Quantity"+dataList[num][0][2]);
-                rnum=generateTrTd(tbody,r,rnum,"Body");
+                tblrnum=generateTrTd(tbody,r,tblrnum,"Body");
                 /*
                 var tbtr=$("<tr></tr>");
                 tbody.append(tbtr);
@@ -548,21 +605,112 @@
         td.attr({"colspan":99});
         tr.append(td);
 */
+
+
+
+//listBranchData
+/*
+var table=$("<table></table>");
+table.attr({"id":"tableBranchData"+num,"ary":num,"name":"tableList","ty":"table"});
+div.append(table);
+*/
+
+        var listBranchData=$("<div></div>");
+        listBranchData.attr({"id":"listBranchData"+num,"ary":num,"name":"listData","ty":"list"});
+        div.append(listBranchData);
+        var listBranchDataHeader=$("<h3></h3>");
+        if(num=="AIO")
+            listBranchDataHeader.text("AIO");
+        else
+            listBranchDataHeader.text(branch[num]);
+        listBranchData.append(listBranchDataHeader);
+
+        var listBranchDataOl=$("<ol></ol>");
+        listBranchData.append(listBranchDataOl);
+
+
+
+        var lstrnum=0;
+
+        if(num=="AIO")
+        {
+            for(x=0;x<branch.length;x++)
+            {
+                if(!(dataList[x] === undefined || dataList[x] == null || dataList[x].length <= 0))
+                {
+                    dataList[x].forEach((r,index) =>
+                    {
+                        lstrnum=generateListRow(listBranchDataOl,r,lstrnum);
+                    })
+                }
+            }
+
+        }
+        else
+        {
+            dataList[num].forEach((r,index) =>
+            {
+
+                lstrnum=generateListRow(listBranchDataOl,r,lstrnum);
+
+            })
+        }
+
+
+
+
+
+
+
+
+
+
         var btnExportExcel=$("<button></button>");
         btnExportExcel.text("Export Excel");
         btnExportExcel.attr({"name":"btnExportExcel","ary":num})
         div.append(btnExportExcel);
 
-        var btnCopy=$("<button></button>");
-        btnCopy.text("Copy");
-        btnCopy.attr({"name":"btnCopy","ary":num})
-        div.append(btnCopy);
+        var btnCopyTbl=$("<button></button>");
+        btnCopyTbl.text("Copy Table");
+        btnCopyTbl.attr({"name":"btnCopyTbl","ary":num,"data-clipboard-target":"#tableBranchData"+num});
+        btnCopyTbl.addClass("copyBtn");
+        div.append(btnCopyTbl);
+
+        var btnCopyLst=$("<button></button>");
+        btnCopyLst.text("Copy List");
+        btnCopyLst.attr({"name":"btnCopy","ary":num,"data-clipboard-target":"#listBranchData"+num});
+        btnCopyLst.addClass("copyBtn");
+        div.append(btnCopyLst);
+
+        var btnstTable=$("<button></button>");
+        btnstTable.text("Switch to Table Mode");
+        btnstTable.attr({"name":"btnstTable","ary":num});
+        div.append(btnstTable);
+
+        var btnstList=$("<button></button>");
+        btnstList.text("Switch to List Mode");
+        btnstList.attr({"name":"btnstList","ary":num});
+        div.append(btnstList);
+
+
 
         //<button id="btnExportExcel">ExportExcel</button>
 
 
         //generateAIOTableList();
     }
+
+
+    function generateListRow(parentEle,currentAry,rnum)
+    {
+        rnum++;
+        var li=$("<li></li>");
+        li.text(rnum+". "+currentAry[1]+" x"+currentAry[2]);
+        parentEle.append(li);
+
+        return rnum;
+    }
+
     function generateTrTd(parentEle,currentAry,rnum,typ)
     {
         var tr=$("<tr></tr>");
@@ -625,5 +773,9 @@
 <div id="divBranchListTable" style="padding-top: 30px; display: block;"></div>
 <div id="divBranchAIOTableList"></div>
 
+
+<textarea id="aaa"></textarea>
+
+<script src="src/copyToClipboardFunction.js"></script>
 </body>
 </html>
