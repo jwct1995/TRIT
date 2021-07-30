@@ -20,6 +20,15 @@
   </style>
   <body>
     <div id="parentDiv">
+        <?php
+        //if this file store in same server with is servicerequests then can use this method  and delete // before include
+        //include "http://34.87.111.75/pcrt/v9/servicerequests/";
+
+
+
+        //and delete iframe
+        //else just ignore it 
+        ?>
       <iframe id="iframe"src="http://34.87.111.75/pcrt/v9/servicerequests/"></iframe>
     </div>
   </body>
