@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      2.0
+// @version      3.0
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
 // @icon         http://34.87.111.75/pcrt/v9/repair/images/logo.png
 // @require      https://code.jquery.com/jquery-3.5.1.min.js
 
-
+//https://greasyfork.org/en/scripts/431134-trit
 
 // @grant       none
 
@@ -51,34 +51,39 @@ $( document ).ready(function()
         setTimeout(function()
         {
 
-            //hg  .fa.fa-home.fa-lg.fa-fw .parent()
-            //tmp .fa.fa-mobile.fa-lg.fa-fw .parent().parent()
-            //amk .fa.fa-mobile.fa-lg.fa-fw .parent()
-            //ys  .fa.fa-mobile.fa-lg.fa-fw .parent()
+
+//fa fa-home fa-lg fa-fw
+//fa fa-mobile fa-lg fa-fw
+//fa fa-suitcase fa-lg fa-fw
 
             //amk & ys will increase size
 
+            if($(".fa.fa-home.fa-lg.fa-fw").length)
+                GenerateExtentionForCustomerCallNumber(txtBranch,findHomeIconTD());
+            if($(".fa.fa-mobile.fa-lg.fa-fw").length)
+                GenerateExtentionForCustomerCallNumber(txtBranch,findMobileIconTD());
+            if($(".fa.fa-suitcase.fa-lg.fa-fw").length)
+                GenerateExtentionForCustomerCallNumber(txtBranch,findSuitcaseIconTD());
 
 
 
 
-
-            var elePhoneTD =findHomeIcon(txtBranch).next("td");
+//            var elePhoneTD =findHomeIcon(txtBranch).next("td");
 
 
 //elePhoneTD.attr({"id":"TDphone"});
 //$(elePhoneTD).css({"display": "flex"});
 
-            var elePhoneStrong = elePhoneTD.find("strong");//.css("background-color","#2dab04");
-            var txtPhoneNo=elePhoneStrong.text();
+//            var elePhoneStrong = elePhoneTD.find("strong");//.css("background-color","#2dab04");
+//            var txtPhoneNo=elePhoneStrong.text();
             //alert(txtPhoneNo);
 
 
 
 
-            var divWA=$("<div></div>");
-            divWA.css("display","inline-flex");
-            $(elePhoneTD).append(divWA);
+//            var divWA=$("<div></div>");
+//            divWA.css("display","inline-flex");
+//            $(elePhoneTD).append(divWA);
 
 
 //
@@ -93,7 +98,7 @@ $( document ).ready(function()
 
 
 //            $(divWA).append(btnWA);
-            $(divWA).append(generateBtnRedirectToWhatsapp(txtPhoneNo));
+//            $(divWA).append(generateBtnRedirectToWhatsapp(txtPhoneNo));
 //
             //$(elePhoneStrong).after(btnWA);
 //            $("body").find("#"+idWhatsAppBtn).slice(0).remove();
@@ -109,19 +114,19 @@ $( document ).ready(function()
 
 //            $(divWA).append(btnRtCollect);
 
-            $(divWA).append(generateBtnRedirectToWhatsappWithReadyToCollectTxt(txtBranch,txtPhoneNo));
+//            $(divWA).append(generateBtnRedirectToWhatsappWithReadyToCollectTxt(txtBranch,txtPhoneNo));
             //$(elePhoneStrong).after(btnRtCollect);
 //            $("body").find("#"+txtWhatsAppBtnRtC).slice(0).remove();
-
-            var preEleId="";
-            $(divWA).children().each(function(index, val)
-            {
-                if($(this).attr("id")!=preEleId)
-                    preEleId=$(this).attr("id");
-                else
-                    $(this).remove();
+//            removeDuplicateElement(divWA);
+//            var preEleId="";
+//            $(divWA).children().each(function(index, val)
+//            {
+//                if($(this).attr("id")!=preEleId)
+//                    preEleId=$(this).attr("id");
+//                else
+//                    $(this).remove();
                 //$(this).text(c+"..."+index);
-            });
+//            });
 
 
 
@@ -131,6 +136,40 @@ $( document ).ready(function()
 });
 
 
+function GenerateExtentionForCustomerCallNumber(txtBranch,iconTD)
+{
+    var elePhoneTD =iconTD.next("td");
+//iconTD.css("background-color","green");
+//elePhoneTD.css("background-color","pink");
+    var elePhoneStrong = elePhoneTD.find("strong");
+//elePhoneStrong.css("background-color","red");
+    var txtPhoneNo=elePhoneStrong.text();
+
+    var divWA=$("<div></div>");
+    divWA.css("display","inline-flex");
+    $(elePhoneTD).append(divWA);
+
+
+    $(divWA).append(generateBtnRedirectToWhatsapp(txtPhoneNo));
+
+    $(divWA).append(generateBtnRedirectToWhatsappWithReadyToCollectTxt(txtBranch,txtPhoneNo));
+
+    removeDuplicateElement(divWA);
+
+}
+
+function removeDuplicateElement(divWA)
+{
+    var preEleId="";
+    $(divWA).children().each(function(index, val)
+    {
+        if($(this).attr("id")!=preEleId)
+            preEleId=$(this).attr("id");
+        else
+            $(this).remove();
+    });
+
+}
 function generateBtnRedirectToWhatsappWithReadyToCollectTxt(branch,phone)
 {
     var id="btnWhatsAppSendReadyToCollectTxt";
@@ -153,6 +192,49 @@ function generateBtnRedirectToWhatsapp(phone)
 }
 
 //findUserPhoneNumberTD(branch)
+
+//.fa.fa-home.fa-lg.fa-fw
+//.fa.fa-mobile.fa-lg.fa-fw
+//.fa.fa-suitcase.fa-lg.fa-fw
+
+/*if($(".fa.fa-suitcase.fa-lg.fa-fw").length)
+alert("a");
+else
+alert("b");
+*/
+function findSuitcaseIconTD()
+{
+    var ele=$(".fa.fa-suitcase.fa-lg.fa-fw");
+    while (ele.prop("tagName").toLowerCase()!="td")
+    {
+        ele=ele.parent();
+    }
+    return ele;
+}
+
+function findMobileIconTD()
+{
+    var ele=$(".fa.fa-mobile.fa-lg.fa-fw");
+    while (ele.prop("tagName").toLowerCase()!="td")
+    {
+        ele=ele.parent();
+//alert(ele.prop("tagName"));
+//ele.css("background-color","green");
+    }
+    return ele;
+}
+
+function findHomeIconTD()
+{
+    var ele=$(".fa.fa-home.fa-lg.fa-fw");
+    while (ele.prop("tagName").toLowerCase()!="td")
+    {
+        ele=ele.parent();
+    }
+    return ele;
+}
+
+/*
 function findHomeIcon(branch)
 {
     var rtn="";
@@ -160,6 +242,7 @@ function findHomeIcon(branch)
     if(branch=="AMK")
     {
         rtn = $(".fa.fa-mobile.fa-lg.fa-fw").parent();//.next("td");
+        //alert($(".fa.fa-mobile.fa-lg.fa-fw").parent().prop("tagName").toLowerCase());
     }
     else if(branch=="Hougang")
     {
@@ -176,7 +259,7 @@ function findHomeIcon(branch)
     }
     return rtn;
 }
-
+*/
 function rtnTxtReadyForCollection(branch,phone)
 {
     var rtn="";
