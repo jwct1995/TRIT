@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      3.0
+// @version      4.0
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -176,7 +176,8 @@ function generateBtnRedirectToWhatsappWithReadyToCollectTxt(branch,phone)
     var btn=$("<button><button>");
     btn.css({"width":"auto","height":"30px","margin-left": "10px","border-style": "solid"});
     btn.text("ReadyToCollect");
-    btn.attr({"id":id,"onclick":"window.open('"+rtnTxtReadyForCollection(branch,phone)+"')"});
+    //btn.attr({"id":id,"onclick":"window.open('"+rtnTxtReadyForCollection(branch,phone)+"')"});
+    btn.attr({"id":id,"onclick":"var new_window; new_window =window.open('"+rtnTxtReadyForCollection(branch,phone)+"'); setTimeout(function(){ new_window.close(); }, 1000);"});
 
     return btn;
 }
@@ -186,7 +187,12 @@ function generateBtnRedirectToWhatsapp(phone)
     var id="btnWhatsAppPhoneNumber";
     var btn=$("<button><button>");
     btn.css({"width":"30px","height":"30px","margin-left": "10px","background-image": "url('https://play-lh.googleusercontent.com/bYtqbOcTYOlgc6gqZ2rwb8lptHuwlNE75zYJu6Bn076-hTmvd96HH-6v7S0YUAAJXoJN=s180-rw')","background-size": "contain","border-style": "solid"});
-    btn.attr({"id":id,"onclick":"window.open('https://api.whatsapp.com/send?phone=+65"+phone+"')"});
+    //btn.attr({"id":id,"onclick":"window.open('https://api.whatsapp.com/send?phone=+65"+phone+"')"});
+    btn.attr({"id":id,"onclick":"var new_window; new_window = window.open('https://api.whatsapp.com/send?phone=+65"+phone+"'); setTimeout(function(){ new_window.close(); }, 1000);"});
+
+
+
+//new_window = window.open("https://snippens.com");
 
     return btn;
 }
@@ -205,34 +211,49 @@ alert("b");
 function findSuitcaseIconTD()
 {
     var ele=$(".fa.fa-suitcase.fa-lg.fa-fw");
+/*
     while (ele.prop("tagName").toLowerCase()!="td")
     {
         ele=ele.parent();
     }
+*/
+    ele=ele.closest( "td" );
+    //ele.css("background-color","pink");
     return ele;
 }
 
-function findMobileIconTD()
+function  findMobileIconTD()
 {
     var ele=$(".fa.fa-mobile.fa-lg.fa-fw");
+/*
     while (ele.prop("tagName").toLowerCase()!="td")
     {
         ele=ele.parent();
-//alert(ele.prop("tagName"));
-//ele.css("background-color","green");
     }
+*/
+
+    ele=ele.closest( "td" );
+    //ele.css("background-color","red");
+    //ele.css("background-color","pink");
     return ele;
 }
 
 function findHomeIconTD()
 {
     var ele=$(".fa.fa-home.fa-lg.fa-fw");
+/*
     while (ele.prop("tagName").toLowerCase()!="td")
     {
         ele=ele.parent();
     }
+*/
+    ele=ele.closest( "td" );
+    //ele.css("background-color","red");
     return ele;
 }
+
+
+
 
 /*
 function findHomeIcon(branch)
