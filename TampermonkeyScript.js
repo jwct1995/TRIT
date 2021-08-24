@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      4.0
+// @version      5.0
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -26,6 +26,7 @@ window.onload = function exampleFunction()
 $( document ).ready(function()
 {
     ///$(".mainworkorder").css("background-color","blue");
+    var txtBranch="";
     var sBranch = $(".primary_linkgonew").text();
 
     if(sBranch.indexOf("TRIT AMK")>=0)
@@ -39,11 +40,18 @@ $( document ).ready(function()
 
 
 
-    $('body').on('mouseover', '#btnWA', function()
+    $('body').on('mouseover', '#btnWhatsAppPhoneNumber #btnWhatsAppSendReadyToCollectTxt', function()
     {
         $(this).css({"border-width": "1px"});
 
     });
+    $('body').on('mouseleave', '#btnWhatsAppPhoneNumber #btnWhatsAppSendReadyToCollectTxt', function()
+    {
+        $(this).css({"border-width": "5px"});
+
+    });
+
+
     $('body').on('click', '.catchloadworkorder', function()
     {
         //alert("aa");
@@ -64,6 +72,59 @@ $( document ).ready(function()
                 GenerateExtentionForCustomerCallNumber(txtBranch,findMobileIconTD());
             if($(".fa.fa-suitcase.fa-lg.fa-fw").length)
                 GenerateExtentionForCustomerCallNumber(txtBranch,findSuitcaseIconTD());
+
+            GenerateExtentionForCustomerNote(txtBranch);
+/*
+//#custnotearea
+//#technotearea
+    //.pillbox
+        //tr   position: relative;
+            //td [2] get text and set div
+                //div right: 0;top: 0;
+            var custNoteArea=$("#custnotearea").find(".pillbox");
+//custNoteArea.css("background-color","red");
+            var custNoteAreaTR=custNoteArea.find("tr");
+//custNoteAreaTR.css("background-color","pink");
+            custNoteAreaTR.children("td:nth-child(2)").each(function(index, val)
+            {
+//$(this).css("background-color","green");
+//alert($(this).text());
+                //alert();
+
+                var eleSpan=$(this).children("span");//.text()
+                eleSpan.remove();
+                var txtCustNote=$(this).text();
+                //alert($(this).text());
+                $(this).append(eleSpan);
+                //attr("class")
+                //var span=$("<span></span>");
+                //span.addClass("");
+                var div=$("<div></div>");
+                div.css("display","flex");
+                //div.text("asdasd");
+                $(this).append(div);
+
+                $('[id=btnWhatsAppPhoneNumber]').each(function()
+                {
+                    div.append(generateBtnRedirectToWhatsappWithTxt(txtBranch,$(this).attr("ph"),txtCustNote));
+                });
+
+
+                removeDuplicateElement(div,"ph");
+
+
+
+
+            });
+*/
+
+
+
+
+//            var custNoteTextArea=custNoteArea.find("td:nth-child(2)");//.css("background-color","pink");
+//            var txtCustNoteTextArea=custNoteTextArea.text();
+//            alert(txtCustNoteTextArea);
+
 
 
 
@@ -136,6 +197,74 @@ $( document ).ready(function()
 });
 
 
+function GenerateExtentionForCustomerNote(branch)
+{
+    //#custnotearea
+    //#technotearea
+        //.pillbox
+            //tr   position: relative;
+                //td [2] get text and set div
+                    //div right: 0;top: 0;
+                var custNoteArea=$("#custnotearea").find(".pillbox");
+    //custNoteArea.css("background-color","red");
+                var custNoteAreaTR=custNoteArea.find("tr");
+    //custNoteAreaTR.css("background-color","pink");
+                custNoteAreaTR.children("td:nth-child(2)").each(function(index, val)
+                {
+    //$(this).css("background-color","green");
+    //alert($(this).text());
+                    //alert();
+
+                    var eleSpan=$(this).children("span");//.text()
+                    eleSpan.remove();
+                    var txtCustNote=$(this).text();
+                    //alert($(this).text());
+                    $(this).append(eleSpan);
+                    //attr("class")
+                    //var span=$("<span></span>");
+                    //span.addClass("");
+                    var div=$("<div></div>");
+                    div.css("display","flex");
+                    //div.text("asdasd");
+                    $(this).append(div);
+
+                    $('[id=btnWhatsAppPhoneNumber]').each(function()
+                    {
+                        div.append(generateBtnRedirectToWhatsappWithTxt(branch,$(this).attr("ph"),txtCustNote));
+                    });
+                    removeDuplicateElement(div,"ph");
+                });
+
+}
+
+
+function encodeStr(txt)
+{
+    return encodeURIComponent(txt);
+}
+
+function generateBtnRedirectToWhatsappWithTxt(branch,phone,txt)
+{
+
+    var id="btnWhatsAppSendTxt";
+    var btn=$("<button><button>");
+    btn.css({"width":"auto","height":"30px","margin-left": "10px","border-style": "solid"});
+    btn.text("sWhatsapp "+phone);
+    //btn.attr({"id":id,"onclick":"window.open('"+rtnTxtReadyForCollection(branch,phone)+"')"});
+    //alert(txt);
+    btn.attr({"id":id,"ph":phone,"onclick":"var new_window; new_window =window.open('https://api.whatsapp.com/send?phone=+65"+phone+"&text="+encodeStr(txt)+"'); setTimeout(function(){ new_window.close(); }, 1000);"});
+    return btn;
+}
+
+
+
+
+
+
+
+
+
+
 function GenerateExtentionForCustomerCallNumber(txtBranch,iconTD)
 {
     var elePhoneTD =iconTD.next("td");
@@ -145,31 +274,35 @@ function GenerateExtentionForCustomerCallNumber(txtBranch,iconTD)
 //elePhoneStrong.css("background-color","red");
     var txtPhoneNo=elePhoneStrong.text();
 
-    var divWA=$("<div></div>");
-    divWA.css("display","inline-flex");
-    $(elePhoneTD).append(divWA);
+    var div=$("<div></div>");
+    div.css("display","inline-flex");
+    elePhoneTD.append(div);
 
 
-    $(divWA).append(generateBtnRedirectToWhatsapp(txtPhoneNo));
+    div.append(generateBtnRedirectToWhatsapp(txtPhoneNo));
 
-    $(divWA).append(generateBtnRedirectToWhatsappWithReadyToCollectTxt(txtBranch,txtPhoneNo));
+    div.append(generateBtnRedirectToWhatsappWithReadyToCollectTxt(txtBranch,txtPhoneNo));
 
-    removeDuplicateElement(divWA);
+    removeDuplicateElement(div,"id");
 
 }
 
-function removeDuplicateElement(divWA)
+function removeDuplicateElement(ele,attr)
 {
     var preEleId="";
-    $(divWA).children().each(function(index, val)
+    var prePhId=""
+    ele.children().each(function(index, val)
     {
-        if($(this).attr("id")!=preEleId)
-            preEleId=$(this).attr("id");
+        if($(this).attr(attr)!=preEleId)
+            preEleId=$(this).attr(attr);
         else
             $(this).remove();
     });
 
 }
+
+
+
 function generateBtnRedirectToWhatsappWithReadyToCollectTxt(branch,phone)
 {
     var id="btnWhatsAppSendReadyToCollectTxt";
@@ -177,7 +310,7 @@ function generateBtnRedirectToWhatsappWithReadyToCollectTxt(branch,phone)
     btn.css({"width":"auto","height":"30px","margin-left": "10px","border-style": "solid"});
     btn.text("ReadyToCollect");
     //btn.attr({"id":id,"onclick":"window.open('"+rtnTxtReadyForCollection(branch,phone)+"')"});
-    btn.attr({"id":id,"onclick":"var new_window; new_window =window.open('"+rtnTxtReadyForCollection(branch,phone)+"'); setTimeout(function(){ new_window.close(); }, 1000);"});
+    btn.attr({"id":id,"ph":phone,"onclick":"var new_window; new_window =window.open('"+rtnTxtReadyForCollection(branch,phone)+"'); setTimeout(function(){ new_window.close(); }, 1000);"});
 
     return btn;
 }
@@ -186,9 +319,10 @@ function generateBtnRedirectToWhatsapp(phone)
 {
     var id="btnWhatsAppPhoneNumber";
     var btn=$("<button><button>");
+    btn.attr("ph",phone);
     btn.css({"width":"30px","height":"30px","margin-left": "10px","background-image": "url('https://play-lh.googleusercontent.com/bYtqbOcTYOlgc6gqZ2rwb8lptHuwlNE75zYJu6Bn076-hTmvd96HH-6v7S0YUAAJXoJN=s180-rw')","background-size": "contain","border-style": "solid"});
     //btn.attr({"id":id,"onclick":"window.open('https://api.whatsapp.com/send?phone=+65"+phone+"')"});
-    btn.attr({"id":id,"onclick":"var new_window; new_window = window.open('https://api.whatsapp.com/send?phone=+65"+phone+"'); setTimeout(function(){ new_window.close(); }, 1000);"});
+    btn.attr({"id":id,"ph":phone,"onclick":"var new_window; new_window = window.open('https://api.whatsapp.com/send?phone=+65"+phone+"'); setTimeout(function(){ new_window.close(); }, 1000);"});
 
 
 
