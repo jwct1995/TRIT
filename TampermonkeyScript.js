@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      5.0
+// @version      6.2
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -266,7 +266,7 @@ $('body').on("click", ".catchstatuschange, .catchloadworkorder", function ()
         rcount++;
         if(rcount>=10)
             clearInterval(cd);
-        }, 500);
+        }, 1000);
 
 
 
