@@ -38,26 +38,87 @@ $( document ).ready(function()
     else if(sBranch.indexOf("TRIT Yishun")>=0)
         txtBranch="Yishun";
 
+/*
+    $('body').on("mouseover mouseleave", "#btnWhatsAppPhoneNumber, #btnWhatsAppSendReadyToCollectTxt", function ()
+    {
+        $(this).toggle(function ()
+        {
+            $(this).css({"border-width": "1px"});
+        }, function ()
+        {
+            $(this).css({"border-width": "2px"});
+        });
+    });
+*/
 
-
-    $('body').on('mouseover', '#btnWhatsAppPhoneNumber #btnWhatsAppSendReadyToCollectTxt', function()
+    $("body").on("mouseover", "#btnWhatsAppPhoneNumber, #btnWhatsAppSendReadyToCollectTxt", function()
     {
         $(this).css({"border-width": "1px"});
 
     });
-    $('body').on('mouseleave', '#btnWhatsAppPhoneNumber #btnWhatsAppSendReadyToCollectTxt', function()
+    $("body").on("mouseleave", "#btnWhatsAppPhoneNumber, #btnWhatsAppSendReadyToCollectTxt", function()
     {
-        $(this).css({"border-width": "5px"});
+        $(this).css({"border-width": "2px"});
 
     });
 
+//#btnWhatsAppSendReadyToCollectTxt
 
-    $('body').on('click', '.catchloadworkorder', function()
+/*
+$('body').on("click", ".catchstatuschange, .catchloadworkorder", function ()
+{
+     alert("v2");
+});
+*/
+//#mainworkorder
+/*$("body").on("click", ".whitemiddle", function()
+{
+    //alert("v2");
+    if($("[name='divExtentionCustomerCallNumber']").length )
     {
-        //alert("aa");
+        $("[name='divExtentionCustomerCallNumber']").css("background-color","pink");
+    }
+    else
+    {
+        $("[name='divExtentionCustomerCallNumber']").css("background-color","orange");
+    }
+});*/
+//#custnotearea
+//.startbox
+/*$("body").on("click", ".linkbuttongreen, .linkbuttonsmall, .sbutton", function()
+{
+    alert("v2");
+    if($("[name='divExtentionCustomerNote']").length )
+    {
+        $("[name='divExtentionCustomerNote']").css("background-color","red");
+    }
+    else
+    {
+        $("[name='divExtentionCustomerNote']").css("background-color","green");
+    }
+});*/
 
-        setTimeout(function()
+/*$("body").on("click", ".catchstatuschange", function()
+{
+    alert("v1");
+});*/
+///linkbuttongreen radiusall linkbuttonsmall
+    $("body").on("click", " .catchstatuschange, .catchloadworkorder, .linkbuttongreen, .linkbuttonsmall, .sbutton, .catchclass, .linkbuttonlarge, .linkbuttonblack ", function()
+    {
+
+        //catchloadworkorder load WO
+        //.catchstatuschange chg status
+        //.linkbuttongreen .linkbuttonsmall .sbutton add new customer note
+        //.catchclass .linkbuttonlarge .linkbuttonblack
+        //alert("aa");
+/////////////////////
+        var rcount=0;
+        var cd = setInterval(function()
         {
+
+
+//        setTimeout(function()
+//        {
 
 
 //fa fa-home fa-lg fa-fw
@@ -66,14 +127,25 @@ $( document ).ready(function()
 
             //amk & ys will increase size
 
-            if($(".fa.fa-home.fa-lg.fa-fw").length)
-                GenerateExtentionForCustomerCallNumber(txtBranch,findHomeIconTD());
-            if($(".fa.fa-mobile.fa-lg.fa-fw").length)
-                GenerateExtentionForCustomerCallNumber(txtBranch,findMobileIconTD());
-            if($(".fa.fa-suitcase.fa-lg.fa-fw").length)
-                GenerateExtentionForCustomerCallNumber(txtBranch,findSuitcaseIconTD());
+            if($("[name='divExtentionCustomerCallNumber']").length == 0 )
+                //$("[name='divExtentionCustomerCallNumber']").remove();
+            //else
+            {
+                if($(".fa.fa-home.fa-lg.fa-fw").length)
+                    GenerateExtentionForCustomerCallNumber(txtBranch,findHomeIconTD());
+                if($(".fa.fa-mobile.fa-lg.fa-fw").length)
+                    GenerateExtentionForCustomerCallNumber(txtBranch,findMobileIconTD());
+                if($(".fa.fa-suitcase.fa-lg.fa-fw").length)
+                    GenerateExtentionForCustomerCallNumber(txtBranch,findSuitcaseIconTD());
 
-            GenerateExtentionForCustomerNote(txtBranch);
+                clearInterval(cd);
+            }
+
+            if($("[name='divExtentionCustomerNote']").length == 0 )
+            {
+                GenerateExtentionForCustomerNote(txtBranch);
+                clearInterval(cd);
+            }
 /*
 //#custnotearea
 //#technotearea
@@ -192,19 +264,24 @@ $( document ).ready(function()
 
 
             //alert("a");
-        }, 1000);
+//        }, 1000);
+        rcount++;
+        if(rcount>=10)
+            clearInterval(cd);
+        }, 500);
+
+
+
+////////////////////////////////////////
     });
 });
 
 
+
+
 function GenerateExtentionForCustomerNote(branch)
 {
-    //#custnotearea
-    //#technotearea
-        //.pillbox
-            //tr   position: relative;
-                //td [2] get text and set div
-                    //div right: 0;top: 0;
+
                 var custNoteArea=$("#custnotearea").find(".pillbox");
     //custNoteArea.css("background-color","red");
                 var custNoteAreaTR=custNoteArea.find("tr");
@@ -225,6 +302,7 @@ function GenerateExtentionForCustomerNote(branch)
                     //span.addClass("");
                     var div=$("<div></div>");
                     div.css("display","flex");
+                    div.attr({"name":"divExtentionCustomerNote"});
                     //div.text("asdasd");
                     $(this).append(div);
 
@@ -238,14 +316,17 @@ function GenerateExtentionForCustomerNote(branch)
 }
 
 
+
 function encodeStr(txt)
 {
     return encodeURIComponent(txt);
 }
 
+
+
+
 function generateBtnRedirectToWhatsappWithTxt(branch,phone,txt)
 {
-
     var id="btnWhatsAppSendTxt";
     var btn=$("<button><button>");
     btn.css({"width":"auto","height":"30px","margin-left": "10px","border-style": "solid"});
@@ -263,29 +344,24 @@ function generateBtnRedirectToWhatsappWithTxt(branch,phone,txt)
 
 
 
-
-
 function GenerateExtentionForCustomerCallNumber(txtBranch,iconTD)
 {
     var elePhoneTD =iconTD.next("td");
-//iconTD.css("background-color","green");
-//elePhoneTD.css("background-color","pink");
+    //iconTD.css("background-color","green");
+    //elePhoneTD.css("background-color","pink");
     var elePhoneStrong = elePhoneTD.find("strong");
-//elePhoneStrong.css("background-color","red");
+    //elePhoneStrong.css("background-color","red");
     var txtPhoneNo=elePhoneStrong.text();
-
     var div=$("<div></div>");
+    div.attr({"name":"divExtentionCustomerCallNumber"});
     div.css("display","inline-flex");
     elePhoneTD.append(div);
-
-
     div.append(generateBtnRedirectToWhatsapp(txtPhoneNo));
-
     div.append(generateBtnRedirectToWhatsappWithReadyToCollectTxt(txtBranch,txtPhoneNo));
-
     removeDuplicateElement(div,"id");
-
 }
+
+
 
 function removeDuplicateElement(ele,attr)
 {
@@ -298,8 +374,8 @@ function removeDuplicateElement(ele,attr)
         else
             $(this).remove();
     });
-
 }
+
 
 
 
@@ -315,6 +391,7 @@ function generateBtnRedirectToWhatsappWithReadyToCollectTxt(branch,phone)
     return btn;
 }
 
+
 function generateBtnRedirectToWhatsapp(phone)
 {
     var id="btnWhatsAppPhoneNumber";
@@ -323,14 +400,9 @@ function generateBtnRedirectToWhatsapp(phone)
     btn.css({"width":"30px","height":"30px","margin-left": "10px","background-image": "url('https://play-lh.googleusercontent.com/bYtqbOcTYOlgc6gqZ2rwb8lptHuwlNE75zYJu6Bn076-hTmvd96HH-6v7S0YUAAJXoJN=s180-rw')","background-size": "contain","border-style": "solid"});
     //btn.attr({"id":id,"onclick":"window.open('https://api.whatsapp.com/send?phone=+65"+phone+"')"});
     btn.attr({"id":id,"ph":phone,"onclick":"var new_window; new_window = window.open('https://api.whatsapp.com/send?phone=+65"+phone+"'); setTimeout(function(){ new_window.close(); }, 1000);"});
-
-
-
-//new_window = window.open("https://snippens.com");
-
+    //new_window = window.open("https://snippens.com");
     return btn;
 }
-
 //findUserPhoneNumberTD(branch)
 
 //.fa.fa-home.fa-lg.fa-fw
@@ -342,15 +414,17 @@ alert("a");
 else
 alert("b");
 */
+
+
 function findSuitcaseIconTD()
 {
     var ele=$(".fa.fa-suitcase.fa-lg.fa-fw");
-/*
-    while (ele.prop("tagName").toLowerCase()!="td")
-    {
-        ele=ele.parent();
-    }
-*/
+    /*
+        while (ele.prop("tagName").toLowerCase()!="td")
+        {
+            ele=ele.parent();
+        }
+    */
     ele=ele.closest( "td" );
     //ele.css("background-color","pink");
     return ele;
@@ -359,13 +433,12 @@ function findSuitcaseIconTD()
 function  findMobileIconTD()
 {
     var ele=$(".fa.fa-mobile.fa-lg.fa-fw");
-/*
-    while (ele.prop("tagName").toLowerCase()!="td")
-    {
-        ele=ele.parent();
-    }
-*/
-
+    /*
+        while (ele.prop("tagName").toLowerCase()!="td")
+        {
+            ele=ele.parent();
+        }
+    */
     ele=ele.closest( "td" );
     //ele.css("background-color","red");
     //ele.css("background-color","pink");
@@ -375,18 +448,16 @@ function  findMobileIconTD()
 function findHomeIconTD()
 {
     var ele=$(".fa.fa-home.fa-lg.fa-fw");
-/*
-    while (ele.prop("tagName").toLowerCase()!="td")
-    {
-        ele=ele.parent();
-    }
-*/
+    /*
+        while (ele.prop("tagName").toLowerCase()!="td")
+        {
+            ele=ele.parent();
+        }
+    */
     ele=ele.closest( "td" );
     //ele.css("background-color","red");
     return ele;
 }
-
-
 
 
 /*
