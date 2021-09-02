@@ -138,13 +138,11 @@ $('body').on("click", ".catchstatuschange, .catchloadworkorder", function ()
                 if($(".fa.fa-suitcase.fa-lg.fa-fw").length)
                     GenerateExtentionForCustomerCallNumber(txtBranch,findSuitcaseIconTD());
 
-                clearInterval(cd);
             }
 
             if($("[name='divExtentionCustomerNote']").length == 0 )
             {
                 GenerateExtentionForCustomerNote(txtBranch);
-                clearInterval(cd);
             }
 /*
 //#custnotearea
