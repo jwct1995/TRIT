@@ -5,6 +5,7 @@
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
+// @match        http://fixlogy.com/*
 // @icon         http://34.87.111.75/pcrt/v9/repair/images/logo.png
 // @require      https://code.jquery.com/jquery-3.5.1.min.js
 
