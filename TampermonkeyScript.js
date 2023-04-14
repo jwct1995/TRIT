@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      10.1
+// @version      10.2
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -251,7 +251,7 @@ function rtnTxtGoogleMapReview(branch,phone)
     }
     else if(branch=="TECHMINAL")
     {
-        rtn="https://api.whatsapp.com/send?phone=65"+phone+"&text=Hi%20+uname[0]+%EF%BC%8C%0A%0AThank-You%20for%20your%20trust%20and%20choosing%20Techminal%20for%20your%20recent%20service%20work%0A%20%20%20%20%0AWe%20want%20you%20to%20be%20satisfied%20with%20the%20level%20of%20service%20we%20have%20provided%20you.%0AIf%20you%20have%20any%20further%20issues%20or%20questions%2C%20do%20not%20hesitate%20to%20contact%20us.%0AWe%20want%20you%20to%20be%20100%25%20satisfied%20with%20our%20work.%0A%20%20%20%20%0AWe%20strive%20to%20provide%205%20Star%20service%20with%20every%20service%20work%20we%20deliver.%0A%20%20%20%20%0AIf%20you%20have%20any%20immediate%20issues%20or%20feedback%20though%2C%20be%20sure%20to%20contact%20us%20directly%2C%0Awe%20are%20ready%20and%20eager%20to%20solve%20any%20issue.%0A%20%20%20%20%0AThanks%20Again%20for%20choosing%20us%2C%20and%20please%20remember%20us%20for%20any%20future%20needs.%0A%20%20%20%20%0ASincerely%2C%0ATechminal%0AApple%20Certified%20Mac%20%26%20iOS%20Technician%0A%20%20%20%20%0AIt%20will%20be%20great%20if%20you%20can%20help%20to%20Click%20the%20link%20below%20to%20rate%20and%20leave%20us%20your%20valuable%20review.%20Thank%20you!%0Ahttps%3A%2F%2Fg.page%2Fr%2FCVaHFth9XKD6EBM%2Freview%20";
+        rtn="https://api.whatsapp.com/send?phone=65"+phone+"&text=Hi%20"+uname[0]+"%EF%BC%8C%0A%0AThank-You%20for%20your%20trust%20and%20choosing%20Techminal%20for%20your%20recent%20service%20work%0A%20%20%20%20%0AWe%20want%20you%20to%20be%20satisfied%20with%20the%20level%20of%20service%20we%20have%20provided%20you.%0AIf%20you%20have%20any%20further%20issues%20or%20questions%2C%20do%20not%20hesitate%20to%20contact%20us.%0AWe%20want%20you%20to%20be%20100%25%20satisfied%20with%20our%20work.%0A%20%20%20%20%0AWe%20strive%20to%20provide%205%20Star%20service%20with%20every%20service%20work%20we%20deliver.%0A%20%20%20%20%0AIf%20you%20have%20any%20immediate%20issues%20or%20feedback%20though%2C%20be%20sure%20to%20contact%20us%20directly%2C%0Awe%20are%20ready%20and%20eager%20to%20solve%20any%20issue.%0A%20%20%20%20%0AThanks%20Again%20for%20choosing%20us%2C%20and%20please%20remember%20us%20for%20any%20future%20needs.%0A%20%20%20%20%0ASincerely%2C%0ATechminal%0AApple%20Certified%20Mac%20%26%20iOS%20Technician%0A%20%20%20%20%0AIt%20will%20be%20great%20if%20you%20can%20help%20to%20Click%20the%20link%20below%20to%20rate%20and%20leave%20us%20your%20valuable%20review.%20Thank%20you!%0Ahttps%3A%2F%2Fg.page%2Fr%2FCVaHFth9XKD6EBM%2Freview%20";
     }
 
     return rtn;
