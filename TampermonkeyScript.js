@@ -18,16 +18,36 @@
 // @run-at document-end
 
 // ==/UserScript==
+var txtBranch="";
+var sBranch ="";
 
 window.onload = function exampleFunction()
 {
-
+    sf();
 }
 
 $( document ).ready(function()
 {
-    var txtBranch="";
-    var sBranch = $(".primary_linkgonew").text();
+
+    $("body").on("mouseover", "#btnWhatsAppPhoneNumber, #btnWhatsAppSendReadyToCollectTxt", function()
+    {
+        $(this).css({"border-width": "1px"});
+    });
+    $("body").on("mouseleave", "#btnWhatsAppPhoneNumber, #btnWhatsAppSendReadyToCollectTxt", function()
+    {
+        $(this).css({"border-width": "2px"});
+    });
+
+    $("body").on("click", ".catchstatuschange, .displayblock, .radiusall, .linkbuttonopaque2, .linkbuttonmedium, .catchstatuschange, .catchloadworkorder, .linkbuttongreen, .linkbuttonsmall, .sbutton, .catchclass, .linkbuttonlarge, .linkbuttonblack", function()
+    {
+        sf();
+    });
+});
+
+function sf()
+{
+    txtBranch="";
+    sBranch = $(".primary_linkgonew").text();
 
     if(sBranch.indexOf("TRIT AMK")>=0)
         txtBranch="AMK";
@@ -39,53 +59,35 @@ $( document ).ready(function()
         txtBranch="Yishun";
     else if(sBranch.indexOf("TECHMINAL")>=0)
         txtBranch="TECHMINAL";
-
-
-    $("body").on("mouseover", "#btnWhatsAppPhoneNumber, #btnWhatsAppSendReadyToCollectTxt", function()
+    var rcount=0;
+    var cd = setInterval(function()
     {
-        $(this).css({"border-width": "1px"});
-    });
-    $("body").on("mouseleave", "#btnWhatsAppPhoneNumber, #btnWhatsAppSendReadyToCollectTxt", function()
-    {
-        $(this).css({"border-width": "2px"});
-    });
-
-    //$("body").on("click", " .catchstatuschange, .catchloadworkorder, .linkbuttongreen, .linkbuttonsmall, .sbutton, .catchclass, .linkbuttonlarge, .linkbuttonblack ", function()
-    $("body").on("click", " .catchstatuschange, .displayblock, .radiusall, .linkbuttonopaque2, .linkbuttonmedium, .catchstatuschange, .catchloadworkorder, .linkbuttongreen, .linkbuttonsmall, .sbutton, .catchclass, .linkbuttonlarge, .linkbuttonblack", function()
-    {
-
-        var rcount=0;
-        var cd = setInterval(function()
+        if($("[name='divExtentionCustomerCallNumber']").length == 0 )
         {
-            if($("[name='divExtentionCustomerCallNumber']").length == 0 )
-            {
-                if($(".fa.fa-home.fa-lg.fa-fw").length)
-                    GenerateExtentionForCustomerCallNumber(txtBranch,findHomeIconTD());
-                if($(".fa.fa-mobile.fa-lg.fa-fw").length)
-                    GenerateExtentionForCustomerCallNumber(txtBranch,findMobileIconTD());
-                if($(".fa.fa-suitcase.fa-lg.fa-fw").length)
-                    GenerateExtentionForCustomerCallNumber(txtBranch,findSuitcaseIconTD());
-                    console.log("check round"+rcount+".1");
-            }
-            else
-                console.log("check divExtentionCustomerCallNumber length"+$("[name='divExtentionCustomerCallNumber']").length);
+            if($(".fa.fa-home.fa-lg.fa-fw").length)
+                GenerateExtentionForCustomerCallNumber(txtBranch,findHomeIconTD());
+            if($(".fa.fa-mobile.fa-lg.fa-fw").length)
+                GenerateExtentionForCustomerCallNumber(txtBranch,findMobileIconTD());
+            if($(".fa.fa-suitcase.fa-lg.fa-fw").length)
+                GenerateExtentionForCustomerCallNumber(txtBranch,findSuitcaseIconTD());
+                //console.log("check round"+rcount+".1");
+        }
+       /* else
+            console.log("check divExtentionCustomerCallNumber length"+$("[name='divExtentionCustomerCallNumber']").length);*/
 
-            if($("[name='divExtentionCustomerNote']").length == 0 )
-            {
-                GenerateExtentionForCustomerNote(txtBranch);
-                console.log("check round"+rcount+".2");
-            }
+        if($("[name='divExtentionCustomerNote']").length == 0 )
+        {
+            GenerateExtentionForCustomerNote(txtBranch);
+            //console.log("check round"+rcount+".2");
+        }
 
-            rcount++;
-            if(rcount>=20)
-                clearInterval(cd);
-            console.log("check round"+rcount);
-        }, 200);
-    });
-});
+        rcount++;
+        if(rcount>=20)
+            clearInterval(cd);
+        //console.log("check round"+rcount);
+    }, 200);
 
-
-
+}
 
 function GenerateExtentionForCustomerNote(branch)
 {
