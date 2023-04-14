@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      8.0
+// @version      9.0
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -35,6 +35,8 @@ $( document ).ready(function()
         txtBranch="Tampines";
     else if(sBranch.indexOf("TRIT Yishun")>=0)
         txtBranch="Yishun";
+    else if(sBranch.indexOf("TECHMINAL")>=0)
+        txtBranch="TECHMINAL";
 
 
     $("body").on("mouseover", "#btnWhatsAppPhoneNumber, #btnWhatsAppSendReadyToCollectTxt", function()
@@ -206,6 +208,11 @@ function rtnTxtReadyForCollection(branch,phone)
     {
         rtn="https://api.whatsapp.com/send?phone=65"+phone+"&text=%5BTRITcomputer%20-%20Yishun%5D%20%0A%0ADear%20Sir%2FMdm%2C%20%0AYour%20Device%20is%20ready%20for%20collection.%20%20%0A%0APayment%20Mode%3A%20%0A*PayNow%2C%20PayLah%2C%20Bank%20Transfer%20and%20NETS%20only.*%20%0A(NO%20CASH%20PAYMENT)%20%0A%0AKindly%20bring%20along%20your%20Claim%20Ticket%20OR%20%0Ashow%20us%20your%20E-Claim%20Ticket%20for%20verification.%20%0A(Check%20your%20Mailbox%20or%20Junk%20Mail)%20%0A%0ABusiness%20hours%20are%20as%20follows%3A%20%0A10%3A00am%20to%208%3A00pm%20(%20Daily%20)%20%20%0A%0AVisit%20our%20website%20for%20more%20details%3A%20%0Ahttps%3A%2F%2Fwww.tritcomputer.com%2F%20%0A%0AJoin%20us%20at%20Facebook%3A%20%0Ahttps%3A%2F%2Fwww.facebook.com%2Ftritcomputer%2F%20%0A%0ARegards%2C%20%0ATRITcomputer%20-%20Yishun%20%0A%0AThank%20you%20%26%20Have%20a%20nice%20day!";
     }
+    else if(branch=="TECHMINAL")
+    {
+        rtn="https://api.whatsapp.com/send?phone=65"+phone+"&text=%5BTechminal%5D%0A%0ADear%20Sir%2FMdm%2C%0AYour%20Device%20is%20ready%20for%20collection.%20%0A%0APayment%20Mode%3A%0APayNow%2C%20GrabPay%2C%20PayLah%20and%20Bank%20Transfer.%0A%0A%0AKindly%20bring%20along%20your%20Claim%20Ticket%20OR%0Ashow%20us%20your%20E-Claim%20Ticket%20for%20verification.%0A(Check%20your%20Mailbox%20or%20Junk%20Mail)%E2%80%A8%0A%0ARegards%2C%0AYour%20Techminal%20Team%0A(Sim%20Lim%20Square%20%2301-26)%0A(Beside%20Loading%20Bay)%0A%0AThank%20you%20%26%20Have%20a%20nice%20day!";
+    }
+
 
 
 
