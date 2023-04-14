@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      9.0
+// @version      10.0
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
 // @match        http://fixlogy.com/*
+// @match        http://35.197.158.218/*
+
 // @icon         http://34.87.111.75/pcrt/v9/repair/images/logo.png
 // @require      https://code.jquery.com/jquery-3.5.1.min.js
 
@@ -48,7 +50,8 @@ $( document ).ready(function()
         $(this).css({"border-width": "2px"});
     });
 
-    $("body").on("click", " .catchstatuschange, .catchloadworkorder, .linkbuttongreen, .linkbuttonsmall, .sbutton, .catchclass, .linkbuttonlarge, .linkbuttonblack ", function()
+    //$("body").on("click", " .catchstatuschange, .catchloadworkorder, .linkbuttongreen, .linkbuttonsmall, .sbutton, .catchclass, .linkbuttonlarge, .linkbuttonblack ", function()
+    $("body").on("click", " .catchstatuschange, .displayblock, .radiusall, .linkbuttonopaque2, .linkbuttonmedium, .catchstatuschange, .catchloadworkorder, .linkbuttongreen, .linkbuttonsmall, .sbutton, .catchclass, .linkbuttonlarge, .linkbuttonblack", function()
     {
 
         var rcount=0;
@@ -68,7 +71,7 @@ $( document ).ready(function()
             {
                 GenerateExtentionForCustomerNote(txtBranch);
             }
-            
+
             rcount++;
             if(rcount>=10)
                 clearInterval(cd);
@@ -131,6 +134,7 @@ function GenerateExtentionForCustomerCallNumber(txtBranch,iconTD)
     elePhoneTD.append(div);
     div.append(generateBtnRedirectToWhatsapp(txtPhoneNo));
     div.append(generateBtnRedirectToWhatsappWithReadyToCollectTxt(txtBranch,txtPhoneNo));
+    div.append(generateBtnRedirectToWhatsappGoogleMapReviewTxt(txtBranch,txtPhoneNo));
     removeDuplicateElement(div,"id");
 }
 
@@ -145,6 +149,15 @@ function removeDuplicateElement(ele,attr)
         else
             $(this).remove();
     });
+}
+function generateBtnRedirectToWhatsappGoogleMapReviewTxt(branch,phone)
+{
+    var id="btnWhatsAppSendGoogleMapReviewTxt";
+    var btn=$("<button><button>");
+    btn.css({"width":"auto","height":"30px","margin-left": "10px","border-style": "solid"});
+    btn.text("GReview");
+    btn.attr({"id":id,"ph":phone,"onclick":"var new_window; new_window =window.open('"+rtnTxtGoogleMapReview(branch,phone)+"'); setTimeout(function(){ new_window.close(); }, 1000);"});
+    return btn;
 }
 
 function generateBtnRedirectToWhatsappWithReadyToCollectTxt(branch,phone)
@@ -189,6 +202,36 @@ function findHomeIconTD()
     return ele;
 }
 
+function rtnTxtGoogleMapReview(branch,phone)
+{
+    var rtn="";
+    var uname=$("#mainworkorder").find(".colortitletopround").children("span:nth-child(1)").text();
+    uname=uname.split(" • ");
+
+    if(branch=="AMK")
+    {
+        rtn="https://api.whatsapp.com/send?phone=65"+phone+"&text=Hi%20"+uname[0]+"%EF%BC%8C%0A%0AThank-You%20for%20your%20trust%20and%20choosing%20TRITcomputer%20for%20your%20recent%20service%20work%0A%20%20%20%20%0AWe%20want%20you%20to%20be%20satisfied%20with%20the%20level%20of%20service%20we%20have%20provided%20you.%0AIf%20you%20have%20any%20further%20issues%20or%20questions%2C%20do%20not%20hesitate%20to%20contact%20us.%0AWe%20want%20you%20to%20be%20100%25%20satisfied%20with%20our%20work.%0A%20%20%20%20%0AWe%20strive%20to%20provide%205%20Star%20service%20with%20every%20service%20work%20we%20deliver.%0A%20%20%20%20%0AIf%20you%20have%20any%20immediate%20issues%20or%20feedback%20though%2C%20be%20sure%20to%20contact%20us%20directly%2C%0Awe%20are%20ready%20and%20eager%20to%20solve%20any%20issue.%0A%20%20%20%20%0AThanks%20Again%20for%20choosing%20us%2C%20and%20please%20remember%20us%20for%20any%20future%20needs.%0A%20%20%20%20%0ASincerely%2C%0ATRIT%20Computer%20-%20AMK%0AApple%20Certified%20Mac%20%26%20iOS%20Technician%0A%20%20%20%20%0AIt%20will%20be%20great%20if%20you%20can%20help%20to%20Click%20the%20link%20below%20to%20rate%20and%20leave%20us%20your%20valuable%20review.%20Thank%20you!%0Ahttps%3A%2F%2Fg.page%2Fr%2FCS51tQqVBkLHEBM%2Freview";
+    }
+    else if(branch=="Hougang")
+    {
+        rtn="https://api.whatsapp.com/send?phone=65"+phone+"&text=Hi%20"+uname[0]+"%EF%BC%8C%0A%0AThank-You%20for%20your%20trust%20and%20choosing%20TRITcomputer%20for%20your%20recent%20service%20work%0A%20%20%20%20%0AWe%20want%20you%20to%20be%20satisfied%20with%20the%20level%20of%20service%20we%20have%20provided%20you.%0AIf%20you%20have%20any%20further%20issues%20or%20questions%2C%20do%20not%20hesitate%20to%20contact%20us.%0AWe%20want%20you%20to%20be%20100%25%20satisfied%20with%20our%20work.%0A%20%20%20%20%0AWe%20strive%20to%20provide%205%20Star%20service%20with%20every%20service%20work%20we%20deliver.%0A%20%20%20%20%0AIf%20you%20have%20any%20immediate%20issues%20or%20feedback%20though%2C%20be%20sure%20to%20contact%20us%20directly%2C%0Awe%20are%20ready%20and%20eager%20to%20solve%20any%20issue.%0A%20%20%20%20%0AThanks%20Again%20for%20choosing%20us%2C%20and%20please%20remember%20us%20for%20any%20future%20needs.%0A%20%20%20%20%0ASincerely%2C%0ATRIT%20Computer%20-%20Hougang%0AApple%20Certified%20Mac%20%26%20iOS%20Technician%0A%20%20%20%20%0AIt%20will%20be%20great%20if%20you%20can%20help%20to%20Click%20the%20link%20below%20to%20rate%20and%20leave%20us%20your%20valuable%20review.%20Thank%20you!%0Ahttps%3A%2F%2Fg.page%2Fr%2FCSCMXrB0DnG4EBM%2Freview";
+    }
+    else if(branch=="Tampines")
+    {
+        rtn="https://api.whatsapp.com/send?phone=65"+phone+"&text=Hi%20"+uname[0]+"%EF%BC%8C%0A%0AThank-You%20for%20your%20trust%20and%20choosing%20TRITcomputer%20for%20your%20recent%20service%20work%0A%20%20%20%20%0AWe%20want%20you%20to%20be%20satisfied%20with%20the%20level%20of%20service%20we%20have%20provided%20you.%0AIf%20you%20have%20any%20further%20issues%20or%20questions%2C%20do%20not%20hesitate%20to%20contact%20us.%0AWe%20want%20you%20to%20be%20100%25%20satisfied%20with%20our%20work.%0A%20%20%20%20%0AWe%20strive%20to%20provide%205%20Star%20service%20with%20every%20service%20work%20we%20deliver.%0A%20%20%20%20%0AIf%20you%20have%20any%20immediate%20issues%20or%20feedback%20though%2C%20be%20sure%20to%20contact%20us%20directly%2C%0Awe%20are%20ready%20and%20eager%20to%20solve%20any%20issue.%0A%20%20%20%20%0AThanks%20Again%20for%20choosing%20us%2C%20and%20please%20remember%20us%20for%20any%20future%20needs.%0A%20%20%20%20%0ASincerely%2C%0ATRIT%20Computer%20-%20Tampines%0AApple%20Certified%20Mac%20%26%20iOS%20Technician%0A%20%20%20%20%0AIt%20will%20be%20great%20if%20you%20can%20help%20to%20Click%20the%20link%20below%20to%20rate%20and%20leave%20us%20your%20valuable%20review.%20Thank%20you!%0Ahttps%3A%2F%2Fg.page%2Fr%2FCcf28hpDS6QNEBM%2Freview%20";
+    }
+    else if(branch=="Yishun")
+    {
+        rtn="https://api.whatsapp.com/send?phone=65"+phone+"&text=Hi%20"+uname[0]+"%EF%BC%8C%0A%0AThank-You%20for%20your%20trust%20and%20choosing%20TRITcomputer%20for%20your%20recent%20service%20work%0A%20%20%20%20%0AWe%20want%20you%20to%20be%20satisfied%20with%20the%20level%20of%20service%20we%20have%20provided%20you.%0AIf%20you%20have%20any%20further%20issues%20or%20questions%2C%20do%20not%20hesitate%20to%20contact%20us.%0AWe%20want%20you%20to%20be%20100%25%20satisfied%20with%20our%20work.%0A%20%20%20%20%0AWe%20strive%20to%20provide%205%20Star%20service%20with%20every%20service%20work%20we%20deliver.%0A%20%20%20%20%0AIf%20you%20have%20any%20immediate%20issues%20or%20feedback%20though%2C%20be%20sure%20to%20contact%20us%20directly%2C%0Awe%20are%20ready%20and%20eager%20to%20solve%20any%20issue.%0A%20%20%20%20%0AThanks%20Again%20for%20choosing%20us%2C%20and%20please%20remember%20us%20for%20any%20future%20needs.%0A%20%20%20%20%0ASincerely%2C%0ATRIT%20Computer%20-%20Yishun%0AApple%20Certified%20Mac%20%26%20iOS%20Technician%0A%20%20%20%20%0AIt%20will%20be%20great%20if%20you%20can%20help%20to%20Click%20the%20link%20below%20to%20rate%20and%20leave%20us%20your%20valuable%20review.%20Thank%20you!%0Ahttps%3A%2F%2Fg.page%2Fr%2FCc2YWe6qsRKMEBM%2Freview%20";
+    }
+    else if(branch=="TECHMINAL")
+    {
+        rtn="https://api.whatsapp.com/send?phone=65"+phone+"&text=Hi%20+uname[0]+%EF%BC%8C%0A%0AThank-You%20for%20your%20trust%20and%20choosing%20Techminal%20for%20your%20recent%20service%20work%0A%20%20%20%20%0AWe%20want%20you%20to%20be%20satisfied%20with%20the%20level%20of%20service%20we%20have%20provided%20you.%0AIf%20you%20have%20any%20further%20issues%20or%20questions%2C%20do%20not%20hesitate%20to%20contact%20us.%0AWe%20want%20you%20to%20be%20100%25%20satisfied%20with%20our%20work.%0A%20%20%20%20%0AWe%20strive%20to%20provide%205%20Star%20service%20with%20every%20service%20work%20we%20deliver.%0A%20%20%20%20%0AIf%20you%20have%20any%20immediate%20issues%20or%20feedback%20though%2C%20be%20sure%20to%20contact%20us%20directly%2C%0Awe%20are%20ready%20and%20eager%20to%20solve%20any%20issue.%0A%20%20%20%20%0AThanks%20Again%20for%20choosing%20us%2C%20and%20please%20remember%20us%20for%20any%20future%20needs.%0A%20%20%20%20%0ASincerely%2C%0ATechminal%0AApple%20Certified%20Mac%20%26%20iOS%20Technician%0A%20%20%20%20%0AIt%20will%20be%20great%20if%20you%20can%20help%20to%20Click%20the%20link%20below%20to%20rate%20and%20leave%20us%20your%20valuable%20review.%20Thank%20you!%0Ahttps%3A%2F%2Fg.page%2Fr%2FCVaHFth9XKD6EBM%2Freview%20";
+    }
+
+    return rtn;
+}
+
 function rtnTxtReadyForCollection(branch,phone)
 {
     var rtn="";
@@ -212,12 +255,6 @@ function rtnTxtReadyForCollection(branch,phone)
     {
         rtn="https://api.whatsapp.com/send?phone=65"+phone+"&text=%5BTechminal%5D%0A%0ADear%20Sir%2FMdm%2C%0AYour%20Device%20is%20ready%20for%20collection.%20%0A%0APayment%20Mode%3A%0APayNow%2C%20GrabPay%2C%20PayLah%20and%20Bank%20Transfer.%0A%0A%0AKindly%20bring%20along%20your%20Claim%20Ticket%20OR%0Ashow%20us%20your%20E-Claim%20Ticket%20for%20verification.%0A(Check%20your%20Mailbox%20or%20Junk%20Mail)%E2%80%A8%0A%0ARegards%2C%0AYour%20Techminal%20Team%0A(Sim%20Lim%20Square%20%2301-26)%0A(Beside%20Loading%20Bay)%0A%0AThank%20you%20%26%20Have%20a%20nice%20day!";
     }
-
-
-
-
-
-
 
     return rtn;
 }
