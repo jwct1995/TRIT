@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      10.0
+// @version      10.1
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -18,12 +18,13 @@
 // @run-at document-end
 
 // ==/UserScript==
+
 var txtBranch="";
 var sBranch ="";
 
 window.onload = function exampleFunction()
 {
-    sf();
+    defaultfunction();
 }
 
 $( document ).ready(function()
@@ -40,11 +41,11 @@ $( document ).ready(function()
 
     $("body").on("click", ".catchstatuschange, .displayblock, .radiusall, .linkbuttonopaque2, .linkbuttonmedium, .catchstatuschange, .catchloadworkorder, .linkbuttongreen, .linkbuttonsmall, .sbutton, .catchclass, .linkbuttonlarge, .linkbuttonblack", function()
     {
-        sf();
+        defaultfunction();
     });
 });
 
-function sf()
+function defaultfunction()
 {
     txtBranch="";
     sBranch = $(".primary_linkgonew").text();
@@ -77,40 +78,54 @@ function sf()
 
         if($("[name='divExtentionCustomerNote']").length == 0 )
         {
-            GenerateExtentionForCustomerNote(txtBranch);
+            GenerateExtentionForNote(txtBranch,"public");
+           // if(txtBranch=="Yishun")
+             //   GenerateExtentionForNote(txtBranch,"private");
             //console.log("check round"+rcount+".2");
+          //  console.log("check 1 - "+$("[name='divExtentionCustomerNote']").length);
         }
-
+       // console.log("check 2 - "+$("[name='divExtentionCustomerNote']").length);
         rcount++;
-        if(rcount>=20)
+        if(rcount>=30)
             clearInterval(cd);
         //console.log("check round"+rcount);
     }, 200);
 
 }
 
-function GenerateExtentionForCustomerNote(branch)
+
+function GenerateExtentionForNote(branch,notetype)
 {
-
-                var custNoteArea=$("#custnotearea").find(".pillbox");
-                var custNoteAreaTR=custNoteArea.find("tr");
-                custNoteAreaTR.children("td:nth-child(2)").each(function(index, val)
-                {
-                    var eleSpan=$(this).children("span");
-                    eleSpan.remove();
-                    var txtCustNote=$(this).text();
-                    $(this).append(eleSpan);
-                    var div=$("<div></div>");
-                    div.css("display","flex");
-                    div.attr({"name":"divExtentionCustomerNote"});
-                    $(this).append(div);
-                    $('[id=btnWhatsAppPhoneNumber]').each(function()
-                    {
-                        div.append(generateBtnRedirectToWhatsappWithTxt(branch,$(this).attr("ph"),txtCustNote));
-                    });
-                    removeDuplicateElement(div,"ph");
-                });
-
+    var custNoteArea;
+    var divname;
+  /*  if(notetype=="private")
+    {
+        custNoteArea=$("#technotearea");
+        divname="divExtentionTechNote";
+    }*/
+   // else
+    //{
+        custNoteArea=$("#custnotearea");
+        divname="divExtentionCustomerNote";
+   // }
+    custNoteArea=custNoteArea.find(".pillbox");
+    var custNoteAreaTR=custNoteArea.find("tr");
+    custNoteAreaTR.children("td:nth-child(2)").each(function(index, val)
+    {
+        var eleSpan=$(this).children("span");
+        eleSpan.remove();
+        var txtCustNote=$(this).text();
+        $(this).append(eleSpan);
+        var div=$("<div></div>");
+        div.css("display","flex");
+        div.attr({"name":divname});
+        $(this).append(div);
+        $('[id=btnWhatsAppPhoneNumber]').each(function()
+        {
+            div.append(generateBtnRedirectToWhatsappWithTxt($(this).attr("ph"),txtCustNote));
+        });
+        removeDuplicateElement(div,"ph");
+    });
 }
 
 
@@ -120,7 +135,7 @@ function encodeStr(txt)
     return encodeURIComponent(txt);
 }
 
-function generateBtnRedirectToWhatsappWithTxt(branch,phone,txt)
+function generateBtnRedirectToWhatsappWithTxt(phone,txt)
 {
     var id="btnWhatsAppSendTxt";
     var btn=$("<button><button>");
