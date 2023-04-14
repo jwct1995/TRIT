@@ -65,17 +65,22 @@ $( document ).ready(function()
                     GenerateExtentionForCustomerCallNumber(txtBranch,findMobileIconTD());
                 if($(".fa.fa-suitcase.fa-lg.fa-fw").length)
                     GenerateExtentionForCustomerCallNumber(txtBranch,findSuitcaseIconTD());
+                    console.log("check round"+rcount+".1");
             }
+            else
+                console.log("check divExtentionCustomerCallNumber length"+$("[name='divExtentionCustomerCallNumber']").length);
 
             if($("[name='divExtentionCustomerNote']").length == 0 )
             {
                 GenerateExtentionForCustomerNote(txtBranch);
+                console.log("check round"+rcount+".2");
             }
 
             rcount++;
-            if(rcount>=10)
+            if(rcount>=20)
                 clearInterval(cd);
-        }, 1000);
+            console.log("check round"+rcount);
+        }, 200);
     });
 });
 
@@ -183,21 +188,24 @@ function generateBtnRedirectToWhatsapp(phone)
 
 function findSuitcaseIconTD()
 {
-    var ele=$(".fa.fa-suitcase.fa-lg.fa-fw");
+    //var ele=$(".fa.fa-suitcase.fa-lg.fa-fw");
+    var ele=$("#mainworkorder").find(".whitemiddle").find("table").find("table").find("table").find(".fa.fa-suitcase.fa-lg.fa-fw")
     ele=ele.closest( "td" );
     return ele;
 }
 
 function  findMobileIconTD()
 {
-    var ele=$(".fa.fa-mobile.fa-lg.fa-fw");
+    //var ele=$(".fa.fa-mobile.fa-lg.fa-fw");
+    var ele=$("#mainworkorder").find(".whitemiddle").find("table").find("table").find("table").find(".fa.fa-mobile.fa-lg.fa-fw")
     ele=ele.closest( "td" );
     return ele;
 }
 
 function findHomeIconTD()
 {
-    var ele=$(".fa.fa-home.fa-lg.fa-fw");
+    //var ele=$(".fa.fa-home.fa-lg.fa-fw");
+    var ele=$("#mainworkorder").find(".whitemiddle").find("table").find("table").find("table").find(".fa.fa-home.fa-lg.fa-fw")
     ele=ele.closest( "td" );
     return ele;
 }
