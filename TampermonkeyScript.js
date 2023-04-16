@@ -21,7 +21,8 @@
 
 var txtBranch="";
 var sBranch ="";
-
+var claimTicketURL="";
+var woid="";
 window.onload = function exampleFunction()
 {
     GenerateWhatsappButton();
@@ -43,11 +44,14 @@ $( document ).ready(function()
     $("body").on("click", ".catchstatuschange, .displayblock, .radiusall, .linkbuttonopaque2, .linkbuttonmedium, .catchstatuschange, .catchloadworkorder, .linkbuttongreen, .linkbuttonsmall, .sbutton, .catchclass, .linkbuttonlarge, .linkbuttonblack", function()
     {
         GenerateWhatsappButton();
+        
     });
 });
 
 function GenerateWhatsappButton()
 {
+    
+
     txtBranch="";
     sBranch = $(".primary_linkgonew").text();
 
@@ -64,6 +68,7 @@ function GenerateWhatsappButton()
     var rcount=0;
     var cd = setInterval(function()
     {
+        getWOID();
         if($("[name='divExtentionCustomerCallNumber']").length == 0 )
         {
             if($(".fa.fa-home.fa-lg.fa-fw").length)
@@ -177,11 +182,10 @@ function removeDuplicateElement(ele,attr)
 function generateBtnRedirectClaimTicket()
 {
     var id="btnClaimTicket";
-    var pturl=$(".whitemiddle").find(".nvbar").children(".nvdropdown:nth-child(3)").find("div").children("a:nth-child(1)").attr("href");
     var btn=$("<button><button>");
     btn.css({"width":"auto","height":"30px","margin-left": "10px","border-style": "solid"});
     btn.text("PTicket");
-    btn.attr({"id":id,"onclick":"var new_window; new_window =window.open('"+pturl+"');"});
+    btn.attr({"id":id,"onclick":"var new_window; new_window =window.open('"+claimTicketURL+"');"});
     return btn;
 }
 function generateBtnRedirectToWhatsappGoogleMapReviewTxt(branch,phone)
@@ -194,16 +198,23 @@ function generateBtnRedirectToWhatsappGoogleMapReviewTxt(branch,phone)
     return btn;
 }
 
+
+
 function generateBtnRedirectToWhatsappWithReadyToCollectTxt(branch,phone)
 {
     var id="btnWhatsAppSendReadyToCollectTxt";
     var btn=$("<button><button>");
     btn.css({"width":"auto","height":"30px","margin-left": "10px","border-style": "solid"});
     btn.text("ReadyToCollect");
-    btn.attr({"id":id,"ph":phone,"onclick":"var new_window; new_window =window.open('"+rtnTxtReadyForCollection(branch,phone)+"'); setTimeout(function(){ new_window.close(); }, 1000);"});
+    btn.attr({"id":id,"ph":phone,"onclick":"var new_window; new_window =window.open('"+rtnTxtReadyForCollection(branch,phone)+"'); setTimeout(function(){ new_window.close(); }, 1000); "});
+    //if (confirm('Press a button!')) {pathnameurl=window.location.pathname;window.location.pathname=pathnameurl+'pc.php?func=precalled&woid="+woid+"&status=2';}
     return btn;
 }
 
+function confirmationSetCalled()
+{
+    if (confirm("Press a button!")) {alert("aa");} else {alert("bb");}
+}
 
 function generateBtnRedirectToWhatsapp(phone)
 {
@@ -321,4 +332,19 @@ function PlugColorToSpecialOrder()
                 $(this).closest("tr").css("background-color", "#ffb6b6");
         });
     }
+}
+
+function getWOID()
+{
+    if($(".whitemiddle").length!=0)
+    {
+        claimTicketURL=$(".whitemiddle").find(".nvbar").children(".nvdropdown:nth-child(3)").find("div").children("a:nth-child(1)").attr("href");
+        //console.log("v2 "+claimTicketURL);
+        var wo = claimTicketURL.split("woid=");
+        //console.log("v3 "+wo);
+        woid = wo[1];
+        //console.log("url ..."+woid);
+
+    }
+    
 }
