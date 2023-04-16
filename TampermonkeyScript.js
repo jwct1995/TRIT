@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      11.0
+// @version      11.1
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -290,24 +290,24 @@ function PlugColorToSpecialOrder()
     var weburl=window.location.pathname;
     if (~weburl.indexOf("/store/stock.php"))
     {
-        $(".whitebottom").find("table").find("tr").each(function(index, value) 
+        $(".whitebottom").find("table").find("tr").each(function(index, value)
         {
             //console.log(index +" -->> "+ $(this).children("td:nth-child(8)").children("span:nth-child(1)").text());
             var ostatus=$(this).children("td:nth-child(8)").children("span:nth-child(1)").text();
-            if(ostatus=="Order Part")
-            {
-                $(this).closest("tr").css("background-color", "#a6ff79");
-            }
-            else if(ostatus=="Received")
-            {
-                $(this).closest("tr").css("background-color", "#ffb6b6");
-            }
-            else if(ostatus=="Shipped")
-            {
-                $(this).closest("tr").css("background-color", "#8ed0ff");
-            }
+            var osupplier=$(this).children("td:nth-child(3)").text();
 
-            
+
+
+            if(ostatus=="Order Part" && osupplier=="Fssocom")
+                $(this).closest("tr").css("background-color", "#73d98e");
+            else if(ostatus=="Order Part" && osupplier=="#Overseas")
+                $(this).closest("tr").css("background-color", "#61ffc5");
+            else if(ostatus=="Order Part")
+                $(this).closest("tr").css("background-color", "#a6ff79");
+            else if(ostatus=="Shipped")
+                $(this).closest("tr").css("background-color", "#8ed0ff");
+            else if(ostatus=="Received")
+                $(this).closest("tr").css("background-color", "#ffb6b6");
         });
     }
 }
