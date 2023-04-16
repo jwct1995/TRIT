@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      10.2
+// @version      11.0
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -24,7 +24,8 @@ var sBranch ="";
 
 window.onload = function exampleFunction()
 {
-    defaultfunction();
+    GenerateWhatsappButton();
+    PlugColorToSpecialOrder();
 }
 
 $( document ).ready(function()
@@ -41,11 +42,11 @@ $( document ).ready(function()
 
     $("body").on("click", ".catchstatuschange, .displayblock, .radiusall, .linkbuttonopaque2, .linkbuttonmedium, .catchstatuschange, .catchloadworkorder, .linkbuttongreen, .linkbuttonsmall, .sbutton, .catchclass, .linkbuttonlarge, .linkbuttonblack", function()
     {
-        defaultfunction();
+        GenerateWhatsappButton();
     });
 });
 
-function defaultfunction()
+function GenerateWhatsappButton()
 {
     txtBranch="";
     sBranch = $(".primary_linkgonew").text();
@@ -282,4 +283,31 @@ function rtnTxtReadyForCollection(branch,phone)
     }
 
     return rtn;
+}
+
+function PlugColorToSpecialOrder()
+{
+    var weburl=window.location.pathname;
+    if (~weburl.indexOf("/store/stock.php"))
+    {
+        $(".whitebottom").find("table").find("tr").each(function(index, value) 
+        {
+            //console.log(index +" -->> "+ $(this).children("td:nth-child(8)").children("span:nth-child(1)").text());
+            var ostatus=$(this).children("td:nth-child(8)").children("span:nth-child(1)").text();
+            if(ostatus=="Order Part")
+            {
+                $(this).closest("tr").css("background-color", "#a6ff79");
+            }
+            else if(ostatus=="Received")
+            {
+                $(this).closest("tr").css("background-color", "#ffb6b6");
+            }
+            else if(ostatus=="Shipped")
+            {
+                $(this).closest("tr").css("background-color", "#8ed0ff");
+            }
+
+            
+        });
+    }
 }
