@@ -158,6 +158,7 @@ function GenerateExtentionForCustomerCallNumber(txtBranch,iconTD)
     div.append(generateBtnRedirectToWhatsapp(txtPhoneNo));
     div.append(generateBtnRedirectToWhatsappWithReadyToCollectTxt(txtBranch,txtPhoneNo));
     div.append(generateBtnRedirectToWhatsappGoogleMapReviewTxt(txtBranch,txtPhoneNo));
+    div.append(generateBtnRedirectClaimTicket());
     removeDuplicateElement(div,"id");
 }
 
@@ -172,6 +173,16 @@ function removeDuplicateElement(ele,attr)
         else
             $(this).remove();
     });
+}
+function generateBtnRedirectClaimTicket()
+{
+    var id="btnClaimTicket";
+    var pturl=$(".whitemiddle").find(".nvbar").children(".nvdropdown:nth-child(3)").find("div").children("a:nth-child(1)").attr("href");
+    var btn=$("<button><button>");
+    btn.css({"width":"auto","height":"30px","margin-left": "10px","border-style": "solid"});
+    btn.text("PTicket");
+    btn.attr({"id":id,"onclick":"var new_window; new_window =window.open('"+pturl+"');"});
+    return btn;
 }
 function generateBtnRedirectToWhatsappGoogleMapReviewTxt(branch,phone)
 {
