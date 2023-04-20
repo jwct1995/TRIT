@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      13.0
+// @version      13.1
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -412,36 +412,17 @@ function GenerateBtnCopyToExcelFormat(btnType)
             if(btnType!="FullAll" && opStatus!="Received")
             {
                 if(btnType=="local" && (opSupplier!="#Overseas" && opStatus!="Shipped") ) //local
-                {
                     rtn+=opDate+" \t"+opName+" \t"+opQuantity+" \t"+opWO+" \t"+opRemark+" \n";
-                    console.log("local : \n"+rtn);
-                }
                 else if(btnType=="oversea" && (opSupplier=="#Overseas" || opStatus=="Shipped")) //overseaOverseas
-                {
+
                     rtn+=opDate+" \t"+opName+" \t"+opQuantity+" \t"+opWO+" \t"+opRemark+" \n";
-                    console.log("osersea : \n"+rtn);
-                }
                 else if(btnType=="all")// all
                     rtn+=opDate+" \t"+opName+" \t"+opQuantity+" \t"+opWO+" \t"+opRemark+" \n";
             }
             else if(btnType=="FullAll") //full all
-            {
                 rtn+=opDate+" \t"+opName+" \t"+opQuantity+" \t"+opWO+" \t"+opRemark+" \n";
-                console.log("fullall : \n"+rtn);
-            }
-                
-
-
         }
     });
-    
-
-
-
-
     copyToClipboard(rtn);
-        
-
-    
 }
 
