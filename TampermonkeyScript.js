@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      13.1
+// @version      13.2
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -13,6 +13,7 @@
 
 //https://greasyfork.org/en/scripts/431134-trit
 
+//https://getcssscan.com/css-buttons-examples
 // @grant       none
 
 // @run-at document-end
@@ -25,10 +26,11 @@ var claimTicketURL="";
 var woid="";
 window.onload = function exampleFunction()
 {
+    generateCSS();
     GenerateWhatsappButton();
     PlugColorToSpecialOrder();
     
-    
+    GenerateCopyBtn("TNN");
     GenerateCopyBtn("local");
     GenerateCopyBtn("oversea");
     GenerateCopyBtn("all");
@@ -334,13 +336,17 @@ function PlugColorToSpecialOrder()
             var opStatus=$(this).children("td:nth-child(8)").children("span:nth-child(1)").text();
 
             if(opStatus=="Order Part" && opSupplier=="Fssocom")
-                $(this).closest("tr").css("background-color", "#73d98e");
+                $(this).closest("tr").css("background-color", "#70e18e");
+
             else if(opStatus=="Order Part" && opSupplier=="#Overseas")
-                $(this).closest("tr").css("background-color", "#61ffc5");
+                $(this).closest("tr").css("background-color", "#4defb3");
+
             else if(opStatus=="Order Part")
                 $(this).closest("tr").css("background-color", "#a6ff79");
+
             else if(opStatus=="Shipped")
                 $(this).closest("tr").css("background-color", "#8ed0ff");
+
             else if(opStatus=="Received")
                 $(this).closest("tr").css("background-color", "#ffb6b6");
         });
@@ -372,7 +378,7 @@ function GenerateCopyBtn(btnType)
    // specialordersall
     if (~weburl.indexOf("/store/stock.php")&& (func[1]=="specialorders"||func[1]=="specialordersall"))
     {
-        $(".whitebottom").find("table").before("<button name='btnCopyExcelFormat' btntype='"+btnType+"' >Copy Button ("+btnType+")</button>");
+        $(".whitebottom").find("table").before("<button name='btnCopyExcelFormat' btntype='"+btnType+"' class='button-28'>Copy ("+btnType+")</button>");
     }
 
 }
@@ -411,7 +417,9 @@ function GenerateBtnCopyToExcelFormat(btnType)
         {
             if(btnType!="FullAll" && opStatus!="Received")
             {
-                if(btnType=="local" && (opSupplier!="#Overseas" && opStatus!="Shipped") ) //local
+                if(btnType=="TNN" && opSupplier=="TNN") //local
+                    rtn+=opDate+" \t"+opName+" \t"+opQuantity+" \t"+opWO+" \t"+opRemark+" \n";
+                else if(btnType=="local" && (opSupplier!="#Overseas" && opStatus!="Shipped") ) //local
                     rtn+=opDate+" \t"+opName+" \t"+opQuantity+" \t"+opWO+" \t"+opRemark+" \n";
                 else if(btnType=="oversea" && (opSupplier=="#Overseas" || opStatus=="Shipped")) //overseaOverseas
 
@@ -426,3 +434,9 @@ function GenerateBtnCopyToExcelFormat(btnType)
     copyToClipboard(rtn);
 }
 
+function generateCSS()
+{
+    var css=$("<style></style>");
+    $("body").prepend(css);
+    css.html(".button-28 {appearance: none;background-color: transparent;border: 2px solid #1A1A1A;border-radius: 15px;box-sizing: border-box;color: #3B3B3B;cursor: pointer;display: inline-block;font-family: Roobert,-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';font-size: 16px;font-weight: 600;line-height: normal;margin: 0px 20px 10px 0;min-width: 0;outline: none;padding: 3px 10px;text-align: center;text-decoration: none;transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);user-select: none;-webkit-user-select: none;touch-action: manipulation;will-change: transform;}.button-28:disabled {pointer-events: none;}.button-28:hover {color: #fff;background-color: #1A1A1A;box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;transform: translateY(-2px);}.button-28:active {box-shadow: none;transform: translateY(0);}.button-29 {align-items: center;appearance: none;background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);border: 0;border-radius: 6px;box-shadow: rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset;box-sizing: border-box;color: #fff;cursor: pointer;display: inline-flex;font-family: 'JetBrains Mono',monospace;height: 48px;justify-content: center;line-height: 1;list-style: none;overflow: hidden;padding-left: 16px;padding-right: 16px;position: relative;text-align: left;text-decoration: none;transition: box-shadow .15s,transform .15s;user-select: none;-webkit-user-select: none;touch-action: manipulation;white-space: nowrap;will-change: box-shadow,transform;font-size: 18px;}.button-29:focus {box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;}.button-29:hover {box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;transform: translateY(-2px);}.button-29:active {box-shadow: #3c4fe0 0 3px 7px inset;transform: translateY(2px);}");
+}
