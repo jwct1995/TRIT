@@ -29,12 +29,15 @@ window.onload = function exampleFunction()
     generateCSS();
     GenerateWhatsappButton();
     PlugColorToSpecialOrder();
-    
+
+    GenerateReceiveNoteBtn();
+
     GenerateCopyBtn("TNN");
     GenerateCopyBtn("local");
     GenerateCopyBtn("oversea");
     GenerateCopyBtn("all");
     GenerateCopyBtn("FullAll");
+
 }
 
 $( document ).ready(function()
@@ -59,9 +62,14 @@ $( document ).ready(function()
         var btnType=$(this).attr("btntype");
         GenerateBtnCopyToExcelFormat(btnType);
     });
+    $("body").on("click", "#btnGenerateReceiveNote", function()
+    {
+        GenerateReceiveNote();
+    });
 
 
-
+    
+    
     
 });
 
@@ -382,6 +390,37 @@ function GenerateCopyBtn(btnType)
     }
 
 }
+function GenerateReceiveNoteBtn()
+{
+    var weburl=window.location.pathname;
+    var webFurl = window.location.href;
+    var func=webFurl.split("php?func=");
+    
+    if (~weburl.indexOf("/store/stock.php")&& func[1].indexOf("editspo")==0)
+    {
+        console.log("ccc");
+        var specialOrderEditNoteTD = $("[name='sponotes']").closest( "td" );
+        specialOrderEditNoteTD.append("<btn id='btnGenerateReceiveNote' class='button-29'>Generate</btn>");
+    }
+
+}
+function GenerateReceiveNote()
+{
+    var d = new Date();
+
+    var month = d.getMonth()+1;
+    var day = d.getDate();
+    var ymd = d.getFullYear() + '/' +((''+month).length<2 ? '0' : '') + month + '/' +((''+day).length<2 ? '0' : '') + day;
+
+    var username=$(".primary_linkgo_rightnew").text()
+    username=username.split("\n ");
+    username=username[1];
+
+    var specialOrderEditTable = $("[name=spopartname]").parent().parent().parent().parent();
+    var specialOrderEditQuantity = $("[name='spoquantity']").val();
+
+    $("[name='sponotes']").val("Received "+specialOrderEditQuantity+" by "+username+" on "+ymd);
+}
 
 function copyToClipboard(copyTxt)
 {
@@ -438,5 +477,8 @@ function generateCSS()
 {
     var css=$("<style></style>");
     $("body").prepend(css);
-    css.html(".button-28 {appearance: none;background-color: transparent;border: 2px solid #1A1A1A;border-radius: 15px;box-sizing: border-box;color: #3B3B3B;cursor: pointer;display: inline-block;font-family: Roobert,-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';font-size: 16px;font-weight: 600;line-height: normal;margin: 0px 20px 10px 0;min-width: 0;outline: none;padding: 3px 10px;text-align: center;text-decoration: none;transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);user-select: none;-webkit-user-select: none;touch-action: manipulation;will-change: transform;}.button-28:disabled {pointer-events: none;}.button-28:hover {color: #fff;background-color: #1A1A1A;box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;transform: translateY(-2px);}.button-28:active {box-shadow: none;transform: translateY(0);}.button-29 {align-items: center;appearance: none;background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);border: 0;border-radius: 6px;box-shadow: rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset;box-sizing: border-box;color: #fff;cursor: pointer;display: inline-flex;font-family: 'JetBrains Mono',monospace;height: 48px;justify-content: center;line-height: 1;list-style: none;overflow: hidden;padding-left: 16px;padding-right: 16px;position: relative;text-align: left;text-decoration: none;transition: box-shadow .15s,transform .15s;user-select: none;-webkit-user-select: none;touch-action: manipulation;white-space: nowrap;will-change: box-shadow,transform;font-size: 18px;}.button-29:focus {box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;}.button-29:hover {box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;transform: translateY(-2px);}.button-29:active {box-shadow: #3c4fe0 0 3px 7px inset;transform: translateY(2px);}");
+    css.html(".button-28 {appearance: none;background-color: transparent;border: 2px solid #1A1A1A;border-radius: 15px;box-sizing: border-box;color: #3B3B3B;cursor: pointer;display: inline-block;font-family: Roobert,-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';font-size: 16px;font-weight: 600;line-height: normal;margin: 0px 20px 10px 0;min-width: 0;outline: none;padding: 3px 10px;text-align: center;text-decoration: none;transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);user-select: none;-webkit-user-select: none;touch-action: manipulation;will-change: transform;}.button-28:disabled {pointer-events: none;}.button-28:hover {color: #fff;background-color: #1A1A1A;box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;transform: translateY(-2px);}.button-28:active {box-shadow: none;transform: translateY(0);}.button-29 {align-items: center;appearance: none;background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);border: 0;border-radius: 6px;box-shadow: rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset;box-sizing: border-box;color: #fff;cursor: pointer;display: inline-flex;font-family: 'JetBrains Mono',monospace;height: 30px;justify-content: center;line-height: 1;list-style: none;overflow: hidden;padding-left: 16px;padding-right: 16px;position: relative;text-align: left;text-decoration: none;transition: box-shadow .15s,transform .15s;user-select: none;-webkit-user-select: none;touch-action: manipulation;white-space: nowrap;will-change: box-shadow,transform;font-size: 18px;margin-left: 5px;}.button-29:focus {box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;}.button-29:hover {box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;transform: translateY(-2px);}.button-29:active {box-shadow: #3c4fe0 0 3px 7px inset;transform: translateY(2px);}");
 }
+
+
+
