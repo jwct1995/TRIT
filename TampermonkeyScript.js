@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      13.2
+// @version      14.0
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -38,6 +38,7 @@ window.onload = function exampleFunction()
     GenerateCopyBtn("all");
     GenerateCopyBtn("FullAll");
 
+    GenerateInputWhatsappSlot();
 }
 
 $( document ).ready(function()
@@ -66,7 +67,21 @@ $( document ).ready(function()
     {
         GenerateReceiveNote();
     });
-
+    $("body").on("click", "#btntowa", function()
+    {
+        var wanumber=$("#txtwanumber").val();
+        if(wanumber[0]=="+")
+            wanumber=wanumber.substring(1, 9999);
+        var new_window; new_window =window.open("https://api.whatsapp.com/send?phone="+wanumber);
+    });
+    $("body").on("click", "[name='btnwaadd']", function()
+    {
+        var branchaddress=$(this).val();
+        var wanumber=$("#txtwanumber").val();
+        if(wanumber[0]=="+")
+            wanumber=wanumber.substring(1, 9999);
+        var new_window; new_window =window.open(sendAddressToWA(wanumber,branchaddress));
+    });
 
     
     
@@ -479,6 +494,37 @@ function generateCSS()
     $("body").prepend(css);
     css.html(".button-28 {appearance: none;background-color: transparent;border: 2px solid #1A1A1A;border-radius: 15px;box-sizing: border-box;color: #3B3B3B;cursor: pointer;display: inline-block;font-family: Roobert,-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';font-size: 16px;font-weight: 600;line-height: normal;margin: 0px 20px 10px 0;min-width: 0;outline: none;padding: 3px 10px;text-align: center;text-decoration: none;transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);user-select: none;-webkit-user-select: none;touch-action: manipulation;will-change: transform;}.button-28:disabled {pointer-events: none;}.button-28:hover {color: #fff;background-color: #1A1A1A;box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;transform: translateY(-2px);}.button-28:active {box-shadow: none;transform: translateY(0);}.button-29 {align-items: center;appearance: none;background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);border: 0;border-radius: 6px;box-shadow: rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset;box-sizing: border-box;color: #fff;cursor: pointer;display: inline-flex;font-family: 'JetBrains Mono',monospace;height: 30px;justify-content: center;line-height: 1;list-style: none;overflow: hidden;padding-left: 16px;padding-right: 16px;position: relative;text-align: left;text-decoration: none;transition: box-shadow .15s,transform .15s;user-select: none;-webkit-user-select: none;touch-action: manipulation;white-space: nowrap;will-change: box-shadow,transform;font-size: 18px;margin-left: 5px;}.button-29:focus {box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;}.button-29:hover {box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;transform: translateY(-2px);}.button-29:active {box-shadow: #3c4fe0 0 3px 7px inset;transform: translateY(2px);}");
 }
+
+function GenerateInputWhatsappSlot()
+{
+    if($("#topnavbarfixed").length!=0)
+    {
+        $("#topnavbarfixed > table >tbody > tr ").children("td:nth-child(2)").append("<table style='display: inline;'><tr><td><input id='txtwanumber' type='text' value='+65'><input id='btntowa'type='button' value='go'></td></tr><tr><td>Address : <input name='btnwaadd' type='button' value='AMK'><input name='btnwaadd' type='button' value='HG'><input name='btnwaadd' type='button' value='TMP'><input name='btnwaadd' type='button'value='YS'></td></tr></table>")
+    }
+}
+
+
+function sendAddressToWA(ph,branchaddress)
+{
+    var rtn="";
+    if(branchaddress=="AMK")
+        rtn="https://api.whatsapp.com/send?phone="+ph+"&text=%5BTRITcomputer%20-%20AMK%5D%0Ahttps%3A%2F%2Fapi.whatsapp.com%2Fsend%3Fphone%3D6585555522%0ADear%20Sir%2FMdm%2C%0A%0ABusiness%20Hours%0A10%3A00am%20to%208%3A00pm%20(%20Weekday%20)%0A12%3A00nn%20to%205%3A00pm%20(%20Weekend%20)%0A*Closed%20on%20Public%20Holiday%0A%0A%0ALocation%0A631%20Ang%20Mo%20Kio%20Ave%204%2C%20%2301-922%2C%20Singapore%20560631%0A%0Ahttps%3A%2F%2Fgoo.gl%2Fmaps%2Fuejdp7CYVDfqxpZg9%0A%0AVisit%20our%20website%20for%20more%20details%3A%0Ahttps%3A%2F%2Fwww.tritcomputer.com%2F";
+    else if(branchaddress=="HG")
+        rtn="https://api.whatsapp.com/send?phone="+ph+"&text=%5BTRITcomputer%20-%20Hougang%5D%0Ahttps%3A%2F%2Fapi.whatsapp.com%2Fsend%3Fphone%3D6585555500%0ADear%20Sir%2FMdm%2C%0A%0ABusiness%20Hours%0A12%3A00nn%20to%208%3A00pm%20(%20Weekday%20Except%20Tuesday%20)%0A12%3A00nn%20to%205%3A00pm%20(%20Weekend%20)%0A*Closed%20on%20Every%20Tuesday%20and%20Public%20Holiday%0A%0A%0ALocation%0A1187%20Upper%20Serangoon%20Rd%2C%20%2302-09%20The%20Midtown%2C%20Singapore%20533971%0A%0Ahttps%3A%2F%2Fgoo.gl%2Fmaps%2Fec76LJbA23UcLixn8%0A%0AVisit%20our%20website%20for%20more%20details%3A%0Ahttps%3A%2F%2Fwww.tritcomputer.com%2F%0A";
+    else if(branchaddress=="TMP")
+        rtn="https://api.whatsapp.com/send?phone="+ph+"&text=%5BTRITcomputer%20-%20Tampines%5D%0Ahttps%3A%2F%2Fapi.whatsapp.com%2Fsend%3Fphone%3D6588000707%0ADear%20Sir%2FMdm%2C%0A%0ABusiness%20Hours%0A10%3A00am%20to%208%3A00pm%20(%20Weekday%20Except%20Tuesday%20)%0A12%3A00nn%20to%205%3A00pm%20(%20Weekend%20)%0A*Closed%20on%20Every%20Tuesday%20and%20Public%20Holiday%0A%0A%0A%0ALocation%0ATelepark%2C%205%20Tampines%20Central%206%2C%20%2301-07%2C%20Singapore%20529482%0A%0Ahttps%3A%2F%2Fg.page%2FTRITcomputer%3Fshare%0A%0AVisit%20our%20website%20for%20more%20details%3A%0Ahttps%3A%2F%2Fwww.tritcomputer.com%2F%0A";
+    else if(branchaddress=="YS")
+        rtn="https://api.whatsapp.com/send?phone="+ph+"&text=%5BTRITcomputer%20-%20Yishun%5D%0Ahttps%3A%2F%2Fapi.whatsapp.com%2Fsend%3Fphone%3D6588000606%0ADear%20Sir%2FMdm%2C%0A%0ABusiness%20Hours%0A10%3A00nn%20to%208%3A00pm%20(%20Everyday%20)%0AWork%20on%20Public%20Holiday%20too%0A%0ALocation%0A926%20Yishun%20Central%201%2C%20%2301-191%2C%20Singapore%20760926%0A%0Ahttps%3A%2F%2Fgoo.gl%2Fmaps%2FPQcD9yF7P8bQr7o8A%0A%0AVisit%20our%20website%20for%20more%20details%3A%0Ahttps%3A%2F%2Fwww.tritcomputer.com%2F%0A%0AJoin%20us%20at%20Facebook%3A%0Ahttps%3A%2F%2Fwww.facebook.com%2Ftritcomputer%2F%0A";
+
+
+
+    return rtn;
+}
+
+
+
+
+
 
 
 
