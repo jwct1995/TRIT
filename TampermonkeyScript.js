@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      14.3
+// @version      15.0
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -106,7 +106,14 @@ $( document ).ready(function()
 
 function GenerateWhatsappButton()
 {
-    
+
+    /*if($("#mainworkorder#mainworkorder").length)
+    {
+        console.log("bb : "+rcount);
+    }
+    else 
+        console.log("nono"+rcount);
+    */
 
     txtBranch="";
     sBranch = $(".primary_linkgonew").text();
@@ -141,14 +148,19 @@ function GenerateWhatsappButton()
         if($("[name='divExtentionCustomerNote']").length == 0 )
         {
             GenerateExtentionForNote(txtBranch,"public");
+            //console.log("aa : "+rcount);
            // if(txtBranch=="Yishun")
              //   GenerateExtentionForNote(txtBranch,"private");
             //console.log("check round"+rcount+".2");
           //  console.log("check 1 - "+$("[name='divExtentionCustomerNote']").length);
         }
+        if($("[name='divExtentionTechNote']").length == 0 )
+        {
+            GenerateExtentionForNote(txtBranch,"private");
+        }
        // console.log("check 2 - "+$("[name='divExtentionCustomerNote']").length);
         rcount++;
-        if(rcount>=30)
+        if(rcount>=10)
             clearInterval(cd);
         //console.log("check round"+rcount);
     }, 200);
@@ -160,16 +172,16 @@ function GenerateExtentionForNote(branch,notetype)
 {
     var custNoteArea;
     var divname;
-  /*  if(notetype=="private")
+    if(notetype=="private")
     {
         custNoteArea=$("#technotearea");
         divname="divExtentionTechNote";
-    }*/
-   // else
-    //{
+    }
+    else if(notetype=="public")
+    {
         custNoteArea=$("#custnotearea");
         divname="divExtentionCustomerNote";
-   // }
+    }
     custNoteArea=custNoteArea.find(".pillbox");
     var custNoteAreaTR=custNoteArea.find("tr");
     custNoteAreaTR.children("td:nth-child(2)").each(function(index, val)
