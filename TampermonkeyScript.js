@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      14.0
+// @version      14.3
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -24,14 +24,24 @@ var txtBranch="";
 var sBranch ="";
 var claimTicketURL="";
 var woid="";
+var username ="";
 window.onload = function exampleFunction()
 {
+    username=$(".primary_linkgo_rightnew").text();
+    username=username.split("\n ");
+    username=username[1].trim();
+    //username="J";
+
     generateCSS();
     GenerateWhatsappButton();
     PlugColorToSpecialOrder();
 
     GenerateReceiveNoteBtn();
+    GenerateSupplierPartNoBtn();
 
+
+    GenerateCopyBtn("Techminal");
+    GenerateCopyBtn("FS");
     GenerateCopyBtn("TNN");
     GenerateCopyBtn("local");
     GenerateCopyBtn("oversea");
@@ -67,6 +77,12 @@ $( document ).ready(function()
     {
         GenerateReceiveNote();
     });
+    $("body").on("click", "#btnGenerateSupplierPartNo", function()
+    {
+        GenerateSupplierPartNo();
+    });
+
+
     $("body").on("click", "#btntowa", function()
     {
         var wanumber=$("#txtwanumber").val();
@@ -357,21 +373,61 @@ function PlugColorToSpecialOrder()
             //console.log(index +" -->> "+ $(this).children("td:nth-child(8)").children("span:nth-child(1)").text());
             var opSupplier=$(this).children("td:nth-child(3)").text();
             var opStatus=$(this).children("td:nth-child(8)").children("span:nth-child(1)").text();
+            var bgColorCode="";
 
             if(opStatus=="Order Part" && opSupplier=="Fssocom")
-                $(this).closest("tr").css("background-color", "#70e18e");
-
+            {
+                if(username=="Ljy" || username=="J")
+                    bgColorCode="#edaa7e";
+                else
+                    bgColorCode="#70e18e";
+            }
+            else if(opStatus=="Order Part" && opSupplier=="# TECHMINAL PTE. LTD.")
+            {
+                if(username=="Ljy" || username=="J")
+                    bgColorCode="ffffff";
+                else
+                    bgColorCode="#75e93a";
+            }
             else if(opStatus=="Order Part" && opSupplier=="#Overseas")
-                $(this).closest("tr").css("background-color", "#4defb3");
-
+            {
+                if(username=="Ljy" || username=="J")
+                    bgColorCode="#8ed0ff";
+                else
+                    bgColorCode="#4defb3";
+            }
+            else if(opStatus=="Order Part" && opSupplier=="TNN")
+            {
+                if(username=="Ljy" || username=="J")
+                    bgColorCode="#eded6d";
+                else
+                    bgColorCode="#97e370";
+            }
             else if(opStatus=="Order Part")
-                $(this).closest("tr").css("background-color", "#a6ff79");
-
+            {
+                if(username=="Ljy" || username=="J")
+                {
+                    bgColorCode="#ffffff";
+                }
+                else
+                    bgColorCode="#a6ff79";
+            }
             else if(opStatus=="Shipped")
-                $(this).closest("tr").css("background-color", "#8ed0ff");
-
+            {
+                if(username=="Ljy" || username=="J")
+                    bgColorCode="#8ed0ff";
+                else
+                    bgColorCode="#8ed0ff";
+            }
             else if(opStatus=="Received")
-                $(this).closest("tr").css("background-color", "#ffb6b6");
+            {
+                if(username=="Ljy" || username=="J")
+                    bgColorCode="#ffb6b6";
+                else
+                    bgColorCode="#ffb6b6";
+            }
+
+            $(this).closest("tr").css("background-color", bgColorCode);
         });
     }
 }
@@ -413,12 +469,26 @@ function GenerateReceiveNoteBtn()
     
     if (~weburl.indexOf("/store/stock.php")&& func[1].indexOf("editspo")==0)
     {
-        console.log("ccc");
-        var specialOrderEditNoteTD = $("[name='sponotes']").closest( "td" );
-        specialOrderEditNoteTD.append("<btn id='btnGenerateReceiveNote' class='button-29'>Generate</btn>");
+        var ele = $("[name='sponotes']").closest( "td" );
+        ele.append("<btn id='btnGenerateReceiveNote' class='button-29'>GNotes</btn>");
     }
 
 }
+
+function GenerateSupplierPartNoBtn()
+{
+    var weburl=window.location.pathname;
+    var webFurl = window.location.href;
+    var func=webFurl.split("php?func=");
+    
+    if (~weburl.indexOf("/store/stock.php")&& func[1].indexOf("editspo")==0)
+    {
+        var ele = $("[name='spopartnumber']").closest( "td" );
+        ele.append("<btn id='btnGenerateSupplierPartNo' class='button-29'>GSPartNo</btn>");
+    }
+
+}
+
 function GenerateReceiveNote()
 {
     var d = new Date();
@@ -427,14 +497,21 @@ function GenerateReceiveNote()
     var day = d.getDate();
     var ymd = d.getFullYear() + '/' +((''+month).length<2 ? '0' : '') + month + '/' +((''+day).length<2 ? '0' : '') + day;
 
-    var username=$(".primary_linkgo_rightnew").text()
-    username=username.split("\n ");
-    username=username[1];
+    //var specialOrderEditTable = $("[name=spopartname]").parent().parent().parent().parent();
+    var eleTxt = $("[name='spoquantity']").val();
+    $("[name='sponotes']").val("Received "+eleTxt+" by "+username+" on "+ymd);
+}
 
-    var specialOrderEditTable = $("[name=spopartname]").parent().parent().parent().parent();
-    var specialOrderEditQuantity = $("[name='spoquantity']").val();
+function GenerateSupplierPartNo()
+{
+    var d = new Date();
 
-    $("[name='sponotes']").val("Received "+specialOrderEditQuantity+" by "+username+" on "+ymd);
+    var month = d.getMonth()+1;
+    var day = d.getDate();
+    var ymd = d.getFullYear() + '/' +((''+month).length<2 ? '0' : '') + month + '/' +((''+day).length<2 ? '0' : '') + day;
+
+    var eleTxt = $("[name='spoquantity']").val();
+    $("[name='spopartnumber']").val("Order "+eleTxt+" by "+username+" on "+ymd);
 }
 
 function copyToClipboard(copyTxt)
@@ -471,6 +548,10 @@ function GenerateBtnCopyToExcelFormat(btnType)
         {
             if(btnType!="FullAll" && opStatus!="Received")
             {
+                if(btnType=="FS" && opSupplier=="Fssocom") //local
+                    rtn+=opDate+" \t"+opName+" \t"+opQuantity+" \t"+opWO+" \t"+opRemark+" \n";
+                else if(btnType=="Techminal" && opSupplier=="# TECHMINAL PTE. LTD.") //local
+                    rtn+=opDate+" \t"+opName+" \t"+opQuantity+" \t"+opWO+" \t"+opRemark+" \n";
                 if(btnType=="TNN" && opSupplier=="TNN") //local
                     rtn+=opDate+" \t"+opName+" \t"+opQuantity+" \t"+opWO+" \t"+opRemark+" \n";
                 else if(btnType=="local" && (opSupplier!="#Overseas" && opStatus!="Shipped") ) //local
