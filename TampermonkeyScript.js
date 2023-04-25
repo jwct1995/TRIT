@@ -1,12 +1,15 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      15.4
+// @version      15.5
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
 // @match        http://fixlogy.com/*
 // @match        http://35.197.158.218/*
+
+// @updateURL    https://raw.githubusercontent.com/jwct1995/TRIT/master/TampermonkeyScript.js
+// @downloadURL  https://raw.githubusercontent.com/jwct1995/TRIT/master/TampermonkeyScript.js
 
 // @icon         http://34.87.111.75/pcrt/v9/repair/images/logo.png
 // @require      https://code.jquery.com/jquery-3.5.1.min.js
@@ -418,35 +421,35 @@ function PlugColorToSpecialOrder()
 
             if(opStatus=="Order Part" && opSupplier=="Fssocom")
             {
-                if(username=="Ljy" || username=="J")
+                if(username=="Ljy" || username=="Lyn" ||  username=="J")
                     bgColorCode="#edaa7e";
                 else
                     bgColorCode="#70e18e";
             }
             else if(opStatus=="Order Part" && opSupplier=="# TECHMINAL PTE. LTD.")
             {
-                if(username=="Ljy" || username=="J")
+                if(username=="Ljy" || username=="Lyn" ||  username=="J")
                     bgColorCode="ffffff";
                 else
                     bgColorCode="#75e93a";
             }
             else if(opStatus=="Order Part" && opSupplier=="#Overseas")
             {
-                if(username=="Ljy" || username=="J")
+                if(username=="Ljy" || username=="Lyn" ||  username=="J")
                     bgColorCode="#8ed0ff";
                 else
                     bgColorCode="#4defb3";
             }
             else if(opStatus=="Order Part" && opSupplier=="TNN")
             {
-                if(username=="Ljy" || username=="J")
+                if(username=="Ljy" || username=="Lyn" ||  username=="J")
                     bgColorCode="#eded6d";
                 else
                     bgColorCode="#97e370";
             }
             else if(opStatus=="Order Part")
             {
-                if(username=="Ljy" || username=="J")
+                if(username=="Ljy" || username=="Lyn" ||  username=="J")
                 {
                     bgColorCode="#ffffff";
                 }
@@ -455,14 +458,14 @@ function PlugColorToSpecialOrder()
             }
             else if(opStatus=="Shipped")
             {
-                if(username=="Ljy" || username=="J")
+                if(username=="Ljy" || username=="Lyn" ||  username=="J")
                     bgColorCode="#8ed0ff";
                 else
                     bgColorCode="#8ed0ff";
             }
             else if(opStatus=="Received")
             {
-                if(username=="Ljy" || username=="J")
+                if(username=="Ljy" || username=="Lyn" || username=="J")
                     bgColorCode="#ffb6b6";
                 else
                     bgColorCode="#ffb6b6";
