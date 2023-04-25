@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      15.5
+// @version      16.0
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -30,10 +30,13 @@ var woid="";
 var username ="";
 window.onload = function exampleFunction()
 {
+
     username=$(".primary_linkgo_rightnew").text();
     username=username.split("\n ");
     username=username[1].trim();
     //username="J";
+
+    setOverFlowScrollToCart()
 
     generateCSS();
     GenerateWhatsappButton();
@@ -650,7 +653,15 @@ function sendAddressToWA(ph,branchaddress)
 
 
 
-
+function setOverFlowScrollToCart()
+{
+    var weburl=window.location.pathname;
+    if (~weburl.indexOf("/store/cart.php"))
+    {
+        $("div#autoinvsearch").css({"overflow":"scroll","max-height":"300px"});
+    }
+    
+}
 
 
 
