@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      16.3
+// @version      16.5
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -24,18 +24,31 @@
 // ==/UserScript==
 
 var txtBranch="";
-var sBranch ="";
 var claimTicketURL="";
 var woid="";
 var username ="";
 window.onload = function exampleFunction()
 {
-    
-
     username=$(".primary_linkgo_rightnew").text();
     username=username.split("\n ");
     username=username[1].trim();
-    //username="J";
+    //username="J"; //use to test only
+
+    var sBranch = $(".primary_linkgonew").text();
+
+    if(sBranch.indexOf("TRIT AMK")>=0)
+        txtBranch="AMK";
+    else if(sBranch.indexOf("TRIT Hougang")>=0)
+        txtBranch="Hougang";
+    else if(sBranch.indexOf("TRIT Tampines")>=0)
+        txtBranch="Tampines";
+    else if(sBranch.indexOf("TRIT Yishun")>=0)
+        txtBranch="Yishun";
+    else if(sBranch.indexOf("TECHMINAL")>=0)
+        txtBranch="TECHMINAL";
+    
+
+    
 
     generateCSS();
     GenerateWhatsappButton();
@@ -52,6 +65,8 @@ window.onload = function exampleFunction()
     GenerateCopyBtn("oversea");
     GenerateCopyBtn("all");
     GenerateCopyBtn("FullAll");
+    if(username=="Ljy" || username=="Lyn" ||  username=="J")
+        GenerateCopyBtn("FAV2");
 
     GenerateInputWhatsappSlot();
 }
@@ -108,6 +123,10 @@ $( document ).ready(function()
     {
         PlugOverFlowScrollingToInventoryList();
     });
+    $("body").on("click", "#addcnote", function()
+    {
+        GenerateNoteTextGeneratorClick("public");
+    });
     
     
     
@@ -125,19 +144,7 @@ function GenerateWhatsappButton()
         console.log("nono"+rcount);
     */
 
-    txtBranch="";
-    sBranch = $(".primary_linkgonew").text();
-
-    if(sBranch.indexOf("TRIT AMK")>=0)
-        txtBranch="AMK";
-    else if(sBranch.indexOf("TRIT Hougang")>=0)
-        txtBranch="Hougang";
-    else if(sBranch.indexOf("TRIT Tampines")>=0)
-        txtBranch="Tampines";
-    else if(sBranch.indexOf("TRIT Yishun")>=0)
-        txtBranch="Yishun";
-    else if(sBranch.indexOf("TECHMINAL")>=0)
-        txtBranch="TECHMINAL";
+    
     var rcount=0;
     var cd = setInterval(function()
     {
@@ -589,6 +596,9 @@ function GenerateBtnCopyToExcelFormat(btnType)
         opQuantity=opQuantity.split("$");
         opQuantity=opQuantity[0];
         var opSupplier=$(this).children("td:nth-child(3)").text();
+        var opSupplierPN=$(this).children("td:nth-child(4)").text();
+        var opURL=$(this).children("td:nth-child(5)").text();
+        var opTrackingNo=$(this).children("td:nth-child(6)").text();
         var opDate=$(this).children("td:nth-child(7)").find("span").text();
         var opStatus=$(this).children("td:nth-child(8)").children("span:nth-child(1)").text();
         var opRemark=$(this).children("td:nth-child(8)").children("span:nth-child(3)").text();
@@ -597,7 +607,11 @@ function GenerateBtnCopyToExcelFormat(btnType)
        // alert(opRemark);
         if(opName!="")
         {
-            if(btnType!="FullAll" && opStatus!="Received")
+            if(btnType=="FAV2")
+            {
+                rtn+=opName+" \t"+opQuantity+" \t"+opSupplier+" \t"+opSupplierPN+" \t"+opURL+" \t"+opTrackingNo+" \t"+opStatus+" \t"+opWO+" \t"+opRemark+" \n";
+            }
+            else if(btnType!="FullAll" && opStatus!="Received")
             {
                 if(btnType=="FS" && opSupplier=="Fssocom") //local
                     rtn+=opDate+" \t"+opName+" \t"+opQuantity+" \t"+opWO+" \t"+opRemark+" \n";
@@ -662,10 +676,80 @@ function PlugOverFlowScrollingToInventoryList()
    // var weburl=window.location.pathname;
    // if (~weburl.indexOf("/store/cart.php"))
     //{
-    $("div#autoinvsearch").css({"overflow":"scroll","max-height":"300px"});
+    $("div#autoinvsearch").css({"overflow":"scroll","max-height":"300px","width":"98%"});
     //}
 }
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function GenerateNoteTextGeneratorClick(notetype)
+{
+    var cd = setInterval(function()
+    {
+        console.log("check round");
+
+        //$("#custnoteta")
+
+
+
+        var ele=$("#custnoteta");
+        var div=$("<div></div>");
+        div.attr({"name":"divTextTemplateGenerator"});
+        //div.css("display","inline-flex");
+        div.html("btn");
+        ele.after(div);
+        //div.append(generateBtnRedirectToWhatsapp(txtPhoneNo));
+        //div.append(generateBtnRedirectToWhatsappWithReadyToCollectTxt(txtBranch,txtPhoneNo));
+        //div.append(generateBtnRedirectToWhatsappGoogleMapReviewTxt(txtBranch,txtPhoneNo));
+        //div.append(generateBtnRedirectClaimTicket());
+       // removeDuplicateElement(div,"id");
+
+        console.log("aaa");
+
+
+
+        clearInterval(cd);
+    }, 200);
+
+}
+/*
+function generateNoteTextBtn(phone)
+{
+    var rphone=phone.replace(/\D/g,''); //filter out non digit character
+    rphone=rphone.trim();
+    if(rphone.length==8)
+        rphone="65"+rphone;
+    if(rphone[0]=="+")
+        rphone=rphone.substring(1, 9999);
+
+    var id="btnWhatsAppPhoneNumber";
+    var btn=$("<button><button>");
+    btn.attr("ph",phone);
+    btn.css({"width":"30px","height":"30px","margin-left": "10px","background-image": "url('https://play-lh.googleusercontent.com/bYtqbOcTYOlgc6gqZ2rwb8lptHuwlNE75zYJu6Bn076-hTmvd96HH-6v7S0YUAAJXoJN=s180-rw')","background-size": "contain","border-style": "solid"});
+    btn.attr({"id":id,"ph":phone,"onclick":"var new_window; new_window = window.open('https://api.whatsapp.com/send?phone="+rphone+"'); setTimeout(function(){ new_window.close(); }, 1000);"});
+    return btn;
+}*/
