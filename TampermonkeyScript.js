@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      16.3
+// @version      16.4
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -662,7 +662,7 @@ function PlugOverFlowScrollingToInventoryList()
    // var weburl=window.location.pathname;
    // if (~weburl.indexOf("/store/cart.php"))
     //{
-    $("div#autoinvsearch").css({"overflow":"scroll","max-height":"300px"});
+    $("div#autoinvsearch").css({"overflow":"scroll","max-height":"300px","width":"98%"});
     //}
 }
 
