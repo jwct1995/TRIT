@@ -1,8 +1,8 @@
 <html>
-//test
+  https://net-informations.com/jq/pro/chkval.htm
+<script>
 
 
-https://net-informations.com/jq/pro/chkval.htm
 
 $("body").on("click", "[name='vehicle']", function()
 {
@@ -17,8 +17,6 @@ $("body").on("click", "[name='vehicle']", function()
 });
 
 
-
-<script>
 $(document).ready(function() {
   $("button").click(function(){
     var days = [];
@@ -29,8 +27,10 @@ $(document).ready(function() {
   });
 });
 </script>
-</head>
-<body>
+
+
+
+
 <h3>Select Day(s)</h3>
 <label><input type="checkbox" value="mon" name="directions"> Monday</label>
 <label><input type="checkbox" value="tue" name="directions"> Tuesday</label>
