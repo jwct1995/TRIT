@@ -753,3 +753,10 @@ function generateNoteTextBtn(phone)
     btn.attr({"id":id,"ph":phone,"onclick":"var new_window; new_window = window.open('https://api.whatsapp.com/send?phone="+rphone+"'); setTimeout(function(){ new_window.close(); }, 1000);"});
     return btn;
 }*/
+
+
+//test
+
+
+
+
