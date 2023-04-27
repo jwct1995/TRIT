@@ -215,7 +215,7 @@ function GenerateExtentionForNote(branch,notetype)
         {
             div.append(generateBtnRedirectToWhatsappWithTxt($(this).attr("ph"),txtCustNote));
         });
-        removeDuplicateElement(div,"ph");
+        removeDuplicateElement(div,"ph","");
     });
 }
 
@@ -257,20 +257,57 @@ function GenerateExtentionForCustomerCallNumber(txtBranch,iconTD)
     div.append(generateBtnRedirectToWhatsappWithReadyToCollectTxt(txtBranch,txtPhoneNo));
     div.append(generateBtnRedirectToWhatsappGoogleMapReviewTxt(txtBranch,txtPhoneNo));
     div.append(generateBtnRedirectClaimTicket());
-    removeDuplicateElement(div,"id");
+    removeDuplicateElement(div,"id","");
 }
 
-function removeDuplicateElement(ele,attr)
+function removeDuplicateElement(ele,attr,eleid)
 {
     var preEleId="";
     var prePhId=""
-    ele.children().each(function(index, val)
+    var ccount=0;
+    if(ele=="noEle")
     {
-        if($(this).attr(attr)!=preEleId)
-            preEleId=$(this).attr(attr);
-        else
-            $(this).remove();
-    });
+        $("["+attr+"='"+eleid+"']").each(function() 
+        {
+            /*if($(this)!=preEleId)
+            {
+                preEleId=$(this);
+                console.log("d1");
+            }
+            else
+            {*/
+                //preEleId.remove();
+                //preEleId=$(this);
+                //console.log("d2");
+            //}
+            //console.log("dd..."+attr+"....."+eleid+"...."+ccount);
+            if(ccount==0)
+            {
+                preEleId=$(this);
+                console.log("d1");
+            }
+            else
+            {
+                preEleId.remove();
+                preEleId=$(this);
+                console.log("d2");
+            }
+            ccount++;
+        });
+        //$("[name='divTextTemplateGenerator']").remove();
+    }
+    else
+    {
+        ele.children().each(function(index, val)
+        {
+            if($(this).attr(attr)!=preEleId)
+                preEleId=$(this).attr(attr);
+            else
+                $(this).remove();
+        });
+    }
+
+    console.log("deleted");
 }
 function generateBtnRedirectClaimTicket()
 {
@@ -720,14 +757,17 @@ function GenerateNoteTextGeneratorClick(notetype)
         var div=$("<div></div>");
         div.attr({"name":"divTextTemplateGenerator"});
         //div.css("display","inline-flex");
-        div.html("btn");
+        div.html("btn...");
+        div.append(GenerateCheckBoxForNote("Quotation"));
         ele.after(div);
+        
+
+        
         //div.append(generateBtnRedirectToWhatsapp(txtPhoneNo));
         //div.append(generateBtnRedirectToWhatsappWithReadyToCollectTxt(txtBranch,txtPhoneNo));
         //div.append(generateBtnRedirectToWhatsappGoogleMapReviewTxt(txtBranch,txtPhoneNo));
         //div.append(generateBtnRedirectClaimTicket());
-       // removeDuplicateElement(div,"id");
-
+       removeDuplicateElement("noEle","name","divTextTemplateGenerator");
         console.log("aaa");
 
 
@@ -735,6 +775,17 @@ function GenerateNoteTextGeneratorClick(notetype)
         clearInterval(cd);
     }, 200);
 
+}
+
+function GenerateCheckBoxForNote(cbName)
+{
+    var lbl=$("<lable></lable>");
+    lbl.css({"background-color":"#cecece","border-radius":"12pt","padding":"2px 10px 2px 5px"});
+    var cbox=$("<input></input>");
+    cbox.attr({"name":"cboxForNote","type":"checkbox","value":cbName});
+    lbl.append(cbox);
+    lbl.append(cbName);
+    return lbl;
 }
 /*
 function generateNoteTextBtn(phone)

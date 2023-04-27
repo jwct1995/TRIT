@@ -26,6 +26,15 @@ $(document).ready(function() {
     alert("Selected say(s) are: " + days.join(", "));
   });
 });
+
+
+/////////////////////////////////////
+
+
+
+
+
+//////////////////////////////
 </script>
 
 
