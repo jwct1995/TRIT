@@ -1,4 +1,4 @@
-
+<html>
 //test
 
 
@@ -38,3 +38,9 @@ $(document).ready(function() {
 <label><input type="checkbox" value="thu" name="directions"> Thursday</label>
 <label><input type="checkbox" value="fri" name="directions"> Friday</label>
 <br> <br><button type="button">Get selected day(s)</button>
+
+
+
+
+
+</html>
