@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      16.6
+// @version      16.7
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -32,7 +32,7 @@ window.onload = function exampleFunction()
     username=$(".primary_linkgo_rightnew").text();
     username=username.split("\n ");
     username=username[1].trim();
-    //username="J"; //use to test only
+    username="J"; //use to test only
 
     var sBranch = $(".primary_linkgonew").text();
 
@@ -567,7 +567,7 @@ function GenerateReceiveNoteBtn()
     var webFurl = window.location.href;
     var func=webFurl.split("php?func=");
     
-    if (~weburl.indexOf("/store/stock.php")&& func[1].indexOf("editspo")==0)
+    if (~weburl.indexOf("/store/stock.php")&& (func[1].indexOf("editspo")==0 || func[1].indexOf("addspo")==0))
     {
         var ele = $("[name='sponotes']").closest( "td" );
         ele.append("<btn id='btnGenerateReceiveNote' class='button-29'>Received**ByXxX yyyy/mm/dd</btn>");
@@ -581,7 +581,7 @@ function GenerateSupplierPartNoBtn()
     var webFurl = window.location.href;
     var func=webFurl.split("php?func=");
     
-    if (~weburl.indexOf("/store/stock.php")&& func[1].indexOf("editspo")==0)
+    if (~weburl.indexOf("/store/stock.php")&& (func[1].indexOf("editspo")==0 || func[1].indexOf("addspo")==0))
     {
         var ele = $("[name='spopartnumber']").closest( "td" );
         ele.append("<btn id='btnGenerateSupplierPartNo' class='button-29'>Order**ByXxX yyyy/mm/dd</btn>");
@@ -591,6 +591,10 @@ function GenerateSupplierPartNoBtn()
 
 function GenerateReceiveNote()
 {
+    var weburl=window.location.pathname;
+    var webFurl = window.location.href;
+    var func=webFurl.split("php?func=");
+    
     var d = new Date();
 
     var month = d.getMonth()+1;
@@ -600,7 +604,11 @@ function GenerateReceiveNote()
     //var specialOrderEditTable = $("[name=spopartname]").parent().parent().parent().parent();
     var eleTxt = $("[name='spoquantity']").val();
     $("[name='sponotes']").val("Received "+eleTxt+" by "+username+" on "+ymd);
-    $("[name='spostatus']").val("2");
+
+    if (func[1].indexOf("addspo")==0)
+        $("[name='spostatus']").val("8");
+    else
+        $("[name='spostatus']").val("2");
 }
 
 function GenerateSupplierPartNo()
@@ -613,6 +621,7 @@ function GenerateSupplierPartNo()
 
     var eleTxt = $("[name='spoquantity']").val();
     $("[name='spopartnumber']").val("Order "+eleTxt+" by "+username+" on "+ymd);
+
     $("[name='spostatus']").val("9");
 }
 
