@@ -32,7 +32,7 @@ window.onload = function exampleFunction()
     username=$(".primary_linkgo_rightnew").text();
     username=username.split("\n ");
     username=username[1].trim();
-    username="J"; //use to test only
+    //username="J"; //use to test only
 
     var sBranch = $(".primary_linkgonew").text();
 
