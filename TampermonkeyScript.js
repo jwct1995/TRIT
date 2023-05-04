@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      16.5
+// @version      16.6
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -55,7 +55,8 @@ window.onload = function exampleFunction()
     PlugColorToSpecialOrder();
 
     GenerateReceiveNoteBtn();
-    GenerateSupplierPartNoBtn();
+    if(username=="Ljy" || username=="Lyn" ||  username=="J")
+        GenerateSupplierPartNoBtn();
 
 
     GenerateCopyBtn("Techminal");
@@ -125,7 +126,11 @@ $( document ).ready(function()
     });
     $("body").on("click", "#addcnote", function()
     {
-        GenerateNoteTextGeneratorClick("public");
+        if(username=="J")
+        {
+            GenerateNoteTextGeneratorClick("public");
+        }
+        
     });
     
     
@@ -595,6 +600,7 @@ function GenerateReceiveNote()
     //var specialOrderEditTable = $("[name=spopartname]").parent().parent().parent().parent();
     var eleTxt = $("[name='spoquantity']").val();
     $("[name='sponotes']").val("Received "+eleTxt+" by "+username+" on "+ymd);
+    $("[name='spostatus']").val("2");
 }
 
 function GenerateSupplierPartNo()
@@ -607,6 +613,7 @@ function GenerateSupplierPartNo()
 
     var eleTxt = $("[name='spoquantity']").val();
     $("[name='spopartnumber']").val("Order "+eleTxt+" by "+username+" on "+ymd);
+    $("[name='spostatus']").val("9");
 }
 
 function copyToClipboard(copyTxt)
