@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      16.7
+// @version      17.1
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -304,6 +304,10 @@ function GenerateExtentionForCustomerCallNumber(txtBranch,iconTD)
     div.append(generateBtnRedirectToWhatsappWithReadyToCollectTxt(txtBranch,txtPhoneNo));
     div.append(generateBtnRedirectToWhatsappGoogleMapReviewTxt(txtBranch,txtPhoneNo));
     div.append(generateBtnRedirectClaimTicket());
+    div.append(generateBtnRedirectAssetLabel());
+
+
+    
     removeDuplicateElement(div,"id","");
 }
 
@@ -363,6 +367,16 @@ function generateBtnRedirectClaimTicket()
     btn.css({"width":"auto","height":"30px","margin-left": "10px","border-style": "solid"});
     btn.text("PTicket");
     btn.attr({"id":id,"onclick":"var new_window; new_window =window.open('"+claimTicketURL+"');"});
+    return btn;
+}
+
+function generateBtnRedirectAssetLabel()
+{
+    var id="btnAssetLabel";
+    var btn=$("<button><button>");
+    btn.css({"width":"auto","height":"30px","margin-left": "10px","border-style": "solid"});
+    btn.text("ALabel");
+    btn.attr({"id":id,"onclick":"var new_window; new_window =window.open('"+$(".whitemiddle").find(".nvbar").children(".nvdropdown:nth-child(3)").find("div").children("a:nth-child(8)").attr("href")+"');"});
     return btn;
 }
 function generateBtnRedirectToWhatsappGoogleMapReviewTxt(branch,phone)
