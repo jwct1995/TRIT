@@ -30,8 +30,8 @@ var claimTicketURL="";
 var username ="";
 var weburl;
 var webFurl;
-var customerName="";
-var customerWO="";
+var customerName=customerWO=customerDeviceModel="";
+
 
 window.onload = function exampleFunction()
 {
@@ -172,9 +172,10 @@ function GetURL()
 }
 function GetCustomerData()
 {
-    customerName==$("#mainworkorder").find(".colortitletopround").children("span:nth-child(1)").text();
-    customerName=customerName.split(" • ");
-    customerName=customerName[0];
+    var customerTitle=$("#mainworkorder").find(".colortitletopround").children("span:nth-child(1)").text();
+    customerTitle=customerTitle.split(" • ");
+    customerName=customerTitle[0];
+    customerDeviceModel=customerTitle[1];
 
     if($(".whitemiddle").length!=0)
     {
