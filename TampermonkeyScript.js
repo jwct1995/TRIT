@@ -22,54 +22,21 @@
 // @run-at document-end
 
 // ==/UserScript==
+var testmode=0;
 
 var txtBranch="";
 var claimTicketURL="";
 var woid="";
 var username ="";
+var weburl;
+var webFurl;
+
 window.onload = function exampleFunction()
 {
-    username=$(".primary_linkgo_rightnew").text();
-    username=username.split("\n ");
-    username=username[1].trim();
-    //username="J"; //use to test only
-
-    var sBranch = $(".primary_linkgonew").text();
-
-    if(sBranch.indexOf("TRIT AMK")>=0)
-        txtBranch="AMK";
-    else if(sBranch.indexOf("TRIT Hougang")>=0)
-        txtBranch="Hougang";
-    else if(sBranch.indexOf("TRIT Tampines")>=0)
-        txtBranch="Tampines";
-    else if(sBranch.indexOf("TRIT Yishun")>=0)
-        txtBranch="Yishun";
-    else if(sBranch.indexOf("TECHMINAL")>=0)
-        txtBranch="TECHMINAL";
-    
-
-    
-
-    generateCSS();
-    GenerateWhatsappButton();
-    PlugColorToSpecialOrder();
-
-    GenerateReceiveNoteBtn();
-    if(username=="Ljy" || username=="Lyn" ||  username=="J")
-        GenerateSupplierPartNoBtn();
+    defaultData();
 
 
-    GenerateCopyBtn("Techminal");
-    GenerateCopyBtn("FS");
-    GenerateCopyBtn("TNN");
-    GenerateCopyBtn("local");
-    GenerateCopyBtn("oversea");
-    GenerateCopyBtn("all");
-    GenerateCopyBtn("FullAll");
-    if(username=="Ljy" || username=="Lyn" ||  username=="J")
-        GenerateCopyBtn("FAV2");
 
-    GenerateInputWhatsappSlot();
 }
 
 $( document ).ready(function()
@@ -107,16 +74,15 @@ $( document ).ready(function()
     $("body").on("click", "#btntowa", function()
     {
         var wanumber=$("#txtwanumber").val();
-        if(wanumber[0]=="+")
-            wanumber=wanumber.substring(1, 9999);
+        wanumber=PhoneNumberFilter(wanumber);
+
         var new_window; new_window =window.open("https://api.whatsapp.com/send?phone="+wanumber);
     });
     $("body").on("click", "[name='btnwaadd']", function()
     {
         var branchaddress=$(this).val();
         var wanumber=$("#txtwanumber").val();
-        if(wanumber[0]=="+")
-            wanumber=wanumber.substring(1, 9999);
+        wanumber=PhoneNumberFilter(wanumber);
         var new_window; new_window =window.open(sendAddressToWA(wanumber,branchaddress));
     });
 
@@ -137,6 +103,70 @@ $( document ).ready(function()
     
     
 });
+
+
+function defaultData()
+{
+    username=$(".primary_linkgo_rightnew").text();
+    username=username.split("\n ");
+    username=username[1].trim();
+    if(testmode==1)
+        username="J"; //use to test only
+
+    var sBranch = $(".primary_linkgonew").text();
+
+    if(sBranch.indexOf("TRIT AMK")>=0)
+        txtBranch="AMK";
+    else if(sBranch.indexOf("TRIT Hougang")>=0)
+        txtBranch="Hougang";
+    else if(sBranch.indexOf("TRIT Tampines")>=0)
+        txtBranch="Tampines";
+    else if(sBranch.indexOf("TRIT Yishun")>=0)
+        txtBranch="Yishun";
+    else if(sBranch.indexOf("TECHMINAL")>=0)
+        txtBranch="TECHMINAL";
+
+    generateCSS();
+    GenerateWhatsappButton();
+    PlugColorToSpecialOrder();
+
+    GenerateReceiveNoteBtn();
+    if(username=="Ljy" || username=="Lyn" ||  username=="J")
+        GenerateSupplierPartNoBtn();
+
+
+    GenerateCopyBtn("Techminal");
+    GenerateCopyBtn("FS");
+    GenerateCopyBtn("TNN");
+    GenerateCopyBtn("local");
+    GenerateCopyBtn("oversea");
+    GenerateCopyBtn("all");
+    GenerateCopyBtn("FullAll");
+    if(username=="Ljy" || username=="Lyn" ||  username=="J")
+        GenerateCopyBtn("FAV2");
+
+    GenerateInputWhatsappSlot();
+
+    GetURL();
+
+}
+
+function PhoneNumberFilter(phonenumber)
+{
+    var rtn=phonenumber.replace(/\D/g,''); //filter out non digit character
+    rtn=rtn.trim();
+    if(rtn.length==8)
+        rtn="65"+rtn;
+    if(rtn[0]=="+")
+        rtn=rtn.substring(1, 9999);
+    return rtn;
+
+}
+function GetURL()
+{
+    weburl=window.location.pathname;
+    webFurl = window.location.href;
+}
 
 function GenerateWhatsappButton()
 {
@@ -233,13 +263,7 @@ function encodeStr(txt)
 
 function generateBtnRedirectToWhatsappWithTxt(phone,txt)
 {
-    var rphone=phone.replace(/\D/g,''); //filter out non digit character
-    rphone=rphone.trim();
-    if(rphone.length==8)
-        rphone="65"+rphone;
-    
-    if(rphone[0]=="+")
-        rphone=rphone.substring(1, 9999);
+    var rphone=PhoneNumberFilter(phone);
 
     var id="btnWhatsAppSendTxt";
     var btn=$("<button><button>");
@@ -312,7 +336,7 @@ function removeDuplicateElement(ele,attr,eleid)
         });
     }
 
-    console.log("deleted");
+    //console.log("deleted");
 }
 function generateBtnRedirectClaimTicket()
 {
@@ -353,12 +377,7 @@ function confirmationSetCalled()
 
 function generateBtnRedirectToWhatsapp(phone)
 {
-    var rphone=phone.replace(/\D/g,''); //filter out non digit character
-    rphone=rphone.trim();
-    if(rphone.length==8)
-        rphone="65"+rphone;
-    if(rphone[0]=="+")
-        rphone=rphone.substring(1, 9999);
+    var rphone=PhoneNumberFilter(phone);
 
     var id="btnWhatsAppPhoneNumber";
     var btn=$("<button><button>");
@@ -397,13 +416,7 @@ function rtnTxtGoogleMapReview(branch,phone)
     var rtn="";
     var uname=$("#mainworkorder").find(".colortitletopround").children("span:nth-child(1)").text();
     uname=uname.split(" • ");
-
-    var rphone=phone.replace(/\D/g,''); //filter out non digit character
-    rphone=rphone.trim();
-    if(rphone.length==8)
-        rphone="65"+rphone;
-    if(rphone[0]=="+")
-        rphone=rphone.substring(1, 9999);
+    var rphone=PhoneNumberFilter(phone);
 
     if(branch=="AMK")
     {
@@ -431,12 +444,7 @@ function rtnTxtGoogleMapReview(branch,phone)
 
 function rtnTxtReadyForCollection(branch,phone)
 {
-    var rphone=phone.replace(/\D/g,''); //filter out non digit character
-    rphone=rphone.trim();
-    if(rphone.length==8)
-        rphone="65"+rphone;
-    if(rphone[0]=="+")
-        rphone=rphone.substring(1, 9999);
+    var rphone=PhoneNumberFilter(phone);
 
     var rtn="";
     if(branch=="AMK")
@@ -465,7 +473,8 @@ function rtnTxtReadyForCollection(branch,phone)
 
 function PlugColorToSpecialOrder()
 {
-    var weburl=window.location.pathname;
+    //var weburl=window.location.pathname;
+    GetURL();
     if (~weburl.indexOf("/store/stock.php"))
     {
         $(".whitebottom").find("table").find("tr").each(function(index, value)
@@ -549,8 +558,9 @@ function getWOID()
 
 function GenerateCopyBtn(btnType)
 {
-    var weburl=window.location.pathname;
-    var webFurl = window.location.href;
+    GetURL();
+    //var weburl=window.location.pathname;
+    //var webFurl = window.location.href;
     var func=webFurl.split("php?func=");
     //func[1];
     //specialorders
@@ -563,8 +573,9 @@ function GenerateCopyBtn(btnType)
 }
 function GenerateReceiveNoteBtn()
 {
-    var weburl=window.location.pathname;
-    var webFurl = window.location.href;
+    GetURL();
+    //var weburl=window.location.pathname;
+    //var webFurl = window.location.href;
     var func=webFurl.split("php?func=");
     
     if (~weburl.indexOf("/store/stock.php")&& (func[1].indexOf("editspo")==0 || func[1].indexOf("addspo")==0))
@@ -577,8 +588,9 @@ function GenerateReceiveNoteBtn()
 
 function GenerateSupplierPartNoBtn()
 {
-    var weburl=window.location.pathname;
-    var webFurl = window.location.href;
+    GetURL();
+    //var weburl=window.location.pathname;
+    //var webFurl = window.location.href;
     var func=webFurl.split("php?func=");
     
     if (~weburl.indexOf("/store/stock.php")&& (func[1].indexOf("editspo")==0 || func[1].indexOf("addspo")==0))
@@ -591,8 +603,9 @@ function GenerateSupplierPartNoBtn()
 
 function GenerateReceiveNote()
 {
-    var weburl=window.location.pathname;
-    var webFurl = window.location.href;
+    GetURL();
+    //var weburl=window.location.pathname;
+    //var webFurl = window.location.href;
     var func=webFurl.split("php?func=");
     
     var d = new Date();
@@ -636,7 +649,8 @@ function copyToClipboard(copyTxt)
 
 function GenerateBtnCopyToExcelFormat(btnType)
 {
-    var weburl=window.location.pathname;
+    GetURL();
+    //var weburl=window.location.pathname;
     var rtn="";
     
     $(".whitebottom").find("table").find("tr").each(function(index, value)
