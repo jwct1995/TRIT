@@ -25,12 +25,11 @@
 var testmode=0;
 
 var txtBranch="";
-var claimTicketURL="";
 //var woid="";
 var username ="";
 var weburl;
 var webFurl;
-var customerName=customerWO=customerDeviceModel="";
+var customerName=customerWO=customerDeviceModel=claimTicketURL="";
 
 
 window.onload = function exampleFunction()
