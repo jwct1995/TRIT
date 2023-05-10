@@ -24,7 +24,7 @@
 // @run-at document-end
 
 // ==/UserScript==
-var testmode=1;
+var testmode=0;
 
 var txtBranch="";
 //var woid="";
@@ -97,10 +97,7 @@ $( document ).ready(function()
     });
     $("body").on("click", "#addcnote", function()
     {
-        if(username=="J")
-        {
             GenerateNoteTextGeneratorClick("public");
-        }
         
     });
 
