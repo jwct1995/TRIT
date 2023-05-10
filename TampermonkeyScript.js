@@ -15,6 +15,8 @@
 // @require      https://code.jquery.com/jquery-3.5.1.min.js
 
 //https://greasyfork.org/en/scripts/431134-trit
+//http://34.87.111.75/trit/repair/pc.php?func=view&woid=27780
+//http://34.87.111.75/trit/repair/index.php?pcwo=27780
 
 //https://getcssscan.com/css-buttons-examples
 // @grant       none
@@ -22,7 +24,7 @@
 // @run-at document-end
 
 // ==/UserScript==
-var testmode=0;
+var testmode=1;
 
 var txtBranch="";
 //var woid="";
@@ -30,10 +32,12 @@ var username ="";
 var weburl;
 var webFurl;
 var customerName=customerWO=customerDeviceModel=claimTicketURL="";
+var cYear=cMonth=cDay=cHour=cMinute="";
 
 
 window.onload = function exampleFunction()
 {
+    getCurrentDateTime();
     defaultData();
 
 
@@ -99,12 +103,102 @@ $( document ).ready(function()
         }
         
     });
-    
-    
-    
+
+    $("body").on("click", "[name='cboxForNote']", function()
+    {
+        var cboxcheck="";
+        /*
+        var days = [];
+        $.each($("input[name='cboxForNote']:checked"), function()
+        {
+            days.push($(this).val());
+        });
+        */
+        //console.log("Selected say(s) are: " + days.join(", "));
+        //alert();
+        if($(this).is(":checked"))
+        {
+            /*
+            if($("#cboxNoteQuotation").is(":checked"))
+            {
+                console.log("aa");
+                if($(this).val()[0]=="+")
+                    console.log("checked : +++");
+            }
+            
+            */
+            if($(this).val()=="IntCleaningMsg")
+            {
+                cboxcheck="IntCleaningMsg";
+            }
+            else if($("#cboxNoteQuotation").is(":checked"))
+            {
+                cboxcheck="Quotation";
+            }
+            else
+            {
+                console.log("cc : "+$(this).val());
+            }
+
+        }
+        
+        $("#custnoteta").html(generateQuotaion(cboxcheck));
+        $("#custnoteta").change();
+        console.log("end");
+    });   
     
 });
 
+function generateQuotaion(eleVal)
+{
+    var rtn="";
+    
+
+    if(eleVal=="IntCleaningMsg")
+    {
+        rtn="Hi, "+customerName+",\nWork Order ID: "+customerWO+"\n\nYour device had not been service for years,\nRecommend to do internal cleaning with thermal compound replacement, it can help to reduce the overheat issue.\nUsual cost is $50, doing together with battery we can do at $30.\nKindly advice whether to do as well?";
+        //console.log("check - IntCleaningMsg");
+    }
+    else if(eleVal=="Quotation")
+    {
+        var clen=$("input[name='cboxForNote']:checked").length;
+        clen-=1;
+        if($("#cboxNoteIntCleaningMsg").is(":checked"))
+            clen-=1;
+        //console.log("length : "+clen);
+
+
+        $.each($("input[name='cboxForNote']:checked"), function()
+        {
+            if($(this).val()!="IntCleaningMsg" && $(this).val()!="Quotation")
+            //days.push($(this).val());
+                console.log("bb : "+$(this).val());
+        });
+        //console.log("check - Quotation");
+    }
+//---
+
+    return rtn;
+}
+
+function getCurrentDateTime()
+{
+    new Date().getTime();          // Get the time (milliseconds since January 1, 1970)
+    cYear = new Date().getFullYear();      // Get the four digit year (yyyy)
+    cMonth = new Date().getMonth() +1;        // Get the month (0-11)
+    cDay = new Date().getDate();          // Get the day as a number (1-31)
+    cHour = new Date().getHours()+1;         // Get the hour (0-23)
+    cMinute = new Date().getMinutes()+1;       // Get the minutes (0-59)
+    new Date().getSeconds();       // Get the seconds (0-59)
+    new Date().getMilliseconds();  // Get the milliseconds (0-999)
+    
+
+
+    cMonth=((''+cMonth).length<2 ? '0' : '')+cMonth; 
+    cDay=((''+cDay).length<2 ? '0' : '')+cDay;
+
+    new Date().getDay();           // Get the weekday as a number (0-6)
+}
 
 function defaultData()
 {
@@ -642,13 +736,14 @@ function GenerateReceiveNote()
     //var weburl=window.location.pathname;
     //var webFurl = window.location.href;
     var func=webFurl.split("php?func=");
-    
+    /*
     var d = new Date();
 
     var month = d.getMonth()+1;
     var day = d.getDate();
     var ymd = d.getFullYear() + '/' +((''+month).length<2 ? '0' : '') + month + '/' +((''+day).length<2 ? '0' : '') + day;
-
+    */
+    var ymd=cYear+"/"+cMonth+"/"+cDay;
     //var specialOrderEditTable = $("[name=spopartname]").parent().parent().parent().parent();
     var eleTxt = $("[name='spoquantity']").val();
     $("[name='sponotes']").val("Received "+eleTxt+" by "+username+" on "+ymd);
@@ -661,11 +756,14 @@ function GenerateReceiveNote()
 
 function GenerateSupplierPartNo()
 {
+    /*
     var d = new Date();
 
     var month = d.getMonth()+1;
     var day = d.getDate();
     var ymd = d.getFullYear() + '/' +((''+month).length<2 ? '0' : '') + month + '/' +((''+day).length<2 ? '0' : '') + day;
+    */
+    var ymd=cYear+"/"+cMonth+"/"+cDay;
 
     var eleTxt = $("[name='spoquantity']").val();
     $("[name='spopartnumber']").val("Order "+eleTxt+" by "+username+" on "+ymd);
@@ -812,7 +910,7 @@ function GenerateNoteTextGeneratorClick(notetype)
 {
     var cd = setInterval(function()
     {
-        console.log("check round");
+        //console.log("check round");
 
         //$("#custnoteta")
 
@@ -824,7 +922,29 @@ function GenerateNoteTextGeneratorClick(notetype)
         //div.css("display","inline-flex");
         div.html("btn...");
         div.append(GenerateCheckBoxForNote("Quotation"));
-        ele.after(div);
+        div.append(GenerateCheckBoxForNote("+PSU"));
+        div.append(GenerateCheckBoxForNote("+L/M-Board"));
+        div.append(GenerateCheckBoxForNote("+SSD"));
+        div.append(GenerateCheckBoxForNote("+Screen"));
+        div.append(GenerateCheckBoxForNote("+Assembly"));
+        div.append(GenerateCheckBoxForNote("+Battery"));
+        div.append(GenerateCheckBoxForNote("+Touchbar"));
+        div.append(GenerateCheckBoxForNote("+Trackpad"));
+        div.append(GenerateCheckBoxForNote("+Keyboard"));
+        div.append(GenerateCheckBoxForNote("+Speaker"));
+        div.append(GenerateCheckBoxForNote("+CFan"));
+        div.append(GenerateCheckBoxForNote("+Recovery"));
+        div.append(GenerateCheckBoxForNote("+IntCleaning"));
+/*
+        div.append(GenerateCheckBoxForNote(""));
+        div.append(GenerateCheckBoxForNote(""));
+        div.append(GenerateCheckBoxForNote(""));
+        div.append(GenerateCheckBoxForNote(""));
+        div.append(GenerateCheckBoxForNote(""));
+        div.append(GenerateCheckBoxForNote(""));
+ */       
+        div.append(GenerateCheckBoxForNote("IntCleaningMsg"));
+        ele.before(div);
         
 
         
@@ -832,8 +952,8 @@ function GenerateNoteTextGeneratorClick(notetype)
         //div.append(generateBtnRedirectToWhatsappWithReadyToCollectTxt(txtBranch,txtPhoneNo));
         //div.append(generateBtnRedirectToWhatsappGoogleMapReviewTxt(txtBranch,txtPhoneNo));
         //div.append(generateBtnRedirectClaimTicket());
-       removeDuplicateElement("noEle","name","divTextTemplateGenerator");
-        console.log("aaa");
+        removeDuplicateElement("noEle","name","divTextTemplateGenerator");
+        //console.log("aaa");
 
 
 
@@ -844,10 +964,13 @@ function GenerateNoteTextGeneratorClick(notetype)
 
 function GenerateCheckBoxForNote(cbName)
 {
+    var lv=0;
+    if(cbName[0]=="+")
+        lv=1;
     var lbl=$("<lable></lable>");
-    lbl.css({"background-color":"#cecece","border-radius":"12pt","padding":"2px 10px 2px 5px"});
+    lbl.css({"background-color":"#cecece","border-radius":"12pt","padding":"2px 10px 2px 5px","display": "inline-block"});
     var cbox=$("<input></input>");
-    cbox.attr({"name":"cboxForNote","type":"checkbox","value":cbName});
+    cbox.attr({"id":"cboxNote"+cbName,"name":"cboxForNote","type":"checkbox","value":cbName,"lv":lv});
     lbl.append(cbox);
     lbl.append(cbName);
     return lbl;

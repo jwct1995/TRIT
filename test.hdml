@@ -17,8 +17,10 @@ $("body").on("click", "[name='vehicle']", function()
 });
 
 
-$(document).ready(function() {
-  $("button").click(function(){
+$(document).ready(function() 
+{
+  $("button").click(function()
+  {
     var days = [];
     $.each($("input[name='directions']:checked"), function(){
       days.push($(this).val());
@@ -53,3 +55,105 @@ $(document).ready(function() {
 
 
 </html>
+
+
+
+
+
+///////////////////////////////
+///////////////////////////////
+///////////////////////////////
+///////////////////////////////
+///////////////////////////////
+///////////////////////////////
+///////////////////////////////
+///////////////////////////////
+
+</br>
+Hi, . 
+Good Morning to you. 
+Good Afternoon to you. 
+Good Evening to you. 
+ 
+ 
+Regarding to your 
+ 
+This is the quotation for your device. 
+1. Motherboard Component level repair - $240 
+*We are doing components level repair NOT replacement 
+-90 days warranty 
+ 
+1. Logicboard Component level repair - $350 
+*We are doing components level repair NOT replacement 
+-90 days warranty 
+ 
+1. SSD Replacement 
+-250GB SSD $190 
+-500GB SSD $250 
+-1TB SSD $300 
+ 
+2.Data Recovery $280 (optional)
+-include Photo Video Music Doc
+-Not include software
+
+ 
+Estimated time for repair 3-7 days. 
+Estimated time for repair 5-15 days. 
+Estimated time for repair 3 days. 
+ 
+ 
+Kindly review and advise on whether to proceed with the repair. 
+ 
+Thanks and Regards, 
+Jason 
+TRITcomputer - AMK 
+TRITcomputer - Tampines 
+TRITcomputer - Hougang 
+TRITcomputer - Yishun 
+
+
+///////////////////////////////
+///////////////////////////////
+///////////////////////////////
+///////////////////////////////
+
+
+WO # 41142 
+Amount to pay : $400 
+paylah number : 015-29396-9 
+Payee Name : Whisky  
+ 
+Reason 
+Customer device logic board repair, device using for sometime the screen backlight will gone , after repair using for sometime will gone again.  
+Hv return here for repair for few time. 
+
+
+///////////////////////////////
+///////////////////////////////
+///////////////////////////////
+///////////////////////////////
+
+
+
+
+Hi  
+ 
+Sorry to inform that your device logic board is beyond repair.  
+Our technician have tried several times, but it still unable, sometime also unable power on. 
+ 
+So we will return It back to you without charges 
+ 
+Thanks. 
+TRITcomputer 
+
+
+///////////////////////////////
+///////////////////////////////
+///////////////////////////////
+///////////////////////////////
+
+
+
+
+
+
