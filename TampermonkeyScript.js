@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      17.2
+// @version      18.0
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -16,7 +16,7 @@
 
 //https://greasyfork.org/en/scripts/431134-trit
 //http://34.87.111.75/trit/repair/pc.php?func=view&woid=27780
-//http://34.87.111.75/trit/repair/index.php?pcwo=27780
+//http://34.87.111.75/trit/repair/index.php?pcwo=44159
 
 //https://getcssscan.com/css-buttons-examples
 // @grant       none
@@ -144,42 +144,12 @@ $( document ).ready(function()
         
         $("#custnoteta").html(generateQuotaion(cboxcheck));
         $("#custnoteta").change();
-        console.log("end");
+        //console.log("end");
     });   
     
 });
 
-function generateQuotaion(eleVal)
-{
-    var rtn="";
-    
 
-    if(eleVal=="IntCleaningMsg")
-    {
-        rtn="Hi, "+customerName+",\nWork Order ID: "+customerWO+"\n\nYour device had not been service for years,\nRecommend to do internal cleaning with thermal compound replacement, it can help to reduce the overheat issue.\nUsual cost is $50, doing together with battery we can do at $30.\nKindly advice whether to do as well?";
-        //console.log("check - IntCleaningMsg");
-    }
-    else if(eleVal=="Quotation")
-    {
-        var clen=$("input[name='cboxForNote']:checked").length;
-        clen-=1;
-        if($("#cboxNoteIntCleaningMsg").is(":checked"))
-            clen-=1;
-        //console.log("length : "+clen);
-
-
-        $.each($("input[name='cboxForNote']:checked"), function()
-        {
-            if($(this).val()!="IntCleaningMsg" && $(this).val()!="Quotation")
-            //days.push($(this).val());
-                console.log("bb : "+$(this).val());
-        });
-        //console.log("check - Quotation");
-    }
-//---
-
-    return rtn;
-}
 
 function getCurrentDateTime()
 {
@@ -429,13 +399,13 @@ function removeDuplicateElement(ele,attr,eleid)
             if(ccount==0)
             {
                 preEleId=$(this);
-                console.log("d1");
+                //console.log("d1");
             }
             else
             {
                 preEleId.remove();
                 preEleId=$(this);
-                console.log("d2");
+                //console.log("d2");
             }
             ccount++;
         });
@@ -892,20 +862,6 @@ function PlugOverFlowScrollingToInventoryList()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function GenerateNoteTextGeneratorClick(notetype)
 {
     var cd = setInterval(function()
@@ -920,7 +876,7 @@ function GenerateNoteTextGeneratorClick(notetype)
         var div=$("<div></div>");
         div.attr({"name":"divTextTemplateGenerator"});
         //div.css("display","inline-flex");
-        div.html("btn...");
+        //div.html("btn...");
         div.append(GenerateCheckBoxForNote("Quotation"));
         div.append(GenerateCheckBoxForNote("+PSU"));
         div.append(GenerateCheckBoxForNote("+L/M-Board"));
@@ -998,4 +954,179 @@ function generateNoteTextBtn(phone)
 
 
 
+function generateQuotaion(eleVal)
+{
+    var rtn="";
+    
 
+    if(eleVal=="IntCleaningMsg")
+    {
+        rtn="Hi, "+customerName+",\nWork Order ID: "+customerWO+"\n\nYour device had not been service for years,\nRecommend to do internal cleaning with thermal compound replacement, it can help to reduce the overheat issue.\nUsual cost is $50, doing together with ...... we can do at $30.\nKindly advice whether to do as well?";
+        //console.log("check - IntCleaningMsg");
+    }
+    else if(eleVal=="Quotation")
+    {
+        var count=0;
+        var clen=$("input[name='cboxForNote']:checked").length;
+        clen=clen-1;
+        if($("#cboxNoteIntCleaningMsg").is(":checked"))
+            clen=clen-1;
+        //console.log("length : "+clen);
+
+        rtn="Hi,"+customerName+" ("+customerWO+").\n";
+        if(cHour<12)
+            rtn+="Good Morning to you.\n";
+        else if(cHour<16)
+            rtn+="Good Afternoon to you.\n";
+        else
+            rtn+="Good Evening to you.\n";
+        
+        rtn+="\n";
+        rtn+="Regarding to your "+customerDeviceModel+" \n\n";
+
+        rtn+="This is the quotation for your device. \n";
+/*
+        rtn+="\n";
+        rtn+="\n";
+        rtn+="\n";
+        rtn+="\n";
+        rtn+="\n";
+*/
+
+        
+        $.each($("input[name='cboxForNote']:checked"), function()
+        {
+            
+            if($(this).val()!="IntCleaningMsg" && $(this).val()!="Quotation")
+            {
+                count++;
+                if($(this).val()=="+PSU")
+                {
+                    if(customerDeviceModel.search(/Apple/i)!=-1)
+                        rtn+=count+". PSU Board replacement - $380\n";
+                    else
+                        rtn+=count+". PSU replacement - $150\n";
+
+                    rtn+="90 days warranty\n\n";
+                }
+                if($(this).val()=="+L/M-Board")
+                {
+                    if(customerDeviceModel.search(/Apple/i)!=-1)
+                        rtn+=count+". Logicboard Chipset level repair - $350\n";
+                    else
+                        rtn+=count+". Motherboard Chipset level repair - $240 \n";
+
+                    rtn+="*We are doing chipset level repair NOT replacement\n";
+                    rtn+="90 days warranty\n\n";
+                }
+                if($(this).val()=="+SSD")
+                {
+                    if(customerDeviceModel.search(/Apple/i)!=-1)
+                    {
+                        rtn+=count+". SSD Replacement\n";
+                        rtn+="-"+count+"a 250GB SSD $190 or\n";
+                        rtn+="-"+count+"b 500GB SSD $250 or\n";
+                        rtn+="-"+count+"c 1TB SSD $300\n";
+                    }
+                    else
+                    {
+                        rtn+=count+". SSD Replacement\n";
+                        rtn+="-"+count+"a 250GB SSD $160 or\n";
+                        rtn+="-"+count+"b 500GB SSD $190 or\n";
+                        rtn+="-"+count+"c 1TB SSD $240\n";
+                    }
+
+                    rtn+="90 days warranty\n\n";
+                }
+                if($(this).val()=="+Screen")
+                {
+                    rtn+=count+". Screen replacemet - $250\n";
+                    rtn+="90 days warranty\n\n";
+                }
+                if($(this).val()=="+Assembly")
+                {
+                    rtn+=count+". Screen Assembly replacemet - $450\n";
+                    rtn+="90 days warranty\n\n";
+                }
+                if($(this).val()=="+Battery")
+                {
+                    rtn+=count+". Battery replacement - $180\n";
+                    rtn+="90 days warranty\n\n";
+                }
+                if($(this).val()=="+Touchbar")
+                {
+                    rtn+=count+". Touchbar replacement - $180\n";
+                    rtn+="90 days warranty\n\n";
+                }
+                if($(this).val()=="+Trackpad")
+                {
+                    if(customerDeviceModel.search(/Apple/i)!=-1)
+                        rtn+=count+". Trackpad replacemet - $170\n";
+                    else
+                        rtn+=count+". Touchpad replacement - $130\n";
+                    rtn+="90 days warranty\n\n";
+                }
+                if($(this).val()=="+Keyboard")
+                {
+                    if(customerDeviceModel.search(/Apple/i)!=-1)
+                        rtn+=count+". Keyboard replacement - $200\n";
+                    else
+                        rtn+=count+". Keyboard replacement - $140\n";
+                    rtn+="90 days warranty\n\n";
+                }
+                if($(this).val()=="+Speaker")
+                {
+                    if(customerDeviceModel.search(/Apple/i)!=-1)
+                        rtn+=count+". Speaker replacement - $180\n";
+                    else
+                        rtn+=count+". Speaker replacement - $120\n";
+                    rtn+="90 days warranty\n\n";
+                }
+                if($(this).val()=="+CFan")
+                {
+                    rtn+=count+". Cooling Fan - $130\n";
+                    rtn+="90 days warranty\n\n";
+                }
+                if($(this).val()=="+Recovery")
+                {
+                    rtn+=count+". Data Recovery $290\n";
+                    rtn+="May take 2day to 20day for data recovery\n";
+                    rtn+="Furder notice will send to you once the process is done.\n\n";
+                }
+                if($(this).val()=="+IntCleaning")
+                {
+                    rtn+=count+". Internal Cleaning $80\n";
+                    rtn+="Cleaning on your device main board and Thermal paste replacement.\n";
+                    rtn+="To maintain your device CPU and GPU temperature in healthy range.\n";
+                    rtn+="This process will help to extend your device lifespan.\n";
+                    rtn+="We recommend to do internal cleaning every 6 month to 1 year.\n\n";
+                }
+                
+/*
+                if($(this).val()=="")
+                {
+                    rtn+=count+". \n";
+                    rtn+="-90 days warranty\n\n";
+                }
+                if($(this).val()=="")
+                {
+                    rtn+=count+". \n";
+                    rtn+="\n";
+                }
+*/
+                
+                
+                //console.log("bb : "+$(this).val());
+            }
+            //days.push($(this).val());
+                
+        });
+        //console.log("check - Quotation");
+        rtn+="Kindly review and advise on whether to proceed with the repair.\n\n";
+        rtn+="Thanks and Regards,\n";
+        rtn+="TRIT Computer - "+txtBranch;
+    }
+
+
+    return rtn;
+}
