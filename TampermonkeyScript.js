@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      18.0
+// @version      18.2
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -15,7 +15,6 @@
 // @require      https://code.jquery.com/jquery-3.5.1.min.js
 
 //https://greasyfork.org/en/scripts/431134-trit
-//http://34.87.111.75/trit/repair/pc.php?func=view&woid=27780
 //http://34.87.111.75/trit/repair/index.php?pcwo=44159
 
 //https://getcssscan.com/css-buttons-examples
@@ -363,9 +362,11 @@ function GenerateExtentionForCustomerCallNumber(txtBranch,iconTD)
     elePhoneTD.append(div);
     div.append(generateBtnRedirectToWhatsapp(txtPhoneNo));
     div.append(generateBtnRedirectToWhatsappWithReadyToCollectTxt(txtBranch,txtPhoneNo));
+    div.append(generateBtnRedirectToWhatsappWithBeyondRepairTxt(txtPhoneNo));
     div.append(generateBtnRedirectToWhatsappGoogleMapReviewTxt(txtBranch,txtPhoneNo));
     div.append(generateBtnRedirectClaimTicket());
     div.append(generateBtnRedirectAssetLabel());
+    
 
 
     
@@ -457,8 +458,19 @@ function generateBtnRedirectToWhatsappWithReadyToCollectTxt(branch,phone)
     var id="btnWhatsAppSendReadyToCollectTxt";
     var btn=$("<button><button>");
     btn.css({"width":"auto","height":"30px","margin-left": "10px","border-style": "solid"});
-    btn.text("ReadyToCollect");
+    btn.text("RFCollect");
     btn.attr({"id":id,"ph":phone,"onclick":"var new_window; new_window =window.open('"+rtnTxtReadyForCollection(branch,phone)+"'); setTimeout(function(){ new_window.close(); }, 1000); "});
+    //if (confirm('Press a button!')) {pathnameurl=window.location.pathname;window.location.pathname=pathnameurl+'pc.php?func=precalled&woid="+woid+"&status=2';}
+    return btn;
+}
+
+function generateBtnRedirectToWhatsappWithBeyondRepairTxt(phone)
+{
+    var id="btnWhatsAppSendBeyondRepairTxt";
+    var btn=$("<button><button>");
+    btn.css({"width":"auto","height":"30px","margin-left": "10px","border-style": "solid"});
+    btn.text("BeyondR");
+    btn.attr({"id":id,"ph":phone,"onclick":"var new_window; new_window =window.open('"+rtnTxtBeyondRepair(phone)+"'); setTimeout(function(){ new_window.close(); }, 1000); "});
     //if (confirm('Press a button!')) {pathnameurl=window.location.pathname;window.location.pathname=pathnameurl+'pc.php?func=precalled&woid="+woid+"&status=2';}
     return btn;
 }
@@ -566,7 +578,24 @@ function rtnTxtReadyForCollection(branch,phone)
 
     return rtn;
 }
+function rtnTxtBeyondRepair(phone)
+{
+    GetCustomerData();
+    var rphone=PhoneNumberFilter(phone);
+    
+    
+    var rtn="";
+    if(txtBranch=="AMK" || txtBranch=="Hougang" || txtBranch=="Tampines" || txtBranch=="Yishun")
+    {
+        rtn="https://api.whatsapp.com/send?phone="+rphone+"&text=Hi%20%20"+customerName+"%0AWork%20Order%20ID%20"+customerWO+"%0APhone%20Number%20"+rphone+"%20%0A%0A%0ASorry%20to%20inform%20that%20your%20device%20main%20board%20is%20beyond%20repair.%20%20%0AOur%20technician%20have%20tried%20several%20times%2C%20but%20it%20still%20unable%2C%20sometime%20also%20unable%20power%20on.%20%0A%20%0ASo%20we%20will%20return%20It%20back%20to%20you%20without%20charges%20%0A%20%0AThanks.%20%0ATRIT%20Computer%20";
+    }
+    else if(txtBranch=="TECHMINAL")
+    {
+        rtn="https://api.whatsapp.com/send?phone="+rphone+"&text=Hi%20%20"+customerName+"%0AWork%20Order%20ID%20"+customerWO+"%0APhone%20Number%20"+rphone+"%20%0A%0A%0ASorry%20to%20inform%20that%20your%20device%20main%20board%20is%20beyond%20repair.%20%20%0AOur%20technician%20have%20tried%20several%20times%2C%20but%20it%20still%20unable%2C%20sometime%20also%20unable%20power%20on.%20%0A%20%0ASo%20we%20will%20return%20It%20back%20to%20you%20without%20charges%20%0A%20%0AThanks.%20%0ATECHMINAL";
+    }
 
+    return rtn;
+}
 function PlugColorToSpecialOrder()
 {
     //var weburl=window.location.pathname;
