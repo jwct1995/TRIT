@@ -95,10 +95,13 @@ $( document ).ready(function()
     {
         PlugOverFlowScrollingToInventoryList();
     });
-    $("body").on("click", "#addcnote", function()
+    $("body").on("click", "#addcnote", function() 
     {
-            GenerateNoteTextGeneratorClick("public");
-        
+        GenerateNoteTextGeneratorClick("public");  
+    });
+    $("body").on("click", "#addtnote", function() //
+    {
+        GenerateNoteTextGeneratorClick("private");  
     });
 
     $("body").on("click", "[name='cboxForNote']", function()
@@ -148,9 +151,18 @@ $( document ).ready(function()
 
         //$("form#custnoteform > textarea#custnoteta").html(generateQuotaion(cboxcheck));
         //$("form#custnoteform > textarea#custnoteta").change();
+        if($(this).attr("notetype")=="public")
+        {
+            $("form#custnoteform").find("textarea").val(generateQuotaion(cboxcheck,$(this).attr("notetype")));
+            $("form#custnoteform").find("textarea").change();
+        }
+        else if($(this).attr("notetype")=="private")
+        {
+            $("form#technoteform").find("textarea").val(generateQuotaion(cboxcheck,$(this).attr("notetype")));
+            $("form#technoteform").find("textarea").change();
+        }
 
-        $("form#custnoteform").find("textarea").val(generateQuotaion(cboxcheck));
-        $("form#custnoteform").find("textarea").change();
+        
        //$("#custnoteta").html(generateQuotaion(cboxcheck));
         //$("#custnoteta").change();
 
@@ -912,26 +924,32 @@ function GenerateNoteTextGeneratorClick(notetype)
 
 
         //notesarea
-        var ele=$("#custnoteta");
+        var ele;
+
+        if(notetype=="public")
+            ele=$("#custnoteta");
+        if(notetype=="private")
+            ele=$("#technoteta");
+
         //var ele=$("#notesarea");
         var div=$("<div></div>");
-        div.attr({"name":"divTextTemplateGenerator"});
+        div.attr({"name":"divTextTemplateGenerator"+notetype});
         //div.css("display","inline-flex");
         //div.html("btn...");
-        div.append(GenerateCheckBoxForNote("Quotation"));
-        div.append(GenerateCheckBoxForNote("+PSU"));
-        div.append(GenerateCheckBoxForNote("+L/M-Board"));
-        div.append(GenerateCheckBoxForNote("+SSD"));
-        div.append(GenerateCheckBoxForNote("+Screen"));
-        div.append(GenerateCheckBoxForNote("+Assembly"));
-        div.append(GenerateCheckBoxForNote("+Battery"));
-        div.append(GenerateCheckBoxForNote("+Touchbar"));
-        div.append(GenerateCheckBoxForNote("+Trackpad"));
-        div.append(GenerateCheckBoxForNote("+Keyboard"));
-        div.append(GenerateCheckBoxForNote("+Speaker"));
-        div.append(GenerateCheckBoxForNote("+CFan"));
-        div.append(GenerateCheckBoxForNote("+Recovery"));
-        div.append(GenerateCheckBoxForNote("+IntCleaning"));
+        div.append(GenerateCheckBoxForNote("Quotation",notetype));
+        div.append(GenerateCheckBoxForNote("+PSU",notetype));
+        div.append(GenerateCheckBoxForNote("+L/M-Board",notetype));
+        div.append(GenerateCheckBoxForNote("+SSD",notetype));
+        div.append(GenerateCheckBoxForNote("+Screen",notetype));
+        div.append(GenerateCheckBoxForNote("+Assembly",notetype));
+        div.append(GenerateCheckBoxForNote("+Battery",notetype));
+        div.append(GenerateCheckBoxForNote("+Touchbar",notetype));
+        div.append(GenerateCheckBoxForNote("+Trackpad",notetype));
+        div.append(GenerateCheckBoxForNote("+Keyboard",notetype));
+        div.append(GenerateCheckBoxForNote("+Speaker",notetype));
+        div.append(GenerateCheckBoxForNote("+CFan",notetype));
+        div.append(GenerateCheckBoxForNote("+Recovery",notetype));
+        div.append(GenerateCheckBoxForNote("+IntCleaning",notetype));
 /*
         div.append(GenerateCheckBoxForNote(""));
         div.append(GenerateCheckBoxForNote(""));
@@ -940,7 +958,7 @@ function GenerateNoteTextGeneratorClick(notetype)
         div.append(GenerateCheckBoxForNote(""));
         div.append(GenerateCheckBoxForNote(""));
  */       
-        div.append(GenerateCheckBoxForNote("IntCleaningMsg"));
+        div.append(GenerateCheckBoxForNote("IntCleaningMsg",notetype));
         ele.before(div);
         
 
@@ -949,7 +967,7 @@ function GenerateNoteTextGeneratorClick(notetype)
         //div.append(generateBtnRedirectToWhatsappWithReadyToCollectTxt(txtBranch,txtPhoneNo));
         //div.append(generateBtnRedirectToWhatsappGoogleMapReviewTxt(txtBranch,txtPhoneNo));
         //div.append(generateBtnRedirectClaimTicket());
-        removeDuplicateElement("noEle","name","divTextTemplateGenerator");
+        removeDuplicateElement("noEle","name","divTextTemplateGenerator"+notetype);
         //console.log("aaa");
 
 
@@ -959,7 +977,7 @@ function GenerateNoteTextGeneratorClick(notetype)
 
 }
 
-function GenerateCheckBoxForNote(cbName)
+function GenerateCheckBoxForNote(cbName,notetype)
 {
     var lv=0;
     if(cbName[0]=="+")
@@ -967,7 +985,7 @@ function GenerateCheckBoxForNote(cbName)
     var lbl=$("<lable></lable>");
     lbl.css({"background-color":"#cecece","border-radius":"12pt","padding":"2px 10px 2px 5px","display": "inline-block"});
     var cbox=$("<input></input>");
-    cbox.attr({"id":"cboxNote"+cbName,"name":"cboxForNote","type":"checkbox","value":cbName,"lv":lv});
+    cbox.attr({"id":"cboxNote"+cbName,"name":"cboxForNote","type":"checkbox","value":cbName,"lv":lv,"notetype":notetype});
     lbl.append(cbox);
     lbl.append(cbName);
     return lbl;
@@ -995,13 +1013,14 @@ function generateNoteTextBtn(phone)
 
 
 
-function generateQuotaion(eleVal)
+function generateQuotaion(eleVal,notetype)
 {
     var rtn="";
     
-    console.log("aa");
+    console.log("xxx----"+eleVal+"..."+notetype);
     if(eleVal=="IntCleaningMsg")
     {
+        console.log("zzz");
         rtn="Hi, "+customerName+",\nWork Order ID: "+customerWO+"\n\nYour device had not been service for years,\nRecommend to do internal cleaning with thermal compound replacement, it can help to reduce the overheat issue.\nUsual cost is $50, doing together with ...... we can do at $30.\nKindly advice whether to do as well?";
         //console.log("check - IntCleaningMsg");
         //console.log("bb");
@@ -1010,9 +1029,9 @@ function generateQuotaion(eleVal)
     {
         //console.log("cc");
         var count=0;
-        var clen=$("input[name='cboxForNote']:checked").length;
+        var clen=$("input[name='cboxForNote'][notetype='"+notetype+"']:checked").length;
         clen=clen-1;
-        if($("#cboxNoteIntCleaningMsg").is(":checked"))
+        if($("#cboxNoteIntCleaningMsg[notetype='"+notetype+"']").is(":checked"))
             clen=clen-1;
         //console.log("length : "+clen);
 
@@ -1037,7 +1056,7 @@ function generateQuotaion(eleVal)
 */
 
         
-        $.each($("input[name='cboxForNote']:checked"), function()
+        $.each($("input[name='cboxForNote'][notetype='"+notetype+"']:checked"), function()
         {
             //console.log("d1");
             
