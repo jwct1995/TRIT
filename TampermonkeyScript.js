@@ -33,7 +33,7 @@ var webFurl;
 var customerName=customerWO=customerDeviceModel=claimTicketURL="";
 var cYear=cMonth=cDay=cHour=cMinute="";
 
-
+var ccc=0;
 window.onload = function exampleFunction()
 {
     getCurrentDateTime();
@@ -102,6 +102,10 @@ $( document ).ready(function()
 
     $("body").on("click", "[name='cboxForNote']", function()
     {
+//\\      
+    ccc++;
+        console.log("count : "+ccc);
+        $("#custnoteta").html("");
         var cboxcheck="";
         /*
         var days = [];
@@ -112,8 +116,9 @@ $( document ).ready(function()
         */
         //console.log("Selected say(s) are: " + days.join(", "));
         //alert();
-        if($(this).is(":checked"))
-        {
+
+        //if($(this).is(":checked"))
+        //{
             /*
             if($("#cboxNoteQuotation").is(":checked"))
             {
@@ -136,7 +141,7 @@ $( document ).ready(function()
                 console.log("cc : "+$(this).val());
             }
 
-        }
+        //}
         
         $("#custnoteta").html(generateQuotaion(cboxcheck));
         $("#custnoteta").change();
