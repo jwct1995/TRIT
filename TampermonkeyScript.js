@@ -34,6 +34,7 @@ var customerName=customerWO=customerDeviceModel=claimTicketURL="";
 var cYear=cMonth=cDay=cHour=cMinute="";
 
 var ccc=0;
+
 window.onload = function exampleFunction()
 {
     getCurrentDateTime();
@@ -103,10 +104,10 @@ $( document ).ready(function()
     $("body").on("click", "[name='cboxForNote']", function()
     {
 //\\      
-    ccc++;
-        console.log("count : "+ccc);
-        $("#custnoteta").html("");
+
+        //console.log("count 1 : "+ccc);
         var cboxcheck="";
+        //console.log("count 2 : "+ccc);
         /*
         var days = [];
         $.each($("input[name='cboxForNote']:checked"), function()
@@ -142,9 +143,17 @@ $( document ).ready(function()
             }
 
         //}
-        
-        $("#custnoteta").html(generateQuotaion(cboxcheck));
-        $("#custnoteta").change();
+   
+
+
+        //$("form#custnoteform > textarea#custnoteta").html(generateQuotaion(cboxcheck));
+        //$("form#custnoteform > textarea#custnoteta").change();
+
+        $("form#custnoteform").find("textarea").val(generateQuotaion(cboxcheck));
+        $("form#custnoteform").find("textarea").change();
+       //$("#custnoteta").html(generateQuotaion(cboxcheck));
+        //$("#custnoteta").change();
+
         //console.log("end");
     });   
     
@@ -902,8 +911,9 @@ function GenerateNoteTextGeneratorClick(notetype)
         //$("#custnoteta")
 
 
-
+        //notesarea
         var ele=$("#custnoteta");
+        //var ele=$("#notesarea");
         var div=$("<div></div>");
         div.attr({"name":"divTextTemplateGenerator"});
         //div.css("display","inline-flex");
@@ -989,14 +999,16 @@ function generateQuotaion(eleVal)
 {
     var rtn="";
     
-
+    console.log("aa");
     if(eleVal=="IntCleaningMsg")
     {
         rtn="Hi, "+customerName+",\nWork Order ID: "+customerWO+"\n\nYour device had not been service for years,\nRecommend to do internal cleaning with thermal compound replacement, it can help to reduce the overheat issue.\nUsual cost is $50, doing together with ...... we can do at $30.\nKindly advice whether to do as well?";
         //console.log("check - IntCleaningMsg");
+        //console.log("bb");
     }
     else if(eleVal=="Quotation")
     {
+        //console.log("cc");
         var count=0;
         var clen=$("input[name='cboxForNote']:checked").length;
         clen=clen-1;
@@ -1027,9 +1039,11 @@ function generateQuotaion(eleVal)
         
         $.each($("input[name='cboxForNote']:checked"), function()
         {
+            //console.log("d1");
             
             if($(this).val()!="IntCleaningMsg" && $(this).val()!="Quotation")
             {
+                //console.log("d2");
                 count++;
                 if($(this).val()=="+PSU")
                 {
@@ -1148,6 +1162,7 @@ function generateQuotaion(eleVal)
                 
                 
                 //console.log("bb : "+$(this).val());
+                //console.log("d3");
             }
             //days.push($(this).val());
                 
@@ -1158,6 +1173,6 @@ function generateQuotaion(eleVal)
         rtn+="TRIT Computer - "+txtBranch;
     }
 
-
+    //console.log("ee");
     return rtn;
 }
