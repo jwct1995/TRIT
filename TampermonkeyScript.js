@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      18.5
+// @version      18.6
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -132,6 +132,13 @@ $( document ).ready(function()
             }
             
             */
+            /*if($(this).val()=="IntCleaningMsg" && $("#cboxNoteQuotation").not(":checked"))
+            {
+                console.log("asd");
+                cboxcheck="IntCleaningMsg";
+            }
+            else
+            */ 
             if($(this).val()=="IntCleaningMsg")
             {
                 cboxcheck="IntCleaningMsg";
@@ -937,6 +944,7 @@ function GenerateNoteTextGeneratorClick(notetype)
         //div.css("display","inline-flex");
         //div.html("btn...");
         div.append(GenerateCheckBoxForNote("Quotation",notetype));
+        div.append(GenerateCheckBoxForNote("+ChemicalC",notetype));
         div.append(GenerateCheckBoxForNote("+PSU",notetype));
         div.append(GenerateCheckBoxForNote("+L/M-Board",notetype));
         div.append(GenerateCheckBoxForNote("+SSD",notetype));
@@ -1064,6 +1072,10 @@ function generateQuotaion(eleVal,notetype)
             {
                 //console.log("d2");
                 count++;
+                if($(this).val()=="+ChemicalC")
+                {
+                    rtn+=count+". Chemical Cleaning - $50\n\n";
+                }
                 if($(this).val()=="+PSU")
                 {
                     if(customerDeviceModel.search(/Apple/i)!=-1)
@@ -1079,8 +1091,13 @@ function generateQuotaion(eleVal,notetype)
                         rtn+=count+". Logicboard Chipset level repair - $350\n";
                     else
                         rtn+=count+". Motherboard Chipset level repair - $240 \n";
-
-                    rtn+="*We are doing chipset level repair NOT replacement\n";
+                    if(username=="Samuel" || username=="malcom" || username=="J")
+                    {
+                        rtn+="\nNOTE :\n";
+                        rtn+="-Device other parts and function will test after repair.\n";
+                        rtn+="-If system crash will install fresh windows system drive\n";
+                        rtn+=" ***All data (software, photo, video, document,.........) will wipe out***\n";
+                    }
                     rtn+="90 days warranty\n\n";
                 }
                 if($(this).val()=="+SSD")
@@ -1187,6 +1204,7 @@ function generateQuotaion(eleVal,notetype)
                 
         });
         //console.log("check - Quotation");
+        rtn+="Estimated time for repair 3 - 7 5 - 15 days. \n\n";
         rtn+="Kindly review and advise on whether to proceed with the repair.\n\n";
         rtn+="Thanks and Regards,\n";
         rtn+="TRIT Computer - "+txtBranch;
