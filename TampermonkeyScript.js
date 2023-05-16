@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      18.6
+// @version      18.7
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
