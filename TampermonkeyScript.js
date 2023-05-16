@@ -1155,7 +1155,7 @@ function generateQuotaion(eleVal,notetype)
                 {
                     rtn+=count+". Data Recovery $290\n";
                     rtn+="May take 2day to 20day for data recovery\n";
-                    rtn+="Furder notice will send to you once the process is done.\n\n";
+                    rtn+="Further notice will send to you once the process is done.\n\n";
                 }
                 if($(this).val()=="+IntCleaning")
                 {
