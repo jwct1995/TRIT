@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      18.7
+// @version      18.8
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -186,8 +186,8 @@ function getCurrentDateTime()
     cYear = new Date().getFullYear();      // Get the four digit year (yyyy)
     cMonth = new Date().getMonth() +1;        // Get the month (0-11)
     cDay = new Date().getDate();          // Get the day as a number (1-31)
-    cHour = new Date().getHours()+1;         // Get the hour (0-23)
-    cMinute = new Date().getMinutes()+1;       // Get the minutes (0-59)
+    cHour = new Date().getHours();         // Get the hour (0-23)
+    cMinute = new Date().getMinutes();       // Get the minutes (0-59)
     new Date().getSeconds();       // Get the seconds (0-59)
     new Date().getMilliseconds();  // Get the milliseconds (0-999)
     
@@ -1046,7 +1046,7 @@ function generateQuotaion(eleVal,notetype)
         rtn="Hi,"+customerName+" ("+customerWO+").\n";
         if(cHour<12)
             rtn+="Good Morning to you.\n";
-        else if(cHour<16)
+        else if(cHour<18)
             rtn+="Good Afternoon to you.\n";
         else
             rtn+="Good Evening to you.\n";
@@ -1172,7 +1172,7 @@ function generateQuotaion(eleVal,notetype)
                 {
                     rtn+=count+". Data Recovery $290\n";
                     rtn+="May take 2day to 20day for data recovery\n";
-                    rtn+="Further notice will send to you once the process is done.\n\n";
+                    //rtn+="Further notice will send to you once the process is done.\n\n";
                 }
                 if($(this).val()=="+IntCleaning")
                 {
