@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      18.8
+// @version      18.9
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -267,7 +267,11 @@ function GetCustomerData()
     var customerTitle=$("#mainworkorder").find(".colortitletopround").children("span:nth-child(1)").text();
     customerTitle=customerTitle.split(" • ");
     customerName=customerTitle[0];
-    customerDeviceModel=customerTitle[1];
+    //customerDeviceModel=customerTitle[1];
+    if(customerTitle.length==3)
+        customerDeviceModel=customerTitle[2];
+    else
+        customerDeviceModel=customerTitle[1];
 
     if($(".whitemiddle").length!=0)
     {
