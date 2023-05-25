@@ -176,3 +176,296 @@ TRITcomputer
 
 
 
+
+
+
+
+
+aa
+
+
+whitebottom table tr td8 span1 text 
+
+http://34.87.111.75/trit/store/stock.php?func=specialorders
+http://34.87.111.75/trit/store/stock.php?func=specialordersall
+
+
+
+var pathname = window.location.pathname; // Returns path only (/path/example.html)
+var url      = window.location.href;     // Returns full URL (https://example.com/path/example.html)
+var origin   = window.location.origin;   // Returns base URL (https://example.com)
+
+
+pathnameurl=window.location.pathname;
+window.location.pathname=pathnameurl+"/pc.php?func=precalled&amp;woid="+woid+"&amp;status=2"
+pc.php?func=precalled&amp;woid=44673&amp;status=2
+
+
+"pc.php?func=precalled&amp;woid=44673&amp;status=2".split("woid=");
+
+http://34.87.111.75/trit/repair/pc.php%3Ffunc=precalled&amp;woid=undefined&amp;status=2
+http://34.87.111.75/trit/repair/pc.php?func=precalled&woid=44673&status=2
+http://34.87.111.75/trit/repair/pc.php?func=precalled&woid=undefined&status=2
+
+var weburl=window.location.pathname;
+if (~weburl.indexOf("/store/stock.php"))
+{
+    $(".whitebottom").find("table").find("tr").children("td:nth-child(8)").children("span:nth-child(1)").text();
+
+}
+
+
+
+var weburl=window.location.pathname;
+if (~weburl.indexOf("/store/stock.php"))
+{
+    $(".whitebottom").find("table").find("tr").each(function(index, value) 
+    {
+        //console.log(index +" -->> "+ $(this).children("td:nth-child(8)").children("span:nth-child(1)").text());
+        var ostatus=$(this).children("td:nth-child(8)").children("span:nth-child(1)").text();
+        if(ostatus=="Order Part")
+        {
+            $(this).closest("tr").css('background-color', 'red');
+        }
+    });
+}
+
+
+
+
+$(".whitebottom").find("table").children("tr:nth-child(2)").css("background-color","red");
+            $(".whitebottom>table>tr:nth-child(3)").css('background-color', 'red');
+            $(".whitebottom").find("table").children("tr")
+
+
+
+
+
+
+
+.children("span:nth-child(1)").text();
+
+.find("table").find("table").find("table").find(".fa.fa-home.fa-lg.fa-fw")
+
+
+var furl = window.location.href;
+var func=furl.split("php?func=");
+func[1];
+specialorders
+specialordersall
+
+
+
+
+
+
+bb
+
+window.location.pathname 
+pc.php?func=printclaimticket&woid=44673
+
+whitemiddle
+nvbar
+nvdropdown 3
+nvdropdown-content
+a href
+
+
+
+
+$(".whitemiddle").find(".nvbar").children(".nvdropdown:nth-child(3)").find("div").children("a:nth-child(1)").text()
+
+$(".whitemiddle").find(".nvbar").children(".nvdropdown:nth-child(3)").find("div").children("a:nth-child(1)").attr("href")
+
+
+
+
+
+
+
+
+$(".whitemiddle").find(".nvbar").children(".nvdropdown:nth-child(3)").find("div").children("a:nth-child(1)").text()
+
+div#mainworkorder.mainworkorder div.whitemiddle table  tr td table.standard  tr td strong
+
+
+$("div#mainworkorder>div.whitemiddle>tabble>tr>td>table.standard>tr>td").css("background-color","red")
+
+
+$("div#mainworkorder").find("div.whitemiddle").find("table").children("tr:nth-child(1)").children("td:nth-child(2)").css("background-color","pink")
+
+$("div#mainworkorder").find("div.whitemiddle").children("table:nth-child(1)").css("background-color","red")
+
+$("div#mainworkorder").find("div.whitemiddle").children("table").eq(1).css("background-color","red")
+
+$("div#mainworkorder").find("div.whitemiddle").find("table").eq(1).css("background-color","red")
+
+
+$(".whitemiddle").children("table:nth-child(11)").css("background-color","pink")
+
+
+
+.find("")
+.find("")
+.find("")
+
+
+
+
+
+
+$(t).children('td').eq(1);
+.find("")
+
+
+
+
+$(".whitebottom").find("table").children("tr:nth-child(2)")
+
+$(".whitebottom>table>tr:nth-child(3)")
+
+
+
+
+
+
+
+
+
+var d = new Date();
+
+var month = d.getMonth()+1;
+var day = d.getDate();
+
+var output = d.getFullYear() + '/' +
+    ((''+month).length<2 ? '0' : '') + month + '/' +
+    ((''+day).length<2 ? '0' : '') + day;
+
+
+whitebottom
+primary_linkgo_rightnew   
+
+
+
+
+
+
+func=editspo
+
+var username=$(".primary_linkgo_rightnew").text()
+username=username.split("\n ");
+username=username[1];
+
+var specialOrderEditTable = $("[name=spopartname]").parent().parent().parent().parent();
+
+//var specialOrderEditQuantity = specialOrderEditTable.find("[name='spoquantity']").text();
+//.css("background-color","pink")
+var specialOrderEditQuantity = $("[name='spoquantity']").val();
+//var specialOrderEditNote = specialOrderEditTable.find("[name='sponotes']");
+var specialOrderEditNote = $("[name='sponotes']").val();
+
+var weburl=window.location.pathname;
+var webFurl = window.location.href;
+var func=webFurl.split("php?func=");
+    //func[1];
+    //specialorders
+   // specialordersall
+if (~weburl.indexOf("/store/stock.php")&& func[1]=="editspo")
+{
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var rphone=txtPhoneNo.replace(/\D/g,''); //filter out non digit character
+rphone=rphone.trim();
+if(rphone.length==8)
+    rphone="65"+rphone;
+
+if(rphone[0]=="+")
+    rphone=rphone.substring(1, 9999);
+
+
+
+#addcnote
+#custnoteta
+
+
+
+
+$("[name='spostatus']").val("2");
+
+
+
+
+var weburl=window.location.pathname;
+var webFurl = window.location.href;
+var func=webFurl.split("php?func=");
+    if (~weburl.indexOf("/store/stock.php")&& (func[1]=="specialorders"||func[1]=="specialordersall"))
+
+
+var weburl=window.location.pathname;
+var webFurl = window.location.href;
+var func=webFurl.split("php?func=");
+
+if (func[1].indexOf("addspo")==0)
+    $("[name='spostatus']").val("8");
+else
+    $("[name='spostatus']").val("2");
+    
+    
+    
+[Techminal]
+
+Dear Sir/Mdm,
+    
+Business Hours
+11:00am to 8:00pm 
+
+Whatsapp
+https://api.whatsapp.com/send?phone=6588728988
+    
+Location
+1 Rochor Canal Rd, #01-26 Beside Loading Bay, Sim Lim Square, Singapore 188504
+    
+Google Map 
+https://goo.gl/maps/5ibuHxkAjhHBDufG6
+    
+Visit our website for more details:
+https://www.techminalsg.com/
+    
+
+max-height: 300px;
+overflow: scroll;
+bottomnavbarfixedlight
+autoinvsearch
+
+
+
+
+
+var cd = setInterval(function()
+{
+    console.log("check round");
+    clearInterval(cd);
+}, 200);
+
+$(".whitemiddle").find(".nvbar").children(".nvdropdown:nth-child(3)").find("div").children("a:nth-child(8)").attr("href")
+
+generateBtnRedirectToWhatsappWithBeyondRepairTxt(txtPhoneNo)
+
+
+rtnTxtBeyondRepair(
+
+    
