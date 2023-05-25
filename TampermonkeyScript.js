@@ -373,7 +373,18 @@ function GenerateExtentionForNote(branch,notetype)
 
 function encodeStr(txt)
 {
-    return encodeURIComponent(txt);
+
+    //return encodeURIComponent(txt);
+
+
+    //function fixedEncodeURIComponent(str) 
+    //{
+    return encodeURIComponent(txt).replace(/[!'()*]/g, function(c) 
+    {
+        return '%' + c.charCodeAt(0).toString(16);
+    });
+    //}
+    
 }
 
 function generateBtnRedirectToWhatsappWithTxt(phone,txt)
