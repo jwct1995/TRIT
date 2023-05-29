@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      18.10
+// @version      18.11
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -1084,7 +1084,10 @@ function generateQuotaion(eleVal,notetype)
     {
         rtn="Dear "+customerName+",\n\nYour computer had been with us since "+customerCheckInTime+", which had reached our 60 days unclaimed storage duration. Due to our storage limitation and high rental, We had to clear the unclaimed devices / $5 of storage fee per month apply for those device beyond storage duration limitation.\n\nIf you wish to collect back without repairing, kindly arrange to collect back within 7 days from now. Else will be deposed off.\n\nIf you wish to repair, 50% of payment required to proceed.\nYou may PayNow or come down to our store to make the payment.\n\nDevice will be arrange to dispose off if there’s no reply from you in 3 days.\n\nPlease confirm and reply to avoid any disappointment.\nThank you for your understanding and cooperation.\n\nFrom:\n";
 
-        rtn+="TRIT Computer - "+txtBranch;
+        if(txtBranch=="TECHMINAL")
+            rtn+="Techminal";
+        else
+            rtn+="TRIT Computer - "+txtBranch;
         //console.log("bb");
 
     }
@@ -1264,7 +1267,13 @@ function generateQuotaion(eleVal,notetype)
         rtn+="Estimated time for repair 3 - 7 5 - 15 days. \n\n";
         rtn+="Kindly review and advise on whether to proceed with the repair.\n\n";
         rtn+="Thanks and Regards,\n";
-        rtn+="TRIT Computer - "+txtBranch;
+
+        if(txtBranch=="TECHMINAL")
+            rtn+="Techminal";
+        else
+            rtn+="TRIT Computer - "+txtBranch;
+
+        //rtn+="TRIT Computer - "+txtBranch;
     }
 
     //console.log("ee");
