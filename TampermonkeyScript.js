@@ -30,7 +30,7 @@ var txtBranch="";
 var username ="";
 var weburl;
 var webFurl;
-var customerName=customerWO=customerDeviceModel=claimTicketURL="";
+var customerName=customerWO=customerDeviceModel=customerCheckInTime=claimTicketURL="";
 var cYear=cMonth=cDay=cHour=cMinute="";
 
 var ccc=0;
@@ -139,10 +139,37 @@ $( document ).ready(function()
             }
             else
             */ 
-            if($(this).val()=="IntCleaningMsg")
+
+            /*if(($("#cboxNoteDisposeMsg").prop("checked")==false || $("#cboxNoteIntCleaningMsg").prop("checked")==false) && $("#cboxNoteQuotation").is(":checked"))
+            {
+                console.log("aaaaaa");
+            }*/
+
+
+            if($(this).val()=="IntCleaningMsg" || $(this).val()=="DisposeMsg")
+            {
+                if($(this).prop("checked")==false)
+                {
+                    if($("#cboxNoteQuotation").is(":checked"))
+                    {
+                        cboxcheck="Quotation"; 
+                    }
+                }
+                else
+                {
+                    cboxcheck=$(this).val();
+                }
+            }
+
+            
+            /*if($(this).val()=="IntCleaningMsg")
             {
                 cboxcheck="IntCleaningMsg";
             }
+            else if($(this).val()=="DisposeMsg")
+            {
+                cboxcheck="DisposeMsg";
+            }*/
             else if($("#cboxNoteQuotation").is(":checked"))
             {
                 cboxcheck="Quotation";
@@ -279,6 +306,11 @@ function GetCustomerData()
         var woele = claimTicketURL.split("woid=");
         customerWO = woele[1];
     }
+    if($("#woattarea").length!=0)
+    {
+        customerCheckInTime=$("#woattarea").next().next().find("tbody").children("tr:nth-child(3)").children("td:nth-child(2)").text();
+    }
+    
 
 }
 
@@ -982,6 +1014,7 @@ function GenerateNoteTextGeneratorClick(notetype)
         div.append(GenerateCheckBoxForNote(""));
  */       
         div.append(GenerateCheckBoxForNote("IntCleaningMsg",notetype));
+        div.append(GenerateCheckBoxForNote("DisposeMsg",notetype));
         ele.before(div);
         
 
@@ -1043,10 +1076,17 @@ function generateQuotaion(eleVal,notetype)
     console.log("xxx----"+eleVal+"..."+notetype);
     if(eleVal=="IntCleaningMsg")
     {
-        console.log("zzz");
         rtn="Hi, "+customerName+",\nWork Order ID: "+customerWO+"\n\nYour device had not been service for years,\nRecommend to do internal cleaning with thermal compound replacement, it can help to reduce the overheat issue.\nUsual cost is $50, doing together with ...... we can do at $30.\nKindly advice whether to do as well?";
         //console.log("check - IntCleaningMsg");
         //console.log("bb");
+    }
+    else if(eleVal=="DisposeMsg")
+    {
+        rtn="Dear "+customerName+",\n\nYour computer had been with us since "+customerCheckInTime+", which had reached our 60 days unclaimed storage duration. Due to our storage limitation and high rental, We had to clear the unclaimed devices / $5 of storage fee per month apply for those device beyond storage duration limitation.\n\nIf you wish to collect back without repairing, kindly arrange to collect back within 7 days from now. Else will be deposed off.\n\nIf you wish to repair, 50% of payment required to proceed.\nYou may PayNow or come down to our store to make the payment.\n\nDevice will be arrange to dispose off if there’s no reply from you in 3 days.\n\nPlease confirm and reply to avoid any disappointment.\nThank you for your understanding and cooperation.\n\nFrom:\n";
+
+        rtn+="TRIT Computer - "+txtBranch;
+        //console.log("bb");
+
     }
     else if(eleVal=="Quotation")
     {
@@ -1055,6 +1095,8 @@ function generateQuotaion(eleVal,notetype)
         var clen=$("input[name='cboxForNote'][notetype='"+notetype+"']:checked").length;
         clen=clen-1;
         if($("#cboxNoteIntCleaningMsg[notetype='"+notetype+"']").is(":checked"))
+            clen=clen-1;
+        if($("#cboxNoteDisposeMsg[notetype='"+notetype+"']").is(":checked"))
             clen=clen-1;
         //console.log("length : "+clen);
 
@@ -1083,7 +1125,7 @@ function generateQuotaion(eleVal,notetype)
         {
             //console.log("d1");
             
-            if($(this).val()!="IntCleaningMsg" && $(this).val()!="Quotation")
+            if($(this).val()!="IntCleaningMsg" && $(this).val()!="Quotation"&& $(this).val()!="DisposeMsg")
             {
                 //console.log("d2");
                 count++;
@@ -1136,12 +1178,12 @@ function generateQuotaion(eleVal,notetype)
                 }
                 if($(this).val()=="+Screen")
                 {
-                    rtn+=count+". Screen replacemet - $250\n";
+                    rtn+=count+". Screen replacement - $250\n";
                     rtn+="90 days warranty\n\n";
                 }
                 if($(this).val()=="+Assembly")
                 {
-                    rtn+=count+". Screen Assembly replacemet - $450\n";
+                    rtn+=count+". Screen Assembly replacement - $450\n";
                     rtn+="90 days warranty\n\n";
                 }
                 if($(this).val()=="+Battery")
@@ -1157,7 +1199,7 @@ function generateQuotaion(eleVal,notetype)
                 if($(this).val()=="+Trackpad")
                 {
                     if(customerDeviceModel.search(/Apple/i)!=-1)
-                        rtn+=count+". Trackpad replacemet - $170\n";
+                        rtn+=count+". Trackpad replacement - $170\n";
                     else
                         rtn+=count+". Touchpad replacement - $130\n";
                     rtn+="90 days warranty\n\n";
