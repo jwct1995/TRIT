@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      18.11
+// @version      18.12
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -39,9 +39,6 @@ window.onload = function exampleFunction()
 {
     getCurrentDateTime();
     defaultData();
-
-
-
 }
 
 $( document ).ready(function()
@@ -202,10 +199,33 @@ $( document ).ready(function()
 
         //console.log("end");
     });   
+    $("body").on("click", "#btnGeneratePickSupplier", function()
+    {
+        
+        $("[name='sposupplierid']").val($(this).attr("splid"));
+    });
+    
+
+/*    $("body").on("click", "#repaircartadd", function()
+    {
+        console.log("xxxxxxxx");
+        $("div#repaircartbox > div#repaircartbox2 >table>tbody>tr").children("td:nth-child(1)").children("table:nth-child(3)").next().next().next().next().find("a").attr({"id":"btnAddSpecialOrderPartBtnOnWoPage","name":"btnAddSpecialOrderPartBtnOnWoPage"});
+
+        $("[name='spopartname']").val("asdqwezxcv2");
+        
+    });
+*/
+    $("body").on("DOMSubtreeModified", "#facebox", function()
+    {
+        console.log('changed');
+        if($("form#catchaddspo").length!=0)
+            $("[name='spopartname']").val("asd");
+        
+    });
+
+
     
 });
-
-
 
 function getCurrentDateTime()
 {
@@ -250,10 +270,24 @@ function defaultData()
     generateCSS();
     GenerateWhatsappButton();
     PlugColorToSpecialOrder();
+    GetURL();
 
-    GenerateReceiveNoteBtn();
-    if(username=="Ljy" || username=="Lyn" ||  username=="J")
-        GenerateSupplierPartNoBtn();
+    var func=webFurl.split("php?func=");
+    if (~weburl.indexOf("/store/stock.php")&& (func[1].indexOf("editspo")==0 || func[1].indexOf("addspo")==0))
+    {
+        GenerateReceiveNoteBtn();
+        GeneratePickSupplierBtn("Techminal-34");
+        GeneratePickSupplierBtn("Fssocom-29");
+        GeneratePickSupplierBtn("Local-20");
+        GeneratePickSupplierBtn("TNN-9");
+        GeneratePickSupplierBtn("MlExpress-35");
+        GeneratePickSupplierBtn("YsMobile-30");
+        GeneratePickSupplierBtn("Oversea-21");
+
+        if(username=="Ljy" || username=="Lyn" ||  username=="J")
+            GenerateSupplierPartNoBtn();
+    }
+    
 
 
     GenerateCopyBtn("Techminal");
@@ -268,7 +302,7 @@ function defaultData()
 
     GenerateInputWhatsappSlot();
 
-    GetURL();
+    
    
 
 }
@@ -776,33 +810,55 @@ function GenerateCopyBtn(btnType)
     }
 
 }
+
+
+function GeneratePickSupplierBtn(suppliername)
+{
+    //GetURL();
+    var splid = suppliername.split("-");
+
+
+    //var func=webFurl.split("php?func=");
+    
+    //if (~weburl.indexOf("/store/stock.php")&& (func[1].indexOf("editspo")==0 || func[1].indexOf("addspo")==0))
+    //{
+        var ele = $("[name='sposupplierid']").closest( "td" );
+        ele.append("<btn id='btnGeneratePickSupplier' class='button-28' splid='"+splid[1]+"'>"+suppliername+"</btn>");
+    //}
+
+}
+
+
+
+
+
 function GenerateReceiveNoteBtn()
 {
-    GetURL();
+    //GetURL();
     //var weburl=window.location.pathname;
     //var webFurl = window.location.href;
-    var func=webFurl.split("php?func=");
+    //var func=webFurl.split("php?func=");
     
-    if (~weburl.indexOf("/store/stock.php")&& (func[1].indexOf("editspo")==0 || func[1].indexOf("addspo")==0))
-    {
+    //if (~weburl.indexOf("/store/stock.php")&& (func[1].indexOf("editspo")==0 || func[1].indexOf("addspo")==0))
+    //{
         var ele = $("[name='sponotes']").closest( "td" );
         ele.append("<btn id='btnGenerateReceiveNote' class='button-29'>Received**ByXxX yyyy/mm/dd</btn>");
-    }
+    //}
 
 }
 
 function GenerateSupplierPartNoBtn()
 {
-    GetURL();
+    //GetURL();
     //var weburl=window.location.pathname;
     //var webFurl = window.location.href;
-    var func=webFurl.split("php?func=");
+    //var func=webFurl.split("php?func=");
     
-    if (~weburl.indexOf("/store/stock.php")&& (func[1].indexOf("editspo")==0 || func[1].indexOf("addspo")==0))
-    {
+    //if (~weburl.indexOf("/store/stock.php")&& (func[1].indexOf("editspo")==0 || func[1].indexOf("addspo")==0))
+    //{
         var ele = $("[name='spopartnumber']").closest( "td" );
         ele.append("<btn id='btnGenerateSupplierPartNo' class='button-29'>Order**ByXxX yyyy/mm/dd</btn>");
-    }
+    //}
 
 }
 
@@ -811,7 +867,7 @@ function GenerateReceiveNote()
     GetURL();
     //var weburl=window.location.pathname;
     //var webFurl = window.location.href;
-    var func=webFurl.split("php?func=");
+    //var func=webFurl.split("php?func=");
     /*
     var d = new Date();
 
@@ -824,9 +880,9 @@ function GenerateReceiveNote()
     var eleTxt = $("[name='spoquantity']").val();
     $("[name='sponotes']").val("Received "+eleTxt+" by "+username+" on "+ymd);
 
-    if (func[1].indexOf("addspo")==0)
-        $("[name='spostatus']").val("8");
-    else
+    //if (func[1].indexOf("addspo")==0)
+        //$("[name='spostatus']").val("8");
+    //else
         $("[name='spostatus']").val("2");
 }
 
