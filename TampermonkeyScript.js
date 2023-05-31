@@ -307,7 +307,8 @@ function defaultData()
         if(username=="Ljy" || username=="Lyn" ||  username=="J")
             GenerateSupplierPartNoBtn();
         
-            GenerateItemNameBtn();
+            if(txtBranch!="Techminal")
+                GenerateItemNameBtn();
     }
     
 
