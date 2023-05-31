@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      18.13.2
+// @version      18.13.3
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -32,7 +32,7 @@ var weburl;
 var webFurl;
 var customerName=customerWO=customerDeviceModel=customerCheckInTime=claimTicketURL="";
 var cYear=cMonth=cDay=cHour=cMinute="";
-
+var countchange=0;
 var ccc=0;
 
 ////item list
@@ -222,7 +222,7 @@ $( document ).ready(function()
 
     $("body").on("click", "#btnGenerateNameOfPart", function()
     {
-        $("[name='spopartname']").val($(this).attr("fname"));
+        $("[name='spopartname']").val(txtBranch+" - "+$(this).attr("fname"));
     });
     
 
@@ -235,13 +235,56 @@ $( document ).ready(function()
         
     });
 */
-    $("body").on("DOMSubtreeModified", "#facebox", function()
+
+
+
+
+
+//if(username=="J")
+//{
+    $("body").on("DOMSubtreeModified", "#facebox", function()  
     {
-        console.log('changed');
-        if($("form#catchaddspo").length!=0)
-            $("[name='spopartname']").val("asd");
+  
+        if(countchange==0)
+        {
+            if($("form#catchaddspo").length!=0)
+            {
+                console.log('changedv1');
+                countchange++;
+                console.log('changedv4 .....'+ countchange);
+                GenerateReceiveNoteBtn();
+                
+                GeneratePickSupplierBtn("Techminal-34");
+                GeneratePickSupplierBtn("Fssocom-29");
+                GeneratePickSupplierBtn("Local-20");
+                GeneratePickSupplierBtn("TNN-9");
+                GeneratePickSupplierBtn("MlExpress-35");
+                GeneratePickSupplierBtn("YsMobile-30");
+                GeneratePickSupplierBtn("Oversea-21");
+                
+                console.log('changedv2');
+                if(txtBranch!="Techminal")
+                {
+                    GenerateItemNameBtn();
+                    console.log('changedv3');
+                }
+                //$("[name='spopartname']").val("asd");
+                console.log('changedv4');
+            }
+            
+        }
+        console.log('changedv5');
         
     });
+//}
+
+
+
+
+
+
+
+
 
 
     
