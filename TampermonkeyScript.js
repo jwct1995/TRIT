@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      18.12
+// @version      18.13
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -34,6 +34,22 @@ var customerName=customerWO=customerDeviceModel=customerCheckInTime=claimTicketU
 var cYear=cMonth=cDay=cHour=cMinute="";
 
 var ccc=0;
+
+////item list
+var partName=
+[
+["2.5 256GB","2.5 SATA SSD Lexar NS100 256GB - 1916"],
+["2.5 512GB","2.5 SATA SSD Lexar NS100 512GB - 1797"],
+["2.5 1TB","2.5 SATA SSD Lexar NS100 1TB - 2412"],
+["NVME 256GB","PCIe SSD NVMe Lexar 256GB - 2468"],
+["NVME 512GB","PCIe SSD NVMe SSD Lexar 512GB - 2390"],
+["NVME 1TB","PCIe M.2 NVme SSD Lexar 1TB - 2446"]
+];
+
+
+
+////end item list
+
 
 window.onload = function exampleFunction()
 {
@@ -200,9 +216,13 @@ $( document ).ready(function()
         //console.log("end");
     });   
     $("body").on("click", "#btnGeneratePickSupplier", function()
-    {
-        
+    {   
         $("[name='sposupplierid']").val($(this).attr("splid"));
+    });
+
+    $("body").on("click", "#btnGenerateNameOfPart", function()
+    {
+        $("[name='spopartname']").val($(this).attr("fname"));
     });
     
 
@@ -286,6 +306,8 @@ function defaultData()
 
         if(username=="Ljy" || username=="Lyn" ||  username=="J")
             GenerateSupplierPartNoBtn();
+        
+            GenerateItemNameBtn();
     }
     
 
@@ -810,7 +832,19 @@ function GenerateCopyBtn(btnType)
     }
 
 }
-
+function GenerateItemNameBtn()
+{
+    var ele = $("[name='spopartname']").closest("td");
+    ele=ele.find("input");
+    var spopartnamediv=$("<div></div>");
+    ele.before(spopartnamediv);
+    partName.forEach((partName, index) => 
+    {
+        //rtn += "index "+index+" ..."+partName[1]+"<br>";
+        
+        spopartnamediv.append("<btn id='btnGenerateNameOfPart' class='button-28' fname='"+partName[1]+"'>"+partName[0]+"</btn>");
+    });
+}
 
 function GeneratePickSupplierBtn(suppliername)
 {
