@@ -55,6 +55,10 @@ window.onload = function exampleFunction()
 {
     getCurrentDateTime();
     defaultData();
+
+
+    //var tmpinput=$("<input type='text' id='inputTMP' value='0'>");
+    //$("body").prepend("<input type='text' id='inputTMP' value='0'>");
 }
 
 $( document ).ready(function()
@@ -72,6 +76,8 @@ $( document ).ready(function()
     $("body").on("click", ".catchstatuschange, .displayblock, .radiusall, .linkbuttonopaque2, .linkbuttonmedium, .catchstatuschange, .catchloadworkorder, .linkbuttongreen, .linkbuttonsmall, .sbutton, .catchclass, .linkbuttonlarge, .linkbuttonblack", function()
     {
         GenerateWhatsappButton();
+        countchange=0;
+        removeOldEleIDfacebox();
         
     });
     $("body").on("click", "[name='btnCopyExcelFormat']", function()
@@ -226,32 +232,50 @@ $( document ).ready(function()
     });
     
 
-/*    $("body").on("click", "#repaircartadd", function()
+    $("body").on("click", "#repaircartadd", function()
     {
-        console.log("xxxxxxxx");
+        //console.log("xxxxxxxx");
+        /*
         $("div#repaircartbox > div#repaircartbox2 >table>tbody>tr").children("td:nth-child(1)").children("table:nth-child(3)").next().next().next().next().find("a").attr({"id":"btnAddSpecialOrderPartBtnOnWoPage","name":"btnAddSpecialOrderPartBtnOnWoPage"});
-
-        $("[name='spopartname']").val("asdqwezxcv2");
+        */
+        //$("div#repaircartbox > div#repaircartbox2 >table>tbody>tr").children("td:nth-child(1)").children("table:nth-child(7)").find("a").attr({"id":"btnAddSpecialOrderPartBtnOnWoPage","name":"btnAddSpecialOrderPartBtnOnWoPage","onlick":"javascript:$('#inputTMP').val(1)"});
         
+        
+        //var ele=$("div#repaircartbox > div#repaircartbox2 >table>tbody>tr").children("td:nth-child(1)").children("table:nth-child(7)").find("a");
+        //ele.attr({"id":"btnAddSpecialOrderPartBtnOnWoPage","name":"btnAddSpecialOrderPartBtnOnWoPage"});
+        countchange=0; //reset add special order part count
+        removeOldEleIDfacebox();
     });
-*/
 
 
 
 
+   // $("#facebox").remove();
 
 //if(username=="J")
 //{
+    /*
+    $("body").on("click", "btnAddSpecialOrderPartBtnOnWoPage , [name='btnAddSpecialOrderPartBtnOnWoPage']", function()  
+    {
+        console.log("test123");
+    });
+    */
     $("body").on("DOMSubtreeModified", "#facebox", function()  
     {
-  
+        /*if($("#inputTMP").val()=="0")
+            console.log("0000");
+        else
+            console.log("1111");
+        */
+       //$("#facebox >.content").html()
         if(countchange==0)
         {
+            //removeOldEleIDfacebox();
             if($("form#catchaddspo").length!=0)
             {
-                console.log('changedv1');
+                //console.log('changedv1');
                 countchange++;
-                console.log('changedv4 .....'+ countchange);
+                //console.log('changedv4 .....'+ countchange);
                 GenerateReceiveNoteBtn();
                 
                 GeneratePickSupplierBtn("Techminal-34");
@@ -262,18 +286,28 @@ $( document ).ready(function()
                 GeneratePickSupplierBtn("YsMobile-30");
                 GeneratePickSupplierBtn("Oversea-21");
                 
-                console.log('changedv2');
-                if(txtBranch!="Techminal")
+                //console.log('changedv2');
+                /*if(txtBranch!="Techminal")
                 {
                     GenerateItemNameBtn();
                     console.log('changedv3');
-                }
+                }*/
                 //$("[name='spopartname']").val("asd");
-                console.log('changedv4');
+                //console.log('changedv4');
+                var cd = setInterval(function()
+                {
+                    countchange=0;
+                    console.log("reset count change");
+                    clearInterval(cd);
+                }, 1000);
             }
+
+            
             
         }
-        console.log('changedv5');
+        //console.log('changedv5');
+        //if(countchange==1)
+                //countchange=0;
         
     });
 //}
@@ -289,6 +323,34 @@ $( document ).ready(function()
 
     
 });
+
+function removeOldEleIDfacebox()
+{
+    var eleCount=0;
+    $("div").each(function( index ) 
+    {
+        
+        if($(this).attr("id")=="facebox")
+        {
+            eleCount++;
+        }
+    });
+
+    //if(eleCount!=1 && eleCount!=0)
+    //{
+        $("div").each(function( index ) 
+        {
+            if($(this).attr("id")=="facebox")
+            {
+                if(eleCount!=1)
+                {
+                    eleCount--;
+                    $("#facebox").remove();
+                }
+            }
+        });
+   // }
+}
 
 function getCurrentDateTime()
 {
@@ -920,7 +982,7 @@ function GenerateReceiveNoteBtn()
     //if (~weburl.indexOf("/store/stock.php")&& (func[1].indexOf("editspo")==0 || func[1].indexOf("addspo")==0))
     //{
         var ele = $("[name='sponotes']").closest( "td" );
-        ele.append("<btn id='btnGenerateReceiveNote' class='button-29'>Received**ByXxX yyyy/mm/dd</btn>");
+        ele.append("<btn id='btnGenerateReceiveNote' class='button-29'>Order/Received**ByXxX yyyy/mm/dd</btn>");
     //}
 
 }
@@ -945,7 +1007,7 @@ function GenerateReceiveNote()
     GetURL();
     //var weburl=window.location.pathname;
     //var webFurl = window.location.href;
-    //var func=webFurl.split("php?func=");
+    var func=webFurl.split("php?func=");
     /*
     var d = new Date();
 
@@ -953,15 +1015,30 @@ function GenerateReceiveNote()
     var day = d.getDate();
     var ymd = d.getFullYear() + '/' +((''+month).length<2 ? '0' : '') + month + '/' +((''+day).length<2 ? '0' : '') + day;
     */
+   console.log("......"+func.length);
+    var txt="";
+    if(func.length>=2)
+    {
+        if (func[1].indexOf("editspo")==0)
+            txt="Received";
+        else
+            txt="Order";
+        if (func[1].indexOf("editspo")==0)
+            $("[name='spostatus']").val("2");
+        else
+            $("[name='spostatus']").val("8");
+    }
+    else
+    {
+        txt="Order";
+        $("[name='spostatus']").val("8");
+    }
+
     var ymd=cYear+"/"+cMonth+"/"+cDay;
     //var specialOrderEditTable = $("[name=spopartname]").parent().parent().parent().parent();
     var eleTxt = $("[name='spoquantity']").val();
-    $("[name='sponotes']").val("Received "+eleTxt+" by "+username+" on "+ymd);
-
-    //if (func[1].indexOf("addspo")==0)
-        //$("[name='spostatus']").val("8");
-    //else
-        $("[name='spostatus']").val("2");
+    $("[name='sponotes']").val(txt+" "+eleTxt+" by "+username+" on "+ymd);
+   
 }
 
 function GenerateSupplierPartNo()
