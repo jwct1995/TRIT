@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      18.14
+// @version      18.15
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -1490,7 +1490,14 @@ function removeOldEleIDfacebox()
         });
    // }
 }
+function GenerateDailyReportCopyBtn()
+{
+    if (~webFurl.indexOf("/store/reports.php?func=day_report") && (username=="aaron" || username=="J"))
+    {
+        $("table.interface > tbody").children("tr:nth-child(2)").children("td:nth-child(2)").find("div.startbox").children("table.standard").eq(0).before("<button name='btnCopyReceiptAndPrices'  class='button-28'>Copy Rec&Total</button>");
+    }
 
+}
 function copyReceiptAndPrices()
 {
     var ele=$("table.interface > tbody").children("tr:nth-child(2)").children("td:nth-child(2)").find("div.startbox").children("table.standard").eq(0);
@@ -1508,13 +1515,4 @@ function copyReceiptAndPrices()
         rtn+=rec[0]+" \t"+tot+"\n";
     }
     copyToClipboard(rtn);
-}
-
-function GenerateDailyReportCopyBtn()
-{
-    if (~webFurl.indexOf("/store/reports.php?func=day_report") && (username=="aaron" || username=="J"))
-    {
-        $("table.interface > tbody").children("tr:nth-child(2)").children("td:nth-child(2)").find("div.startbox").children("table.standard").eq(0).before("<button name='btnCopyReceiptAndPrices'  class='button-28'>Copy Rec&Total</button>");
-    }
-
 }
