@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      19.0
+// @version      19.2
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -316,10 +316,13 @@ $( document ).ready(function()
     {
         copyReceiptAndPrices();
     });
+    $("body").on("click", "[name='btnFilterAndOpenNewTab']", function()
+    {
+        filterAndOpenInNewTab();
+    });
 
     
 });
-
 
 
 function getCurrentDateTime()
@@ -401,7 +404,7 @@ function defaultData()
     GenerateInputWhatsappSlot();
 
     GenerateDailyReportCopyBtn();
-
+    GenerateFilterForOpenNewTabBtn();
     
    
 
@@ -1515,4 +1518,36 @@ function copyReceiptAndPrices()
         rtn+=rec[0]+" \t"+tot+"\n";
     }
     copyToClipboard(rtn);
+}
+
+function GenerateFilterForOpenNewTabBtn()
+{
+    if (~webFurl.indexOf("/store/reports.php?func=day_report"))
+    {
+        
+        $("table.interface > tbody").children("tr:nth-child(2)").children("td:nth-child(2)").find("div.startbox").children("table.standard").eq(0).before("<p>From<input type='text' id='txtFilterFrom' value='0.00'> to <input type='text' id='txtFilterTo' value='99999.99'>  <button name='btnFilterAndOpenNewTab'  class='button-28'>Filter & Open In New Tab</button></p>");
+    }
+
+}
+function filterAndOpenInNewTab()
+{
+    var ele=$("table.interface > tbody").children("tr:nth-child(2)").children("td:nth-child(2)").find("div.startbox").children("table.standard").eq(0);
+    
+    var eleTbody=ele.find("tbody");
+    var eleTR=ele.find("tbody").children("tr");
+    var eleTRLength = eleTR.length;
+
+    for(var c=2;c<=eleTRLength;c++)
+    {
+        var rec=eleTbody.children("tr:nth-child("+c+")").children("td:nth-child(1)").find("a");
+        var ahref=rec.attr("href");
+        var tot=eleTbody.children("tr:nth-child("+c+")").children("td:nth-child(6)").text();
+        tot=tot.split("$")[1];
+        var totprices=parseFloat(tot);
+        
+        if(totprices<=$("#txtFilterTo").val() && totprices>=$("#txtFilterFrom").val())
+        {
+            window.open(ahref, '_blank');
+        }
+    }
 }
