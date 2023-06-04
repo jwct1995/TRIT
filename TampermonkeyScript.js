@@ -312,45 +312,15 @@ $( document ).ready(function()
     });
 //}
 
-
-
-
-
-
-
-
-
+    $("body").on("click", "[name='btnCopyReceiptAndPrices']", function()
+    {
+        copyReceiptAndPrices();
+    });
 
     
 });
 
-function removeOldEleIDfacebox()
-{
-    var eleCount=0;
-    $("div").each(function( index ) 
-    {
-        
-        if($(this).attr("id")=="facebox")
-        {
-            eleCount++;
-        }
-    });
 
-    //if(eleCount!=1 && eleCount!=0)
-    //{
-        $("div").each(function( index ) 
-        {
-            if($(this).attr("id")=="facebox")
-            {
-                if(eleCount!=1)
-                {
-                    eleCount--;
-                    $("#facebox").remove();
-                }
-            }
-        });
-   // }
-}
 
 function getCurrentDateTime()
 {
@@ -429,6 +399,8 @@ function defaultData()
         GenerateCopyBtn("FAV2");
 
     GenerateInputWhatsappSlot();
+
+    GenerateDailyReportCopyBtn();
 
     
    
@@ -1489,4 +1461,60 @@ function generateQuotaion(eleVal,notetype)
 
     //console.log("ee");
     return rtn;
+}
+
+function removeOldEleIDfacebox()
+{
+    var eleCount=0;
+    $("div").each(function( index ) 
+    {
+        
+        if($(this).attr("id")=="facebox")
+        {
+            eleCount++;
+        }
+    });
+
+    //if(eleCount!=1 && eleCount!=0)
+    //{
+        $("div").each(function( index ) 
+        {
+            if($(this).attr("id")=="facebox")
+            {
+                if(eleCount!=1)
+                {
+                    eleCount--;
+                    $("#facebox").remove();
+                }
+            }
+        });
+   // }
+}
+
+function copyReceiptAndPrices()
+{
+    var ele=$("table.interface > tbody").children("tr:nth-child(2)").children("td:nth-child(2)").find("div.startbox").children("table.standard").eq(0);
+    
+    var eleTbody=ele.find("tbody");
+    var eleTR=ele.find("tbody").children("tr");
+    
+    var eleTRLength = eleTR.length;
+    var rtn="";
+    for(var c=2;c<=eleTRLength;c++)
+    {
+        var rec=eleTbody.children("tr:nth-child("+c+")").children("td:nth-child(1)").text().split(" ");
+        var tot=eleTbody.children("tr:nth-child("+c+")").children("td:nth-child(6)").text();
+
+        rtn+=rec[0]+" \t"+tot+"\n";
+    }
+    copyToClipboard(rtn);
+}
+
+function GenerateDailyReportCopyBtn()
+{
+    if (~webFurl.indexOf("/store/reports.php?func=day_report") && (username=="aaron" || username=="J"))
+    {
+        $("table.interface > tbody").children("tr:nth-child(2)").children("td:nth-child(2)").find("div.startbox").children("table.standard").eq(0).before("<button name='btnCopyReceiptAndPrices'  class='button-28'>Copy Rec&Total</button>");
+    }
+
 }
