@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      19.3
+// @version      19.4
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -35,7 +35,7 @@ var cYear=cMonth=cDay=cHour=cMinute="";
 var countchange=0;
 var ccc=0;
 
-////item list
+////Array list
 var partName=
 [
 ["2.5 256GB","2.5 SATA SSD Lexar NS100 256GB - 1916"],
@@ -46,7 +46,9 @@ var partName=
 ["NVME 1TB","PCIe M.2 NVme SSD Lexar 1TB - 2446"]
 ];
 
+var copyExcelFormatLabel=["Techminal","FS","TNN","local","oversea","all","FullAll","FAV2"];
 
+var pickSupplierLabel=["Techminal-34","Fssocom-29","Local-20","TNN-9","MlExpress-35","YsMobile-30","Oversea-21"];
 
 ////end item list
 
@@ -277,7 +279,8 @@ $( document ).ready(function()
                 countchange++;
                 //console.log('changedv4 .....'+ countchange);
                 GenerateReceiveNoteBtn();
-                
+                GeneratePickSupplierBtn();
+                /*
                 GeneratePickSupplierBtn("Techminal-34");
                 GeneratePickSupplierBtn("Fssocom-29");
                 GeneratePickSupplierBtn("Local-20");
@@ -285,7 +288,7 @@ $( document ).ready(function()
                 GeneratePickSupplierBtn("MlExpress-35");
                 GeneratePickSupplierBtn("YsMobile-30");
                 GeneratePickSupplierBtn("Oversea-21");
-                
+                */
                 //console.log('changedv2');
                 /*if(txtBranch!="Techminal")
                 {
@@ -374,6 +377,8 @@ function defaultData()
     if (~weburl.indexOf("/store/stock.php")&& (func[1].indexOf("editspo")==0 || func[1].indexOf("addspo")==0))
     {
         GenerateReceiveNoteBtn();
+        GeneratePickSupplierBtn();
+        /*
         GeneratePickSupplierBtn("Techminal-34");
         GeneratePickSupplierBtn("Fssocom-29");
         GeneratePickSupplierBtn("Local-20");
@@ -381,7 +386,7 @@ function defaultData()
         GeneratePickSupplierBtn("MlExpress-35");
         GeneratePickSupplierBtn("YsMobile-30");
         GeneratePickSupplierBtn("Oversea-21");
-
+        */
         if(username=="Ljy" || username=="Lyn" ||  username=="J")
             GenerateSupplierPartNoBtn();
         
@@ -390,8 +395,8 @@ function defaultData()
     }
     
 
-
-    GenerateCopyBtn("Techminal");
+    GenerateCopyBtn();
+    /*GenerateCopyBtn("Techminal");
     GenerateCopyBtn("FS");
     GenerateCopyBtn("TNN");
     GenerateCopyBtn("local");
@@ -400,7 +405,7 @@ function defaultData()
     GenerateCopyBtn("FullAll");
     if(username=="Ljy" || username=="Lyn" ||  username=="J")
         GenerateCopyBtn("FAV2");
-
+*/
     GenerateInputWhatsappSlot();
 
     GenerateDailyReportCopyBtn();
@@ -898,7 +903,7 @@ function getWOID()
     
 }
 */
-function GenerateCopyBtn(btnType)
+function GenerateCopyBtn()//GenerateCopyBtn(btnType)
 {
     GetURL();
     //var weburl=window.location.pathname;
@@ -907,10 +912,27 @@ function GenerateCopyBtn(btnType)
     //func[1];
     //specialorders
    // specialordersall
+    var ele=$(".whitebottom").find("table");
+    var eleP=$("<p></p>");
+    ele.before(eleP);
+
     if (~weburl.indexOf("/store/stock.php")&& (func[1]=="specialorders"||func[1]=="specialordersall"))
     {
-        $(".whitebottom").find("table").before("<button name='btnCopyExcelFormat' btntype='"+btnType+"' class='button-28'>Copy ("+btnType+")</button>");
+        //if(username=="Ljy" || username=="Lyn" ||  username=="J" )
+            //tf=1;
+        copyExcelFormatLabel.forEach((copyExcelFormatLabel, index) => 
+        {
+            if(copyExcelFormatLabel!="FAV2" || (username=="Ljy" || username=="Lyn" ||  username=="J" ))
+            {
+                eleP.append("<button name='btnCopyExcelFormat' btntype='"+copyExcelFormatLabel+"' class='button-28'>Copy ("+copyExcelFormatLabel+")</button>");
+            }
+        });
+
+        //$(".whitebottom").find("table").before("<button name='btnCopyExcelFormat' btntype='"+btnType+"' class='button-28'>Copy ("+btnType+")</button>");
     }
+
+    eleP.append("<p><input id='cboxDateOnOff' type='checkbox'>Date OnOff</p>");
+    $("#cboxDateOnOff").prop("checked", true);
 
 }
 function GenerateItemNameBtn()
@@ -927,18 +949,32 @@ function GenerateItemNameBtn()
     });
 }
 
-function GeneratePickSupplierBtn(suppliername)
+function GeneratePickSupplierBtn()//GeneratePickSupplierBtn(suppliername)
 {
     //GetURL();
-    var splid = suppliername.split("-");
+
+    
+
+    var ele = $("[name='sposupplierid']").closest( "td" );
+    var eleP=$("<p></p>");
+    ele.prepend(eleP);
+    pickSupplierLabel.forEach((pickSupplierLabel, index) => 
+    {
+        var splid = pickSupplierLabel.split("-");
+        
+        eleP.append("<btn id='btnGeneratePickSupplier' class='button-28' splid='"+splid[1]+"'>"+splid[0]+"</btn>");
+    });
+
+
+    
 
 
     //var func=webFurl.split("php?func=");
     
     //if (~weburl.indexOf("/store/stock.php")&& (func[1].indexOf("editspo")==0 || func[1].indexOf("addspo")==0))
     //{
-        var ele = $("[name='sposupplierid']").closest( "td" );
-        ele.append("<btn id='btnGeneratePickSupplier' class='button-28' splid='"+splid[1]+"'>"+suppliername+"</btn>");
+        /*var ele = $("[name='sposupplierid']").closest( "td" );
+        ele.append("<btn id='btnGeneratePickSupplier' class='button-28' splid='"+splid[1]+"'>"+suppliername+"</btn>");*/
     //}
 
 }
@@ -1067,8 +1103,20 @@ function GenerateBtnCopyToExcelFormat(btnType)
         var opWO=$(this).children("td:nth-child(9)").find("a").text();
         //var op=$(this).children("td:nth-child(3)").text();
        // alert(opRemark);
+       var opDateOnOFf="";
+       var opQuantityType="";
+
         if(opName!="")
         {
+            if($("#cboxDateOnOff").is(":checked"))
+            {
+                opDateOnOFf=opDate+" \t";
+                opQuantityType=opQuantity+" \t";
+            }
+            else
+                opQuantityType="*"+opQuantity+" \t";
+
+
             if(btnType=="FAV2")
             {
                 rtn+=opName+" \t"+opQuantity+" \t"+opSupplier+" \t"+opSupplierPN+" \t"+opURL+" \t"+opTrackingNo+" \t"+opStatus+" \t"+opWO+" \t"+opRemark+" \n";
@@ -1076,21 +1124,25 @@ function GenerateBtnCopyToExcelFormat(btnType)
             else if(btnType!="FullAll" && opStatus!="Received")
             {
                 if(btnType=="FS" && opSupplier=="Fssocom") //local
-                    rtn+=opDate+" \t"+opName+" \t"+opQuantity+" \t"+opWO+" \t"+opRemark+" \n";
-                else if(btnType=="Techminal" && opSupplier=="# TECHMINAL PTE. LTD.") //local
-                    rtn+=opDate+" \t"+opName+" \t"+opQuantity+" \t"+opWO+" \t"+opRemark+" \n";
-                if(btnType=="TNN" && opSupplier=="TNN") //local
-                    rtn+=opDate+" \t"+opName+" \t"+opQuantity+" \t"+opWO+" \t"+opRemark+" \n";
-                else if(btnType=="local" && (opSupplier!="#Overseas" && opStatus!="Shipped") ) //local
-                    rtn+=opDate+" \t"+opName+" \t"+opQuantity+" \t"+opWO+" \t"+opRemark+" \n";
-                else if(btnType=="oversea" && (opSupplier=="#Overseas" || opStatus=="Shipped")) //overseaOverseas
+                    rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
 
-                    rtn+=opDate+" \t"+opName+" \t"+opQuantity+" \t"+opWO+" \t"+opRemark+" \n";
+                else if(btnType=="Techminal" && opSupplier=="# TECHMINAL PTE. LTD.") //local
+                    rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
+
+                if(btnType=="TNN" && opSupplier=="TNN") //local
+                    rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
+
+                else if(btnType=="local" && (opSupplier!="#Overseas" && opStatus!="Shipped") ) //local
+                    rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
+
+                else if(btnType=="oversea" && (opSupplier=="#Overseas" || opStatus=="Shipped")) //overseaOverseas
+                    rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
+
                 else if(btnType=="all")// all
-                    rtn+=opDate+" \t"+opName+" \t"+opQuantity+" \t"+opWO+" \t"+opRemark+" \n";
+                    rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
             }
             else if(btnType=="FullAll") //full all
-                rtn+=opDate+" \t"+opName+" \t"+opQuantity+" \t"+opWO+" \t"+opRemark+" \n";
+                rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
         }
     });
     copyToClipboard(rtn);
