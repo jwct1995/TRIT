@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      19.2
+// @version      19.3
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -11,7 +11,7 @@
 // @updateURL    https://raw.githubusercontent.com/jwct1995/TRIT/master/TampermonkeyScript.js
 // @downloadURL  https://raw.githubusercontent.com/jwct1995/TRIT/master/TampermonkeyScript.js
 
-// @icon         http://34.87.111.75/pcrt/v9/repair/images/logo.png
+//// @icon         http://34.87.111.75/pcrt/v9/repair/images/logo.png
 // @require      https://code.jquery.com/jquery-3.5.1.min.js
 
 //https://greasyfork.org/en/scripts/431134-trit
@@ -1468,6 +1468,10 @@ function generateQuotaion(eleVal,notetype)
 
 function removeOldEleIDfacebox()
 {
+    var cd = setInterval(function()
+    {
+                    
+        
     var eleCount=0;
     $("div").each(function( index ) 
     {
@@ -1475,23 +1479,27 @@ function removeOldEleIDfacebox()
         if($(this).attr("id")=="facebox")
         {
             eleCount++;
+            console.log("Index : "+index);
         }
     });
-
+    console.log(".......");
     //if(eleCount!=1 && eleCount!=0)
     //{
         $("div").each(function( index ) 
         {
             if($(this).attr("id")=="facebox")
             {
-                if(eleCount!=1)
+                if(eleCount>1)
                 {
                     eleCount--;
-                    $("#facebox").remove();
+                    $(this).remove();
+                    console.log("Deleted Index : "+index +"..."+(eleCount+1));
                 }
             }
         });
    // }
+        clearInterval(cd);
+    }, 1000);
 }
 function GenerateDailyReportCopyBtn()
 {
