@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      19.4.1
+// @version      19.4.2
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -930,7 +930,11 @@ function GenerateCopyBtn()//GenerateCopyBtn(btnType)
 
         //$(".whitebottom").find("table").before("<button name='btnCopyExcelFormat' btntype='"+btnType+"' class='button-28'>Copy ("+btnType+")</button>");
         eleP.append("<p><input id='cboxDateOnOff' type='checkbox'>Date OnOff</p>");
-        $("#cboxDateOnOff").prop("checked", true);
+        if(username=="aaron" || username=="J")
+            $("#cboxDateOnOff").prop("checked", false);
+        else
+            $("#cboxDateOnOff").prop("checked", true);
+
     }
 
     
