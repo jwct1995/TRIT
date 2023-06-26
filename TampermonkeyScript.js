@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      19.4.2
+// @version      19.4.3
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -1129,25 +1129,57 @@ function GenerateBtnCopyToExcelFormat(btnType)
             else if(btnType!="FullAll" && opStatus!="Received")
             {
                 if(btnType=="FS" && opSupplier=="Fssocom") //local
-                    rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
-
+                {
+                    if(username=="aaron" || username=="J")
+                        rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                    else
+                        rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
+                }
                 else if(btnType=="Techminal" && opSupplier=="# TECHMINAL PTE. LTD.") //local
-                    rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
+                {
+                    if(username=="aaron" || username=="J")
+                        rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                    else
+                        rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
+                }
 
                 if(btnType=="TNN" && opSupplier=="TNN") //local
-                    rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
-
+                {
+                    if(username=="aaron" || username=="J")
+                        rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                    else
+                        rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
+                }
                 else if(btnType=="local" && (opSupplier!="#Overseas" && opStatus!="Shipped") ) //local
-                    rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
+                {
+                    if(username=="aaron" || username=="J")
+                        rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                    else
+                        rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
+                }
 
                 else if(btnType=="oversea" && (opSupplier=="#Overseas" || opStatus=="Shipped")) //overseaOverseas
-                    rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
-
+                {
+                    if(username=="aaron" || username=="J")
+                        rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                    else
+                        rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
+                }
                 else if(btnType=="all")// all
-                    rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
+                {
+                    if(username=="aaron" || username=="J")
+                        rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                    else
+                        rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
+                }
             }
             else if(btnType=="FullAll") //full all
-                rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
+            {
+                if(username=="aaron" || username=="J")
+                    rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                else
+                    rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
+            }
         }
     });
     copyToClipboard(rtn);
