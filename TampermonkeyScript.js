@@ -1119,7 +1119,7 @@ function GenerateBtnCopyToExcelFormat(btnType)
                 opQuantityType=opQuantity+" \t";
             }
             else
-                opQuantityType="*"+opQuantity+" \t";
+                opQuantityType=opQuantity+" \t";
 
 
             if(btnType=="FAV2")
