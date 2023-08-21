@@ -65,7 +65,7 @@ $("div#contentcenter_specs_internalnav_2").each(function( index )
         preA=modelA;
         preE=modelEMC;
         //console.log("count "+ccc+" : "+modelA+"..."+modelEMC+"..."+modelName);
-        console.log(modelName +" "+ modelYear +" "+ modelA +" "+ modelEMC);
+        console.log(modelName +" "+ modelYear +" "+ modelA +"  EMC"+modelEMC);
     }
     
     ccc++;
