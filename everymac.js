@@ -57,14 +57,19 @@ $("div#contentcenter_specs_internalnav_2").each(function( index )
     modelName=modelName.replace(" Specs","");
     modelName=modelName.replace(" Vega Specs","");
 
+    var modelYear=ele.children("tr:nth-child(1)").children("td:nth-child(2)").text();
+    modelYear=modelYear.split(", ")[1];
+
     if(preA!=modelA && preE!=modelEMC)
     {
         preA=modelA;
         preE=modelEMC;
-        console.log("count "+ccc+" : "+modelA+"..."+modelEMC+"..."+modelName);
+        //console.log("count "+ccc+" : "+modelA+"..."+modelEMC+"..."+modelName);
+        console.log(modelName +" "+ modelYear +" "+ modelA +" "+ modelEMC);
     }
     
     ccc++;
 });
 
+MacBook Pro 13" (2 Thunderboard 3) Touch 2019 A2159 EMC3301
 
