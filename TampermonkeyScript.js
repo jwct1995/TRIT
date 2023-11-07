@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      19.4.4
+// @version      19.4.5
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -46,9 +46,9 @@ var partName=
 ["NVME 1TB","PCIe M.2 NVme SSD Lexar 1TB - 2446"]
 ];
 
-var copyExcelFormatLabel=["Techminal","FS","TNN","local","oversea","all","FullAll","FAV2"];
+var copyExcelFormatLabel=["Techminal","OneStop","FS","TNN","local","oversea","all","FullAll","FAV2"];
 
-var pickSupplierLabel=["Techminal-34","Fssocom-29","Local-20","TNN-9","MlExpress-35","YsMobile-30","Oversea-21"];
+var pickSupplierLabel=["Techminal-34","OneStop-37","Fssocom-29","Local-20","TNN-9","MlExpress-35","YsMobile-30","Oversea-21"];
 
 ////end item list
 
@@ -1142,8 +1142,14 @@ function GenerateBtnCopyToExcelFormat(btnType)
                     else
                         rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
                 }
-
-                if(btnType=="TNN" && opSupplier=="TNN") //local
+                else if(btnType=="OneStop" && opSupplier=="One Stop Part") //local
+                {
+                    if(username=="aaron" || username=="J")
+                        rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                    else
+                        rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
+                }
+                else if(btnType=="TNN" && opSupplier=="TNN") //local
                 {
                     if(username=="aaron" || username=="J")
                         rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
