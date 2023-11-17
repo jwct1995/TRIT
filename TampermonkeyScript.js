@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      19.4.5
+// @version      19.4.6
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -23,7 +23,7 @@
 // @run-at document-end
 
 // ==/UserScript==
-var testmode=0;
+var testmode=1; //9=J , 1=J1
 
 var txtBranch="";
 //var woid="";
@@ -46,7 +46,7 @@ var partName=
 ["NVME 1TB","PCIe M.2 NVme SSD Lexar 1TB - 2446"]
 ];
 
-var copyExcelFormatLabel=["Techminal","OneStop","FS","TNN","local","oversea","all","FullAll","FAV2"];
+var copyExcelFormatLabel=["Techminal","OneStop","FS","TNN","local","oversea","all","FullAll","FAV2"/*,"Testing"*/];
 
 var pickSupplierLabel=["Techminal-34","OneStop-37","Fssocom-29","Local-20","TNN-9","MlExpress-35","YsMobile-30","Oversea-21"];
 
@@ -352,8 +352,10 @@ function defaultData()
     username=$(".primary_linkgo_rightnew").text();
     username=username.split("\n ");
     username=username[1].trim();
-    if(testmode==1)
+    if(testmode==9)
         username="J"; //use to test only
+    if(testmode==1)
+        username="J1"; //use to test only
 
     var sBranch = $(".primary_linkgonew").text();
 
@@ -1076,6 +1078,9 @@ function GenerateSupplierPartNo()
 
 function copyToClipboard(copyTxt)
 {
+    if(copyTxt.length==0)
+        copyTxt=" ";
+
     var temp=$("<textarea></textarea>");
     $("body").append(temp);
     temp.text(copyTxt).select();
@@ -1132,6 +1137,8 @@ function GenerateBtnCopyToExcelFormat(btnType)
                 {
                     if(username=="aaron" || username=="J")
                         rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                    else if(username=="Ljy" || username=="Lyn" ||  username=="J1")
+                        rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opSupplier+" \t"+opWO+" \n";
                     else
                         rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
                 }
@@ -1139,6 +1146,8 @@ function GenerateBtnCopyToExcelFormat(btnType)
                 {
                     if(username=="aaron" || username=="J")
                         rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                    else if(username=="Ljy" || username=="Lyn" ||  username=="J1")
+                        rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opSupplier+" \t"+opWO+" \n";
                     else
                         rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
                 }
@@ -1146,6 +1155,8 @@ function GenerateBtnCopyToExcelFormat(btnType)
                 {
                     if(username=="aaron" || username=="J")
                         rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                    else if(username=="Ljy" || username=="Lyn" ||  username=="J1")
+                        rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opSupplier+" \t"+opWO+" \n";
                     else
                         rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
                 }
@@ -1153,6 +1164,8 @@ function GenerateBtnCopyToExcelFormat(btnType)
                 {
                     if(username=="aaron" || username=="J")
                         rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                    else if(username=="Ljy" || username=="Lyn" ||  username=="J1")
+                        rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opSupplier+" \t"+opWO+" \n";
                     else
                         rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
                 }
@@ -1160,6 +1173,8 @@ function GenerateBtnCopyToExcelFormat(btnType)
                 {
                     if(username=="aaron" || username=="J")
                         rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                    else if(username=="Ljy" || username=="Lyn" ||  username=="J1")
+                        rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opSupplier+" \t"+opWO+" \n";
                     else
                         rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
                 }
@@ -1168,6 +1183,8 @@ function GenerateBtnCopyToExcelFormat(btnType)
                 {
                     if(username=="aaron" || username=="J")
                         rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                    else if(username=="Ljy" || username=="Lyn" ||  username=="J1")
+                        rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opSupplier+" \t"+opWO+" \n";
                     else
                         rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
                 }
@@ -1175,19 +1192,29 @@ function GenerateBtnCopyToExcelFormat(btnType)
                 {
                     if(username=="aaron" || username=="J")
                         rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                    else if(username=="Ljy" || username=="Lyn" ||  username=="J1")
+                        rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opSupplier+" \t"+opWO+" \n";
                     else
                         rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
                 }
+                /*else if(btnType=="Testing")
+                {
+                    rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opSupplier+" \t"+opWO+" \n";
+                }*/
             }
             else if(btnType=="FullAll") //full all
             {
                 if(username=="aaron" || username=="J")
                     rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                else if(username=="Ljy" || username=="Lyn" ||  username=="J1")
+                    rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opSupplier+" \t"+opWO+" \n";
                 else
                     rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opWO+" \t"+opRemark+" \n";
             }
+            
         }
     });
+    //alert(rtn.length);
     copyToClipboard(rtn);
 }
 
