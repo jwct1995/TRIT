@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      19.4.7
+// @version      19.4.8
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -582,11 +582,13 @@ function GenerateExtentionForCustomerCallNumber(txtBranch,iconTD)
     var txtPhoneNo=elePhoneStrong.text();
     var div=$("<div></div>");
     div.attr({"name":"divExtentionCustomerCallNumber"});
-    div.css("display","inline-flex");
+    div.css("display","flow-root");
     elePhoneTD.append(div);
     div.append(generateBtnRedirectToWhatsapp(txtPhoneNo));
     div.append(generateBtnRedirectToWhatsappWithReadyToCollectTxt(txtBranch,txtPhoneNo));
     div.append(generateBtnRedirectToWhatsappWithBeyondRepairTxt(txtPhoneNo));
+    div.append(generateBtnRedirectToWhatsappWithToFixTxt(txtBranch,txtPhoneNo));
+    div.append(generateBtnRedirectToWhatsappWithToOrderTxt(txtBranch,txtPhoneNo));
     div.append(generateBtnRedirectToWhatsappGoogleMapReview1Txt(txtBranch,txtPhoneNo));
     div.append(generateBtnRedirectToWhatsappGoogleMapReview2Txt(txtBranch,txtPhoneNo));
     div.append(generateBtnRedirectClaimTicket());
@@ -1709,3 +1711,51 @@ function filterAndOpenInNewTab()
         }
     }
 }
+
+
+function generateBtnRedirectToWhatsappWithToFixTxt(branch,phone)
+{
+    var id="btnWhatsAppSendReadyToFixTxt";
+    var btn=$("<button><button>");
+    btn.css({"width":"auto","height":"30px","margin-left": "10px","border-style": "solid"});
+    btn.text("ToFix");
+    btn.attr({"id":id,"ph":phone,"onclick":"var new_window; new_window =window.open('"+rtnTxtToFix(phone)+"'); setTimeout(function(){ new_window.close(); }, 1000); "});
+    return btn;
+}
+
+function generateBtnRedirectToWhatsappWithToOrderTxt(branch,phone)
+{
+    var id="btnWhatsAppSendReadyToOrderTxt";
+    var btn=$("<button><button>");
+    btn.css({"width":"auto","height":"30px","margin-left": "10px","border-style": "solid"});
+    btn.text("ToOrder");
+    btn.attr({"id":id,"ph":phone,"onclick":"var new_window; new_window =window.open('"+rtnTxtToOrder(phone)+"'); setTimeout(function(){ new_window.close(); }, 1000); "});
+    return btn;
+}
+
+function rtnTxtToFix(phone)
+{
+    GetCustomerData();
+    var rphone=PhoneNumberFilter(phone);
+    
+    var rtn="";
+    if(txtBranch=="AMK" || txtBranch=="Hougang" || txtBranch=="Tampines" || txtBranch=="Yishun" || txtBranch=="TECHMINAL")
+    {
+        rtn="https://api.whatsapp.com/send?phone="+rphone+"&text=Hi%20%20"+customerName+"%0AWork%20Order%20ID%20"+customerWO+"%20%0A%0ASure%2C%20We%20shall%20proceed%20to%20fix.%0AWill%20get%20back%20to%20you%20once%20ready.";
+    }
+    return rtn;
+}
+function rtnTxtToOrder(phone)
+{
+    GetCustomerData();
+    var rphone=PhoneNumberFilter(phone);
+    
+    var rtn="";
+    if(txtBranch=="AMK" || txtBranch=="Hougang" || txtBranch=="Tampines" || txtBranch=="Yishun" || txtBranch=="TECHMINAL")
+    {
+        rtn="https://api.whatsapp.com/send?phone="+rphone+"&text=Hi%20%20"+customerName+"%0AWork%20Order%20ID%20"+customerWO+"%20%0A%0ASure%2C%20we%20shall%20proceed%20for%20the%20order.%0AWill%20get%20back%20to%C2%A0you%C2%A0once%C2%A0ready.";
+    }
+    return rtn;
+}
+
+
