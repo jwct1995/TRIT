@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      19.4.8
+// @version      19.4.9
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -789,9 +789,21 @@ function rtnTxtGoogleMapReview2(branch,phone)
     var rtn="";
     var rphone=PhoneNumberFilter(phone);
 
-    if(branch=="AMK"||branch=="Hougang"||branch=="Tampines" || branch=="Yishun")
+    if(branch=="AMK")
     {
-        rtn="https://api.whatsapp.com/send?phone="+rphone+"&text=It%20will%20be%20great%20if%20you%20can%20help%20to%20Click%20the%20link%20below%20to%20rate%20and%20leave%20us%20your%20valuable%20review.%20Thank%20you!%0Ahttps%3A%2F%2Fg.page%2Fr%2FCS51tQqVBkLHEBM%2Freview";
+        rtn="https://api.whatsapp.com/send?phone="+rphone+"&text=It%20will%20be%20great%20if%20you%20can%20help%20to%20Click%20the%20link%20below%20to%20rate%20and%20leave%20us%20your%20valuable%20review.%20Thank%20you!%0Ahttps%3A%2F%2Fg.page%2Fr%2FCS51tQqVBkLHEBM%2Freview%20";
+    }
+    if(branch=="Hougang")
+    {
+        rtn="https://api.whatsapp.com/send?phone="+rphone+"&text=It%20will%20be%20great%20if%20you%20can%20help%20to%20Click%20the%20link%20below%20to%20rate%20and%20leave%20us%20your%20valuable%20review.%20Thank%20you!%0Ahttps%3A%2F%2Fg.page%2Fr%2FCSCMXrB0DnG4EBM%2Freview%20";
+    }
+    if(branch=="Tampines")
+    {
+        rtn="https://api.whatsapp.com/send?phone="+rphone+"&text=It%20will%20be%20great%20if%20you%20can%20help%20to%20Click%20the%20link%20below%20to%20rate%20and%20leave%20us%20your%20valuable%20review.%20Thank%20you!%0Ahttps%3A%2F%2Fg.page%2Fr%2FCcf28hpDS6QNEBM%2Freview%20";
+    }
+    if(branch=="Yishun")
+    {
+        rtn="https://api.whatsapp.com/send?phone="+rphone+"&text=It%20will%20be%20great%20if%20you%20can%20help%20to%20Click%20the%20link%20below%20to%20rate%20and%20leave%20us%20your%20valuable%20review.%20Thank%20you!%0Ahttps%3A%2F%2Fg.page%2Fr%2FCc2YWe6qsRKMEBM%2Freview%20";
     }
     
     else if(branch=="TECHMINAL")
