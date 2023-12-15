@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      19.4.9
+// @version      19.4.10
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -598,8 +598,24 @@ function GenerateExtentionForCustomerCallNumber(txtBranch,iconTD)
 
     
     removeDuplicateElement(div,"id","");
+    removeDuobleElement();
 }
 
+function removeDuobleElement()
+{
+    var elename=["btnAssetLabel","btnClaimTicket"];
+    for(var i=0;i<elename.length;i++)
+    {
+        var eleLength = $("[name='"+elename[i]+"']").length;
+        if(eleLength>1)
+        {
+            for(var c=1;c<eleLength;c++)
+            {$("[name='"+elename[i]+"']")[c].remove();}
+        }
+
+    }
+    
+}
 function removeDuplicateElement(ele,attr,eleid)
 {
     var preEleId="";
@@ -655,7 +671,7 @@ function generateBtnRedirectClaimTicket()
     var btn=$("<button><button>");
     btn.css({"width":"auto","height":"30px","margin-left": "10px","border-style": "solid"});
     btn.text("PTicket");
-    btn.attr({"id":id,"onclick":"var new_window; new_window =window.open('"+claimTicketURL+"');"});
+    btn.attr({"id":id,"name":id,"onclick":"var new_window; new_window =window.open('"+claimTicketURL+"');"});
     return btn;
 }
 
@@ -665,7 +681,7 @@ function generateBtnRedirectAssetLabel()
     var btn=$("<button><button>");
     btn.css({"width":"auto","height":"30px","margin-left": "10px","border-style": "solid"});
     btn.text("ALabel");
-    btn.attr({"id":id,"onclick":"var new_window; new_window =window.open('"+$(".whitemiddle").find(".nvbar").children(".nvdropdown:nth-child(3)").find("div").children("a:nth-child(8)").attr("href")+"');"});
+    btn.attr({"id":id,"name":id,"onclick":"var new_window; new_window =window.open('"+$(".whitemiddle").find(".nvbar").children(".nvdropdown:nth-child(3)").find("div").children("a:nth-child(8)").attr("href")+"');"});
     return btn;
 }
 function generateBtnRedirectToWhatsappGoogleMapReview1Txt(branch,phone)
