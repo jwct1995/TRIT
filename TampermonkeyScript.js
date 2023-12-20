@@ -323,6 +323,10 @@ $( document ).ready(function()
     {
         filterAndOpenInNewTab();
     });
+    $("body").on("click", "#addnoninvonfloater", function()
+    {
+        alert("aaa");
+    });
 
     
 });
@@ -1786,4 +1790,18 @@ function rtnTxtToOrder(phone)
     return rtn;
 }
 
+function GenerateTypeOfDiscountShopeeLazadaBtn()
+{
+/* var ele = $("[name='spopartname']").closest("td");
+    ele=ele.find("input");
+    var spopartnamediv=$("<div></div>");
+    ele.before(spopartnamediv);
+    partName.forEach((partName, index) => 
+    {
+        //rtn += "index "+index+" ..."+partName[1]+"<br>";
+        
+        spopartnamediv.append("<btn id='btnGenerateNameOfPart' class='button-28' fname='"+partName[1]+"'>"+partName[0]+"</btn>");
+    });
+    */
+}
 
