@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      19.4.11
+// @version      19.5.1
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -57,8 +57,7 @@ window.onload = function exampleFunction()
 {
     getCurrentDateTime();
     defaultData();
-
-
+    
     //var tmpinput=$("<input type='text' id='inputTMP' value='0'>");
     //$("body").prepend("<input type='text' id='inputTMP' value='0'>");
 }
@@ -323,12 +322,18 @@ $( document ).ready(function()
     {
         filterAndOpenInNewTab();
     });
-    /*
+    
     $("body").on("click", "#addnoninvonfloater", function()
     {
-        alert("aaa");
+        GenerateTypeOfDiscountShopeeLazadaBtn();
     });
-    */
+    
+    $("body").on("click", "[name='btnFillProductName']", function()
+    {
+        $("#ni_title[name='itemdesc']").val($(this).text());
+    });
+
+
     
 });
 
@@ -417,7 +422,8 @@ function defaultData()
 
     GenerateDailyReportCopyBtn();
     GenerateFilterForOpenNewTabBtn();
-    
+
+    GenerateShopeeLazadaFillOrderDateBtn();
    
 
 }
@@ -1825,16 +1831,34 @@ function rtnTxtToOrder(phone)
 
 function GenerateTypeOfDiscountShopeeLazadaBtn()
 {
-/* var ele = $("[name='spopartname']").closest("td");
-    ele=ele.find("input");
-    var spopartnamediv=$("<div></div>");
-    ele.before(spopartnamediv);
-    partName.forEach((partName, index) => 
+    GetURL();
+    if (~weburl.indexOf("techminal/store/cart.php"))
     {
-        //rtn += "index "+index+" ..."+partName[1]+"<br>";
-        
-        spopartnamediv.append("<btn id='btnGenerateNameOfPart' class='button-28' fname='"+partName[1]+"'>"+partName[0]+"</btn>");
-    });
-    */
+        var cd = setInterval(function()
+        {
+            var eleC_positemgrid=$(".positemgrid");//.css("background-color", "red");
+            eleC_positemgrid.append("<btn id='btnFillProductName' class='button-28' name='btnFillProductName'>Shipping Subtotal</btn>");
+            eleC_positemgrid.append("<btn id='btnFillProductName' class='button-28' name='btnFillProductName'>Fees & Charges</btn>");
+            eleC_positemgrid.append("<btn id='btnFillProductName' class='button-28' name='btnFillProductName'>Shipping Fee</btn>");
+            eleC_positemgrid.append("<btn id='btnFillProductName' class='button-28' name='btnFillProductName'>Lazada Discount Total</btn>");
+
+            clearInterval(cd);
+        }, 300);
+    }
 }
 
+
+function GenerateShopeeLazadaFillOrderDateBtn()
+{
+    getCurrentDateTime();
+    GetURL();
+    if (weburl==("/techminal/store/LazadaStore.php")|| weburl==("/techminal/store/ShopeeStore.php"))
+    {
+        var cd = setInterval(function()
+        {
+            var eleN_orderdate=$("[name='custompaymentinfo[Order Date]']");//.css("background-color", "red");
+            eleN_orderdate.val(cYear+"/"+cMonth+"/"+cDay);
+            clearInterval(cd);
+        }, 500);
+    }
+}
