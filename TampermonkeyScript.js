@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      19.4.10
+// @version      19.4.11
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -323,11 +323,12 @@ $( document ).ready(function()
     {
         filterAndOpenInNewTab();
     });
+    /*
     $("body").on("click", "#addnoninvonfloater", function()
     {
         alert("aaa");
     });
-
+    */
     
 });
 
@@ -1140,12 +1141,35 @@ function GenerateSupplierPartNo()
 
 function copyToClipboard(copyTxt)
 {
+    var bname="";
     if(copyTxt.length==0)
         copyTxt=" ";
+    else
+    {
+        GetURL();
+        var func=webFurl.split("php?func=");
+        if (~weburl.indexOf("/store/stock.php")&& (func[1]=="specialorders"||func[1]=="specialordersall"))
+        {
+            if(txtBranch=="AMK")
+                bname="T&R Ideal Tech";
+            if(txtBranch=="Hougang")
+                bname="Fixnology";
+            if(txtBranch=="Tampines")
+                bname="Mac Sync Technology";
+            if(txtBranch=="Yishun")
+                bname="TRIT Computer PTE LTD";
+            /*if(txtBranch=="TECHMINAL")
+       bname="";*/
+        }
+    }
+
+
+
 
     var temp=$("<textarea></textarea>");
     $("body").append(temp);
-    temp.text(copyTxt).select();
+    //temp.text(copyTxt).select();
+    temp.text(bname+"\n"+copyTxt).select();
     document.execCommand("copy");
     temp.remove();
 }
@@ -1155,7 +1179,7 @@ function GenerateBtnCopyToExcelFormat(btnType)
     GetURL();
     //var weburl=window.location.pathname;
     var rtn="";
-    
+    var crow=0;
     $(".whitebottom").find("table").find("tr").each(function(index, value)
     {
         //console.log(index +" -->> "+ $(this).children("td:nth-child(8)").children("span:nth-child(1)").text());
@@ -1191,14 +1215,16 @@ function GenerateBtnCopyToExcelFormat(btnType)
 
             if(btnType=="FAV2")
             {
+                crow=crow+1;
                 rtn+=opName+" \t"+opQuantity+" \t"+opSupplier+" \t"+opSupplierPN+" \t"+opURL+" \t"+opTrackingNo+" \t"+opStatus+" \t"+opWO+" \t"+opRemark+" \n";
             }
             else if(btnType!="FullAll" && opStatus!="Received")
             {
                 if(btnType=="FS" && opSupplier=="Fssocom") //local
                 {
+                    crow=crow+1;
                     if(username=="aaron" || username=="J")
-                        rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                        rtn+=crow+". "+opDateOnOFf+opName+" \t x"+opQuantityType+" \n";
                     else if(username=="Ljy" || username=="Lyn" ||  username=="J1")
                         rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opSupplier+" \t"+opWO+" \n";
                     else
@@ -1206,8 +1232,9 @@ function GenerateBtnCopyToExcelFormat(btnType)
                 }
                 else if(btnType=="Techminal" && opSupplier=="# TECHMINAL PTE. LTD.") //local
                 {
+                    crow=crow+1;
                     if(username=="aaron" || username=="J")
-                        rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                        rtn+=crow+". "+opDateOnOFf+opName+" \t x"+opQuantityType+" \n";
                     else if(username=="Ljy" || username=="Lyn" ||  username=="J1")
                         rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opSupplier+" \t"+opWO+" \n";
                     else
@@ -1215,8 +1242,9 @@ function GenerateBtnCopyToExcelFormat(btnType)
                 }
                 else if(btnType=="OneStop" && opSupplier=="One Stop Part") //local
                 {
+                    crow=crow+1;
                     if(username=="aaron" || username=="J")
-                        rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                        rtn+=crow+". "+opDateOnOFf+opName+" \t x"+opQuantityType+" \n";
                     else if(username=="Ljy" || username=="Lyn" ||  username=="J1")
                         rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opSupplier+" \t"+opWO+" \n";
                     else
@@ -1224,8 +1252,9 @@ function GenerateBtnCopyToExcelFormat(btnType)
                 }
                 else if(btnType=="TNN" && opSupplier=="TNN") //local
                 {
+                    crow=crow+1;
                     if(username=="aaron" || username=="J")
-                        rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                        rtn+=crow+". "+opDateOnOFf+opName+" \t x"+opQuantityType+" \n";
                     else if(username=="Ljy" || username=="Lyn" ||  username=="J1")
                         rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opSupplier+" \t"+opWO+" \n";
                     else
@@ -1233,8 +1262,9 @@ function GenerateBtnCopyToExcelFormat(btnType)
                 }
                 else if(btnType=="local" && (opSupplier!="#Overseas" && opStatus!="Shipped") ) //local
                 {
+                    crow=crow+1;
                     if(username=="aaron" || username=="J")
-                        rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                        rtn+=crow+". "+opDateOnOFf+opName+" \t x"+opQuantityType+" \n";
                     else if(username=="Ljy" || username=="Lyn" ||  username=="J1")
                         rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opSupplier+" \t"+opWO+" \n";
                     else
@@ -1243,8 +1273,9 @@ function GenerateBtnCopyToExcelFormat(btnType)
 
                 else if(btnType=="oversea" && (opSupplier=="#Overseas" || opStatus=="Shipped")) //overseaOverseas
                 {
+                    crow=crow+1;
                     if(username=="aaron" || username=="J")
-                        rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                        rtn+=crow+". "+opDateOnOFf+opName+" \t x"+opQuantityType+" \n";
                     else if(username=="Ljy" || username=="Lyn" ||  username=="J1")
                         rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opSupplier+" \t"+opWO+" \n";
                     else
@@ -1252,8 +1283,9 @@ function GenerateBtnCopyToExcelFormat(btnType)
                 }
                 else if(btnType=="all")// all
                 {
+                    crow=crow+1;
                     if(username=="aaron" || username=="J")
-                        rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
+                        rtn+=crow+". "+opDateOnOFf+opName+" \t x"+opQuantityType+" \n";
                     else if(username=="Ljy" || username=="Lyn" ||  username=="J1")
                         rtn+=opDateOnOFf+opName+" \t"+opQuantityType+opSupplier+" \t"+opWO+" \n";
                     else
@@ -1266,6 +1298,7 @@ function GenerateBtnCopyToExcelFormat(btnType)
             }
             else if(btnType=="FullAll") //full all
             {
+                crow=crow+1;
                 if(username=="aaron" || username=="J")
                     rtn+=opDateOnOFf+opName+" \t"+opSupplier+" \t"+opQuantityType+" \n";
                 else if(username=="Ljy" || username=="Lyn" ||  username=="J1")
