@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      19.5.1
+// @version      19.5.2
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -1812,7 +1812,8 @@ function rtnTxtToFix(phone)
     var rtn="";
     if(txtBranch=="AMK" || txtBranch=="Hougang" || txtBranch=="Tampines" || txtBranch=="Yishun" || txtBranch=="TECHMINAL")
     {
-        rtn="https://api.whatsapp.com/send?phone="+rphone+"&text=Hi%20%20"+customerName+"%0AWork%20Order%20ID%20"+customerWO+"%20%0A%0ASure%2C%20We%20shall%20proceed%20to%20fix.%0AWill%20get%20back%20to%20you%20once%20ready.";
+        rtn="https://api.whatsapp.com/send?phone="+rphone+"&text=Work%20Order%20ID%20"+customerWO+"%20%0A%0ASure%2C%20We%20shall%20proceed%20to%20fix.%0AWill%20get%20back%20to%20you%20once%20ready.";
+    //Hi%20%20"+customerName+"%0A
     }
     return rtn;
 }
@@ -1824,7 +1825,8 @@ function rtnTxtToOrder(phone)
     var rtn="";
     if(txtBranch=="AMK" || txtBranch=="Hougang" || txtBranch=="Tampines" || txtBranch=="Yishun" || txtBranch=="TECHMINAL")
     {
-        rtn="https://api.whatsapp.com/send?phone="+rphone+"&text=Hi%20%20"+customerName+"%0AWork%20Order%20ID%20"+customerWO+"%20%0A%0ASure%2C%20we%20shall%20proceed%20for%20the%20order.%0AWill%20get%20back%20to%C2%A0you%C2%A0once%C2%A0ready.";
+        rtn="https://api.whatsapp.com/send?phone="+rphone+"&text=Work%20Order%20ID%20"+customerWO+"%20%0A%0ASure%2C%20we%20shall%20proceed%20for%20the%20order.%0AWill%20get%20back%20to%C2%A0you%C2%A0once%C2%A0ready.";
+    //Hi%20%20"+customerName+"%0A
     }
     return rtn;
 }
