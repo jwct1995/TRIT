@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      19.5.3
+// @version      19.5.3.1
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -366,7 +366,7 @@ function defaultData()
         username="J"; //use to test only
     if(testmode==1)
         username="J1"; //use to test only
-
+//alert(username);
     var sBranch = $(".primary_linkgonew").text();
 
     if(sBranch.indexOf("TRIT AMK")>=0)
@@ -1152,18 +1152,19 @@ function copyToClipboard(copyTxt)
         copyTxt=" ";
     else
     {
+        //(username!="Ljy" || username!="Lyn" ||  username!="J1")
         GetURL();
         var func=webFurl.split("php?func=");
-        if (~weburl.indexOf("/store/stock.php")&& (func[1]=="specialorders"||func[1]=="specialordersall"))
+        if (~weburl.indexOf("/store/stock.php")&& (func[1]=="specialorders"||func[1]=="specialordersall") && (username!="Ljy" && username!="Lyn" &&  username!="J1"))
         {
             if(txtBranch=="AMK")
-                bname="T&R Ideal Tech";
+                bname="T&R Ideal Tech \n";
             if(txtBranch=="Hougang")
-                bname="Fixnology";
+                bname="Fixnology \n";
             if(txtBranch=="Tampines")
-                bname="Mac Sync Technology";
+                bname="Mac Sync Technology \n";
             if(txtBranch=="Yishun")
-                bname="TRIT Computer PTE LTD";
+                bname="TRIT Computer PTE LTD \n";
             /*if(txtBranch=="TECHMINAL")
        bname="";*/
         }
@@ -1175,7 +1176,7 @@ function copyToClipboard(copyTxt)
     var temp=$("<textarea></textarea>");
     $("body").append(temp);
     //temp.text(copyTxt).select();
-    temp.text(bname+"\n"+copyTxt).select();
+    temp.text(bname+copyTxt).select();
     document.execCommand("copy");
     temp.remove();
 }
