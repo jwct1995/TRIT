@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      19.5.3.1
+// @version      19.5.3.2
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -1227,7 +1227,7 @@ function GenerateBtnCopyToExcelFormat(btnType)
             }
             else if(btnType!="FullAll" && opStatus!="Received")
             {
-                if(btnType=="TRIT" && (opSupplier=="#AMK"||opSupplier=="#Hougang"||opSupplier=="#TMP"||opSupplier=="#Yishun")) //local
+                if(btnType=="TRIT" && (opSupplier=="#AMK"||opSupplier=="#Hougang"||opSupplier=="#TMP"||opSupplier=="#Yishun"||opSupplier=="#TRIT Part#")) //local
                 {
                     crow=crow+1;
                     if(username=="aaron" || username=="J")
