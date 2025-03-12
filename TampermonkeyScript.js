@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      19.5.3.3
+// @version      20.0
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -58,12 +58,22 @@ window.onload = function exampleFunction()
     getCurrentDateTime();
     defaultData();
     
+    GenerateNCheckAntiVirusNCleaningService();
     //var tmpinput=$("<input type='text' id='inputTMP' value='0'>");
     //$("body").prepend("<input type='text' id='inputTMP' value='0'>");
 }
 
 $( document ).ready(function()
 {
+
+
+    $("body").on("click", "[name='btnCopyReceiptAntiVirusNCleaning']", function()
+    {   
+        cpyReceiptAntiVirusNCleaning()
+    });
+    //
+
+
 
     $("body").on("mouseover", "#btnWhatsAppPhoneNumber, #btnWhatsAppSendReadyToCollectTxt", function()
     {
@@ -1890,5 +1900,221 @@ function GenerateShopeeLazadaFillOrderDateBtn()
             eleN_orderdate.val(cYear+"/"+cMonth+"/"+cDay);
             clearInterval(cd);
         }, 500);
+    }
+}
+
+function GenerateNCheckAntiVirusNCleaningService()
+{
+    
+    GetURL();
+    //console.log("aaaaa");
+    //console.log(weburl);
+    if (weburl==("/trit/store/receipt.php"))
+    {
+        
+        //console.log("bbbb");
+        //var taskPrices=[];
+        //var taskName=[];
+        var taskCount=0;
+        //var recTotalPrices="";
+        //var ctxt="";
+
+        var cd = setInterval(function()
+        {
+
+            
+            $('table.pointofsale td:contains("Ventilation system cleaning")').each(function() 
+            {
+                $(this).css("background-color", "#f09c9c");
+               // taskName[taskCount]=$(this).text();
+                //taskPrices[taskCount]=$(this).next().next().text();
+                taskCount=taskCount+1;
+                
+            });
+            $('table.pointofsale td:contains("AV")').each(function() 
+            {
+                $(this).css("background-color", "#f09c9c");
+                //taskName[taskCount]=$(this).text();
+                //taskPrices[taskCount]=$(this).next().next().text();
+                taskCount=taskCount+1;
+                
+            }); 
+            if(taskCount>0)
+            {
+                $(".startbox").prepend($("<button name='btnCopyReceiptAntiVirusNCleaning' btntype='TRIT' class='button-28'>CopyForExcel</button>"));
+            }
+            
+
+/*
+            $('table.pointofsale td:contains("Grand Total:")').each(function() 
+            {
+                //$(this).next().css("background-color", "#f09c9c");
+                recTotalPrices=$(this).next().text();
+                
+            }); 
+            recTotalPrices=recTotalPrices.substring(1, recTotalPrices.length);
+            //console.log(recTotalPrices);
+            //console.log(taskCount);
+
+            //console.log(taskName.length);
+            
+            
+            
+            
+            var recDate=$("div.startbox table.standard tbody tr:eq(0) td:eq(1)").text();
+            recDate=recDate.split(" ");
+            recDate=recDate[1].substring(0, recDate[1].length - 1) +"-"+recDate[0]+"-"+recDate[2].substring(0, recDate[2].length - 1);
+            //console.log(recDate);
+
+            var recWO=$("div.startbox table.standard tbody tr:eq(2) td:eq(1)").text();
+            recWO=recWO.substring(1, recWO.length);
+            //console.log(recWO);
+
+
+            var recNum=$("div.startbox table tbody tr:eq(0) td:eq(2) span").text(); 
+            recNum=recNum.split(" ");
+            recNum=recNum[1].substring(1, recNum[1].length);
+            //console.log(recNum);
+
+
+*/
+
+            
+         /*
+            if(taskName.length!=0)
+            {
+                
+                for(var c=0;c<taskName.length;c++)
+                {
+                    //console.log(taskName[c]);
+                    //console.log(taskPrices[c].substring(1, taskPrices[c].length));
+                    
+                    ctxt=recDate+"\t"+recWO+"\t"+recNum+"\t"+taskName[c]+"\t"+recTotalPrices+"\t"+taskPrices[c]+"\t"+"20%"+"\n";
+                
+                
+                }
+            }
+         */   
+
+          //  console.log(ctxt);
+
+/*
+            var temp=$("<textarea></textarea>");
+            $("body").append(temp);
+            //temp.text(copyTxt).select();
+            temp.text(ctxt).select();
+            document.execCommand("copy");
+            temp.remove();
+
+            
+*/
+            clearInterval(cd);
+        }, 1000);
+
+        
+    }
+
+}
+function cpyReceiptAntiVirusNCleaning()
+{
+    GetURL();
+    //console.log("aaaaa");
+    //console.log(weburl);
+    if (weburl==("/trit/store/receipt.php"))
+    {
+        
+        //console.log("bbbb");
+        var taskPrices=[];
+        var taskName=[];
+        var taskCount=0;
+        var recTotalPrices="";
+        var ctxt="";
+
+        var cd = setInterval(function()
+        {
+
+            
+            $('table.pointofsale td:contains("Ventilation system cleaning")').each(function() 
+            {
+                //$(this).css("background-color", "#f09c9c");
+                taskName[taskCount]=$(this).text();
+                taskPrices[taskCount]=$(this).next().next().text();
+                taskCount=taskCount+1;
+                
+            });
+            $('table.pointofsale td:contains("AV")').each(function() 
+            {
+                //$(this).css("background-color", "#f09c9c");
+                taskName[taskCount]=$(this).text();
+                taskPrices[taskCount]=$(this).next().next().text();
+                taskCount=taskCount+1;
+                
+            }); 
+
+
+            $('table.pointofsale td:contains("Grand Total:")').each(function() 
+            {
+                //$(this).next().css("background-color", "#f09c9c");
+                recTotalPrices=$(this).next().text();
+                
+            }); 
+            recTotalPrices=recTotalPrices.substring(1, recTotalPrices.length);
+            //console.log(recTotalPrices);
+            //console.log(taskCount);
+
+            //console.log(taskName.length);
+            
+            
+            
+            
+            var recDate=$("div.startbox table.standard tbody tr:eq(0) td:eq(1)").text();
+            recDate=recDate.split(" ");
+            recDate=recDate[1].substring(0, recDate[1].length - 1) +"-"+recDate[0]+"-"+recDate[2].substring(0, recDate[2].length - 1);
+            //console.log(recDate);
+
+            var recWO=$("div.startbox table.standard tbody tr:eq(2) td:eq(1)").text();
+            recWO=recWO.substring(1, recWO.length);
+            //console.log(recWO);
+
+
+            var recNum=$("div.startbox table tbody tr:eq(0) td:eq(2) span").text(); 
+            recNum=recNum.split(" ");
+            recNum=recNum[1].substring(1, recNum[1].length);
+            //console.log(recNum);
+
+
+
+
+            
+            if(taskName.length!=0)
+            {
+                //$(".startbox").prepend($("<button name='btnCopyReceiptAntiVirusNCleaning' btntype='TRIT' class='button-28'>CopyForExcel</button>"));
+                for(var c=0;c<taskName.length;c++)
+                {
+                    //console.log(taskName[c]);
+                    //console.log(taskPrices[c].substring(1, taskPrices[c].length));
+                    
+                    ctxt=recDate+"\t"+recWO+"\t"+recNum+"\t"+taskName[c]+"\t"+recTotalPrices+"\t"+taskPrices[c]+"\t"+"20%"+"\n";
+                
+                
+                }
+            }
+            
+
+            console.log(ctxt);
+
+
+            var temp=$("<textarea></textarea>");
+            $("body").append(temp);
+            //temp.text(copyTxt).select();
+            temp.text(ctxt).select();
+            document.execCommand("copy");
+            temp.remove();
+
+            
+
+            clearInterval(cd);
+        }, 300);
+
     }
 }
