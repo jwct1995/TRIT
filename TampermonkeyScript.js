@@ -2088,7 +2088,7 @@ function cpyReceiptAntiVirusNCleaning()
                     else if(tdL1txt.search(/Logic Board Chip Level Repair|Motherboard Chip Level Repair/i)!==-1)
                         ftxt+="Motherboard repair ";
                     else 
-                        ftxt+=tdL1txt;
+                        ftxt+=tdL1txt+" ";
 
 
 
