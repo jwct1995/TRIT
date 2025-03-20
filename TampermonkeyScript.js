@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      20.2
+// @version      20.2.2
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -2058,37 +2058,38 @@ function cpyReceiptAntiVirusNCleaning()
             $('table.pointofsale tr').each(function(index) 
             {
                 var trtext=$(this).text();
-                if(trtext.search(/Purchase Items|Labor|Returned Items|No Return Items|Refunded Labor|No Refunded Labor Items|labour warranty|Service & Labour/i)==-1 && index <=$('table.pointofsale tr').length-15)
+                if(trtext.search(/Purchase Items|Labor|Returned Items|No Return Items|Refunded Labor|No Refunded Labor Items|labour warranty|Service & Labour|Discount/i)==-1 && index <=$('table.pointofsale tr').length-15)
                 {
-
+                    if(ftxt.length!=0)
+                        ftxt+=" , ";
                     var tdL=$('table.pointofsale tr:eq('+index+') td').length;
                     var tdL1txt=$('table.pointofsale tr:eq('+index+') td:eq(1)').text();
 
 
                     if(tdL1txt.search(/Ventilation System Cleaning|Internal Cleaning|Thermal Paste|Thermal Compound/i)!==-1) 
                     {
-                        ftxt+="InternalCleaning ";
+                        ftxt+="InternalCleaning";
                         fpri+=$('table.pointofsale tr:eq('+index+') td:eq(3)').text();
                     }
                     else if(tdL1txt.search(/AV 1 Year |AV 2 Year|AV 3 Year|Anti Virus/i)!==-1)
                     {
-                        ftxt+="AntiVirus ";
+                        ftxt+="AntiVirus";
                         fpri+=$('table.pointofsale tr:eq('+index+') td:eq(3)').text();
                     }
                     else if(tdL1txt.search(/Operating System Reload \/ Reformat/i)!==-1)
-                        ftxt+="Reformat ";
+                        ftxt+="Reformat";
                     else if(tdL1txt.search(/Screen|LCD|Panel/i)!==-1)
-                        ftxt+="ScreenReplacement ";
+                        ftxt+="ScreenReplacement";
                     else if(tdL1txt.search(/Battery/i)!==-1)
-                        ftxt+="BatteryReplacement ";
+                        ftxt+="BatteryReplacement";
                     else if(tdL1txt.search(/Keyboard/i)!==-1)
-                        ftxt+="KeyboardReplacement ";
+                        ftxt+="KeyboardReplacement";
                     else if(tdL1txt.search(/Hinge Repair/i)!==-1)
-                        ftxt+="HingeRepair ";
+                        ftxt+="HingeRepair";
                     else if(tdL1txt.search(/Logic Board Chip Level Repair|Motherboard Chip Level Repair/i)!==-1)
-                        ftxt+="Motherboard repair ";
+                        ftxt+="Motherboard repair";
                     else 
-                        ftxt+=tdL1txt+" ";
+                        ftxt+=tdL1txt;
 
 
 
