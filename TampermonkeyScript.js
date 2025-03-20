@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      20.0
+// @version      20.1
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -1384,7 +1384,7 @@ function sendAddressToWA(ph,branchaddress)
     else if(branchaddress=="TMP")
         rtn="https://api.whatsapp.com/send?phone="+ph+"&text=%5BTRITcomputer%20-%20Tampines%5D%0A%0ADear%20Sir%2FMdm%2C%0A%0ABusiness%20Hours%0A10%3A00am%20to%208%3A00pm%20(%20Weekday%20Except%20Tuesday%20)%0A12%3A00nn%20to%205%3A00pm%20(%20Weekend%20)%0A*Closed%20on%20Every%20Tuesday%20and%20Public%20Holiday%0A%0AWhatsapp%0Ahttps%3A%2F%2Fapi.whatsapp.com%2Fsend%3Fphone%3D6588000707%0A%0ALocation%0ATelepark%2C%205%20Tampines%20Central%206%2C%20%2301-07%2C%20Singapore%20529482%0A%0AGoogle%20Map%0Ahttps%3A%2F%2Fg.page%2FTRITcomputer%3Fshare%0A%0AVisit%20our%20website%20for%20more%20details%3A%0Ahttps%3A%2F%2Fwww.tritcomputer.com%2F";
     else if(branchaddress=="YS")
-        rtn="https://api.whatsapp.com/send?phone="+ph+"&text=%5BTRITcomputer%20-%20Yishun%5D%0A%0ADear%20Sir%2FMdm%2C%0A%0ABusiness%20Hours%0A10%3A00nn%20to%208%3A00pm%20(%20Everyday%20)%0AWork%20on%20Public%20Holiday%20too%0A%0AWhatsapp%0Ahttps%3A%2F%2Fapi.whatsapp.com%2Fsend%3Fphone%3D6588000606%0A%0ALocation%0A926%20Yishun%20Central%201%2C%20%2301-191%2C%20Singapore%20760926%0A%0AGoogle%20Map%0Ahttps%3A%2F%2Fgoo.gl%2Fmaps%2FPQcD9yF7P8bQr7o8A%0A%0AVisit%20our%20website%20for%20more%20details%3A%0Ahttps%3A%2F%2Fwww.tritcomputer.com%2F";
+        rtn="https://api.whatsapp.com/send?phone="+ph+"&text=%5BTRITcomputer%20-%20Yishun%5D%0A%0ADear%20Sir%2FMdm%2C%0A%0ABusiness%20Hours%0A10%3A00am%20to%208%3A00pm%20(%20Everyday%20)%0AWork%20on%20Public%20Holiday%20too%0A%0AWhatsapp%0Ahttps%3A%2F%2Fapi.whatsapp.com%2Fsend%3Fphone%3D6588000606%0A%0ALocation%0A926%20Yishun%20Central%201%2C%20%2301-191%2C%20Singapore%20760926%0A%0AGoogle%20Map%0Ahttps%3A%2F%2Fgoo.gl%2Fmaps%2FPQcD9yF7P8bQr7o8A%0A%0AVisit%20our%20website%20for%20more%20details%3A%0Ahttps%3A%2F%2Fwww.tritcomputer.com%2F";
     else if(branchaddress=="TCM")
         //rtn="https://api.whatsapp.com/send?phone="+ph+"&text=%5BTechminal%5D%0A%0ADear%20Sir%2FMdm%2C%0A%20%20%20%20%0ABusiness%20Hours%0A11%3A00am%20to%208%3A00pm%20%0A%0AWhatsapp%0Ahttps%3A%2F%2Fapi.whatsapp.com%2Fsend%3Fphone%3D6588728988%0A%20%20%20%20%0ALocation%0A1%20Rochor%20Canal%20Rd%2C%20%2301-26%20Beside%20Loading%20Bay%2C%20Sim%20Lim%20Square%2C%20Singapore%20188504%0A%20%20%20%20%0AGoogle%20Map%20%0Ahttps%3A%2F%2Fgoo.gl%2Fmaps%2F5ibuHxkAjhHBDufG6%0A%20%20%20%20%0AVisit%20our%20website%20for%20more%20details%3A%0Ahttps%3A%2F%2Fwww.techminalsg.com%2F";
         rtn="https://api.whatsapp.com/send?phone="+ph+"&text=%5BTechminal%5D%0A%0ADear%20Sir%2FMdm%2C%0A%20%20%20%20%0ABusiness%20Hours%0A11%3A30am%20to%208%3A00pm%20(Daily)%0A11%3A30am%20to%205%3A00pm%20(Sunday%20only)%0A%0AWhatsapp%0Ahttps%3A%2F%2Fapi.whatsapp.com%2Fsend%3Fphone%3D6588728988%0A%20%20%20%20%0ALocation%0A1%20Rochor%20Canal%20Rd%2C%20%2301-26%20Beside%20Loading%20Bay%2C%20Sim%20Lim%20Square%2C%20Singapore%20188504%0A%20%20%20%20%0AGoogle%20Map%20%0Ahttps%3A%2F%2Fgoo.gl%2Fmaps%2F5ibuHxkAjhHBDufG6%0A%20%20%20%20%0AVisit%20our%20website%20for%20more%20details%3A%0Ahttps%3A%2F%2Fwww.techminalsg.com%2F%20";
