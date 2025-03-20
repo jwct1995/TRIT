@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      20.1
+// @version      20.2
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -1923,6 +1923,26 @@ function GenerateNCheckAntiVirusNCleaningService()
         {
 
             
+
+            $('table.pointofsale td').filter(function() 
+                {
+                    return /Ventilation System Cleaning|Internal Cleaning|Thermal Paste|Thermal Compound|AV 1 Year |AV 2 Year|AV 3 Year|Anti Virus/i.test($(this).text());
+                }).each(function() 
+                {
+                    //console.log($(this).text());
+                    $(this).css("background-color", "#f09c9c");
+                    taskCount=taskCount+1;
+                }
+            );
+            
+
+
+
+
+
+
+/*
+
             $('table.pointofsale td:contains("Ventilation system cleaning")').each(function() 
             {
                 $(this).css("background-color", "#f09c9c");
@@ -1939,6 +1959,7 @@ function GenerateNCheckAntiVirusNCleaningService()
                 taskCount=taskCount+1;
                 
             }); 
+*/
             if(taskCount>0)
             {
                 $(".startbox").prepend($("<button name='btnCopyReceiptAntiVirusNCleaning' btntype='TRIT' class='button-28'>CopyForExcel</button>"));
@@ -2032,8 +2053,82 @@ function cpyReceiptAntiVirusNCleaning()
 
         var cd = setInterval(function()
         {
+            var ftxt="";
+            var fpri="";
+            $('table.pointofsale tr').each(function(index) 
+            {
+                var trtext=$(this).text();
+                if(trtext.search(/Purchase Items|Labor|Returned Items|No Return Items|Refunded Labor|No Refunded Labor Items|labour warranty|Service & Labour/i)==-1 && index <=$('table.pointofsale tr').length-15)
+                {
 
-            
+                    var tdL=$('table.pointofsale tr:eq('+index+') td').length;
+                    var tdL1txt=$('table.pointofsale tr:eq('+index+') td:eq(1)').text();
+
+
+                    if(tdL1txt.search(/Ventilation System Cleaning|Internal Cleaning|Thermal Paste|Thermal Compound/i)!==-1) 
+                    {
+                        ftxt+="InternalCleaning ";
+                        fpri+=$('table.pointofsale tr:eq('+index+') td:eq(3)').text();
+                    }
+                    else if(tdL1txt.search(/AV 1 Year |AV 2 Year|AV 3 Year|Anti Virus/i)!==-1)
+                    {
+                        ftxt+="AntiVirus ";
+                        fpri+=$('table.pointofsale tr:eq('+index+') td:eq(3)').text();
+                    }
+                    else if(tdL1txt.search(/Operating System Reload \/ Reformat/i)!==-1)
+                        ftxt+="Reformat ";
+                    else if(tdL1txt.search(/Screen|LCD|Panel/i)!==-1)
+                        ftxt+="ScreenReplacement ";
+                    else if(tdL1txt.search(/Battery/i)!==-1)
+                        ftxt+="BatteryReplacement ";
+                    else if(tdL1txt.search(/Keyboard/i)!==-1)
+                        ftxt+="KeyboardReplacement ";
+                    else if(tdL1txt.search(/Hinge Repair/i)!==-1)
+                        ftxt+="HingeRepair ";
+                    else if(tdL1txt.search(/Logic Board Chip Level Repair|Motherboard Chip Level Repair/i)!==-1)
+                        ftxt+="Motherboard repair ";
+                    else 
+                        ftxt+=tdL1txt;
+
+
+
+
+
+                    //console.log("number of td  ..."+tdL);
+                    //console.log("txt of second td ..."+tdL1txt);
+                    //console.log(trtext +"......"+ trtext.length+"...."+index);
+                
+                
+                
+                }
+            });
+
+            fpri=fpri.substring(1, fpri.length);
+            //console.log(ftxt+"...."+fpri);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/*
+            $('table.pointofsale td').filter(function() 
+            {
+                return /Ventilation System Cleaning|Internal Cleaning|Thermal Paste|Thermal Compound|AV 1 Year |AV 2 Year|AV 3 Year|Anti Virus/i.test($(this).text());
+            }).each(function() 
+            {
+                //console.log($(this).text());
+                if($(this).text().search(/Ventilation System Cleaning|Internal Cleaning|Thermal Paste|Thermal Compound/i)!==-1)
+                    taskName[taskCount]="InternalCleaning";  
+                else   
+                    taskName[taskCount]="AntiVirus";
+                
+                //taskName[taskCount]=$(this).text();
+                taskPrices[taskCount]=$(this).next().next().text();
+                taskCount=taskCount+1;
+            }
+        );
+*/
+
+
+/*
             $('table.pointofsale td:contains("Ventilation system cleaning")').each(function() 
             {
                 //$(this).css("background-color", "#f09c9c");
@@ -2051,7 +2146,7 @@ function cpyReceiptAntiVirusNCleaning()
                 
             }); 
 
-
+*/
             $('table.pointofsale td:contains("Grand Total:")').each(function() 
             {
                 //$(this).next().css("background-color", "#f09c9c");
@@ -2084,8 +2179,8 @@ function cpyReceiptAntiVirusNCleaning()
 
 
 
-
-            
+            ctxt=recDate+"\t"+recWO+"\t"+recNum+"\t"+ftxt+"\t"+recTotalPrices+"\t"+fpri+"\t"+"20%"+"\n";
+/*            
             if(taskName.length!=0)
             {
                 //$(".startbox").prepend($("<button name='btnCopyReceiptAntiVirusNCleaning' btntype='TRIT' class='button-28'>CopyForExcel</button>"));
@@ -2099,9 +2194,9 @@ function cpyReceiptAntiVirusNCleaning()
                 
                 }
             }
-            
+  */          
 
-            console.log(ctxt);
+            //console.log(ctxt);
 
 
             var temp=$("<textarea></textarea>");
