@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      20.2.2
+// @version      20.3
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -1452,6 +1452,12 @@ function GenerateNoteTextGeneratorClick(notetype)
         div.append(GenerateCheckBoxForNote("+CFan",notetype));
         div.append(GenerateCheckBoxForNote("+Recovery",notetype));
         div.append(GenerateCheckBoxForNote("+IntCleaning",notetype));
+
+        div.append(GenerateCheckBoxForNote("+2-5Day",notetype));
+        div.append(GenerateCheckBoxForNote("+4-10Day",notetype));
+        div.append(GenerateCheckBoxForNote("+5-15Day",notetype));
+
+
 /*
         div.append(GenerateCheckBoxForNote(""));
         div.append(GenerateCheckBoxForNote(""));
@@ -1523,13 +1529,35 @@ function generateQuotaion(eleVal,notetype)
     console.log("xxx----"+eleVal+"..."+notetype);
     if(eleVal=="IntCleaningMsg")
     {
-        rtn="Hi, "+customerName+",\nWork Order ID: "+customerWO+"\n\nYour device had not been service for years,\nRecommend to do internal cleaning with thermal compound replacement, it can help to reduce the overheat issue.\nUsual cost is $50, doing together with ...... we can do at $30.\nKindly advice whether to do as well?";
+        rtn="Hi, "+customerName+",\nWork Order ID: "+customerWO+"\n\n"; 
+        //Your device had not been service for years,\nRecommend to do internal cleaning with thermal compound replacement, it can help to reduce the overheat issue.\nUsual cost is $50, doing together with ...... we can do at $30.\nKindly advice whether to do as well?";
+        
+        
+        rtn+="Your device hasn't been serviced for quite some time. \n";
+        rtn+="We recommend performing a ventilation system cleaning along with thermal compound replacement. \n";
+        rtn+="This can help reduce overheating issues and improve overall performance. \n";
+        rtn+="The usual cost is $50, but if done together with the current service, we can offer it at $30. \n";
+        rtn+="Kindly advise if you would like to proceed? \n";
+
         //console.log("check - IntCleaningMsg");
         //console.log("bb");
+
     }
     else if(eleVal=="DisposeMsg")
     {
-        rtn="Dear "+customerName+",\n\nYour computer had been with us since "+customerCheckInTime+", which had reached our 60 days unclaimed storage duration. Due to our storage limitation and high rental, We had to clear the unclaimed devices / $5 of storage fee per month apply for those device beyond storage duration limitation.\n\nIf you wish to collect back without repairing, kindly arrange to collect back within 7 days from now. Else will be deposed off.\n\nIf you wish to repair, 50% of payment required to proceed.\nYou may PayNow or come down to our store to make the payment.\n\nDevice will be arrange to dispose off if there’s no reply from you in 3 days.\n\nPlease confirm and reply to avoid any disappointment.\nThank you for your understanding and cooperation.\n\nFrom:\n";
+        rtn="Dear "+customerName+",\n\n"; 
+        //Your computer had been with us since "+customerCheckInTime+", which had reached our 60 days unclaimed storage duration. Due to our storage limitation and high rental, We had to clear the unclaimed devices / $5 of storage fee per month apply for those device beyond storage duration limitation.\n\nIf you wish to collect back without repairing, kindly arrange to collect back within 7 days from now. Else will be deposed off.\n\nIf you wish to repair, 50% of payment required to proceed.\nYou may PayNow or come down to our store to make the payment.\n\nDevice will be arrange to dispose off if there’s no reply from you in 3 days.\n\nPlease confirm and reply to avoid any disappointment.\nThank you for your understanding and cooperation.\n\nFrom:\n";
+        
+
+
+        rtn+="Your computer has been with us since "+customerCheckInTime+", and it has exceeded our 60-day unclaimed storage period. \n\n";
+        rtn+="Due to limited storage capacity and high rental costs, we are required to clear unclaimed devices. A $10 monthly storage fee will be applied to devices kept beyond the allowed duration.\n\n";
+        rtn+="If you wish to collect the device without repair, please do so within 7 days from today.\n\n";
+        rtn+="If you decide to proceed with the repair, a 50% deposit is required. You may make payment via PayNow or in-store.\n\n";
+        rtn+="If we do not hear from you within 3 days, the device will be scheduled for disposal.\n\n";
+        rtn+="Please confirm your decision soon to avoid any inconvenience.\n";
+        rtn+="Thank you for your understanding and cooperation.\n\n";
+
 
         if(txtBranch=="TECHMINAL")
             rtn+="Techminal";
@@ -1552,16 +1580,16 @@ function generateQuotaion(eleVal,notetype)
 
         rtn="Hi,"+customerName+" ("+customerWO+").\n";
         if(cHour<12)
-            rtn+="Good Morning to you.\n";
+            rtn+="Good Morning.\n";
         else if(cHour<18)
-            rtn+="Good Afternoon to you.\n";
+            rtn+="Good Afternoon.\n";
         else
-            rtn+="Good Evening to you.\n";
+            rtn+="Good Evening.\n";
         
         rtn+="\n";
         rtn+="Regarding to your "+customerDeviceModel+" \n\n";
 
-        rtn+="This is the quotation for your device. \n";
+        rtn+="This is the estimate for your consideration.  \n";
 /*
         rtn+="\n";
         rtn+="\n";
@@ -1590,7 +1618,7 @@ function generateQuotaion(eleVal,notetype)
                     else
                         rtn+=count+". PSU replacement - $150\n";
 
-                    rtn+="90 days warranty\n\n";
+                    rtn+="90 days warranty included\n\n";
                 }
                 if($(this).val()=="+L/M-Board")
                 {
@@ -1605,46 +1633,46 @@ function generateQuotaion(eleVal,notetype)
                         rtn+="-If system crash will install fresh windows system drive\n";
                         rtn+=" ***All data (software, photo, video, document,.........) will wipe out***\n";
                     }
-                    rtn+="90 days warranty\n\n";
+                    rtn+="90 days warranty included\n\n";
                 }
                 if($(this).val()=="+SSD")
                 {
                     if(customerDeviceModel.search(/Apple/i)!=-1)
                     {
-                        rtn+=count+". SSD Replacement\n";
+                        rtn+=count+". SSD Replacement with fresh MacOS installation\n";
                         rtn+="-"+count+"a 250GB SSD $190 or\n";
                         rtn+="-"+count+"b 500GB SSD $250 or\n";
                         rtn+="-"+count+"c 1TB SSD $300\n";
                     }
                     else
                     {
-                        rtn+=count+". SSD Replacement\n";
+                        rtn+=count+". SSD Replacement with fresh Window installation\n";
                         rtn+="-"+count+"a 250GB SSD $160 or\n";
                         rtn+="-"+count+"b 500GB SSD $190 or\n";
                         rtn+="-"+count+"c 1TB SSD $240\n";
                     }
 
-                    rtn+="90 days warranty\n\n";
+                    rtn+="90 days warranty included\n\n";
                 }
                 if($(this).val()=="+Screen")
                 {
                     rtn+=count+". Screen replacement - $250\n";
-                    rtn+="90 days warranty\n\n";
+                    rtn+="90 days warranty included\n\n";
                 }
                 if($(this).val()=="+Assembly")
                 {
                     rtn+=count+". Screen Assembly replacement - $450\n";
-                    rtn+="90 days warranty\n\n";
+                    rtn+="90 days warranty included\n\n";
                 }
                 if($(this).val()=="+Battery")
                 {
                     rtn+=count+". Battery replacement - $180\n";
-                    rtn+="90 days warranty\n\n";
+                    rtn+="90 days warranty included\n\n";
                 }
                 if($(this).val()=="+Touchbar")
                 {
                     rtn+=count+". Touchbar replacement - $180\n";
-                    rtn+="90 days warranty\n\n";
+                    rtn+="90 days warranty included\n\n";
                 }
                 if($(this).val()=="+Trackpad")
                 {
@@ -1652,7 +1680,7 @@ function generateQuotaion(eleVal,notetype)
                         rtn+=count+". Trackpad replacement - $170\n";
                     else
                         rtn+=count+". Touchpad replacement - $130\n";
-                    rtn+="90 days warranty\n\n";
+                    rtn+="90 days warranty included\n\n";
                 }
                 if($(this).val()=="+Keyboard")
                 {
@@ -1660,7 +1688,7 @@ function generateQuotaion(eleVal,notetype)
                         rtn+=count+". Keyboard replacement - $200\n";
                     else
                         rtn+=count+". Keyboard replacement - $140\n";
-                    rtn+="90 days warranty\n\n";
+                    rtn+="90 days warranty included\n\n";
                 }
                 if($(this).val()=="+Speaker")
                 {
@@ -1668,12 +1696,12 @@ function generateQuotaion(eleVal,notetype)
                         rtn+=count+". Speaker replacement - $180\n";
                     else
                         rtn+=count+". Speaker replacement - $120\n";
-                    rtn+="90 days warranty\n\n";
+                    rtn+="90 days warranty included\n\n";
                 }
                 if($(this).val()=="+CFan")
                 {
-                    rtn+=count+". Cooling Fan - $130\n";
-                    rtn+="90 days warranty\n\n";
+                    rtn+=count+". Ventilation System Smart Fan Replacement - $130\n";
+                    rtn+="90 days warranty included\n\n";
                 }
                 if($(this).val()=="+Recovery")
                 {
@@ -1684,11 +1712,24 @@ function generateQuotaion(eleVal,notetype)
                 if($(this).val()=="+IntCleaning")
                 {
                     rtn+=count+". Internal Cleaning $80\n";
-                    rtn+="Cleaning on your device main board and Thermal paste replacement.\n";
-                    rtn+="To maintain your device CPU and GPU temperature in healthy range.\n";
-                    rtn+="This process will help to extend your device lifespan.\n";
-                    rtn+="We recommend to do internal cleaning every 6 month to 1 year.\n\n";
+                    rtn+="Includes thorough cleaning of the ventilation system and replacement of thermal compound.\n";
+                    rtn+="This service helps maintain optimal CPU or/and GPU temperatures, improving system stability and extending the lifespan of your device.\n";
+                    //rtn+="To maintain your device CPU and GPU temperature in healthy range.\n";
+                    rtn+="We recommend internal cleaning every 6 months to 1 year for best performance.\n";
                 }
+                if($(this).val()=="+2-5Day")
+                {
+                    rtn+="Estimated time for repair 2 - 5 days. \n\n";
+                }
+                if($(this).val()=="+4-10Day")
+                {
+                    rtn+="Estimated time for repair 4 - 10 days. \n\n";
+                }
+                if($(this).val()=="+5-15Day")
+                {
+                    rtn+="Estimated time for repair 5 - 15 days. \n\n";
+                }
+
                 
 /*
                 if($(this).val()=="")
@@ -1711,8 +1752,8 @@ function generateQuotaion(eleVal,notetype)
                 
         });
         //console.log("check - Quotation");
-        rtn+="Estimated time for repair 3 - 7 5 - 15 days. \n\n";
-        rtn+="Kindly review and advise on whether to proceed with the repair.\n\n";
+        //rtn+="Estimated time for repair 3 - 7 5 - 15 days. \n\n";
+        rtn+="Kindly review and advise whether you would like to proceed?\n\n";
         rtn+="Thanks and Regards,\n";
 
         if(txtBranch=="TECHMINAL")
@@ -2058,7 +2099,7 @@ function cpyReceiptAntiVirusNCleaning()
             $('table.pointofsale tr').each(function(index) 
             {
                 var trtext=$(this).text();
-                if(trtext.search(/Purchase Items|Labor|Returned Items|No Return Items|Refunded Labor|No Refunded Labor Items|labour warranty|Service & Labour|Discount/i)==-1 && index <=$('table.pointofsale tr').length-15)
+                if(trtext.search(/Purchase Items|Labor|Returned Items|No Return Items|Refunded Labor|No Refunded Labor Items|labour warranty|Labour|Discount/i)==-1 && index <=$('table.pointofsale tr').length-15)
                 {
                     if(ftxt.length!=0)
                         ftxt+=" , ";
