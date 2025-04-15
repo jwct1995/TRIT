@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      20.3
+// @version      20.3.1
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -176,7 +176,7 @@ $( document ).ready(function()
             }*/
 
 
-            if($(this).val()=="IntCleaningMsg" || $(this).val()=="DisposeMsg")
+            if($(this).val()=="IntCleaningMsg" || $(this).val()=="DisposeMsg"|| $(this).val()=="LabFee100"|| $(this).val()=="DataCollection")
             {
                 if($(this).prop("checked")==false)
                 {
@@ -1453,9 +1453,9 @@ function GenerateNoteTextGeneratorClick(notetype)
         div.append(GenerateCheckBoxForNote("+Recovery",notetype));
         div.append(GenerateCheckBoxForNote("+IntCleaning",notetype));
 
-        div.append(GenerateCheckBoxForNote("+2-5Day",notetype));
-        div.append(GenerateCheckBoxForNote("+4-10Day",notetype));
-        div.append(GenerateCheckBoxForNote("+5-15Day",notetype));
+        //div.append(GenerateCheckBoxForNote("+2-5Day",notetype));
+        div.append(GenerateCheckBoxForNote("+3-7Day",notetype));
+        div.append(GenerateCheckBoxForNote("+1-2Week",notetype));
 
 
 /*
@@ -1465,7 +1465,9 @@ function GenerateNoteTextGeneratorClick(notetype)
         div.append(GenerateCheckBoxForNote(""));
         div.append(GenerateCheckBoxForNote(""));
         div.append(GenerateCheckBoxForNote(""));
- */       
+ */     
+        div.append(GenerateCheckBoxForNote("DataCollection",notetype));
+        div.append(GenerateCheckBoxForNote("LabFee100",notetype));
         div.append(GenerateCheckBoxForNote("IntCleaningMsg",notetype));
         div.append(GenerateCheckBoxForNote("DisposeMsg",notetype));
         ele.before(div);
@@ -1527,14 +1529,33 @@ function generateQuotaion(eleVal,notetype)
     var rtn="";
     
     console.log("xxx----"+eleVal+"..."+notetype);
-    if(eleVal=="IntCleaningMsg")
+
+
+    
+    if(eleVal=="LabFee100")
+    {
+        rtn="Hi, "+customerName+",\nWork Order ID: "+customerWO+"\n\n"; 
+
+        rtn+="Regarding your storage device, we were unable to recover the data through logical recovery. It will need to be sent to a clean room for further assessment. \n\n";
+        rtn+="Please note that there is a $100 upfront fee for the clean room assessment, which includes transport and service charges. \n"; 
+        rtn+="In such cases, the estimated data recovery cost may range from $600 to $1200, with an estimated turnaround time of 1-2 weeks. \n\n";
+        rtn+="Kindly let us know if you would like to proceed? \n";  
+    }
+
+    else if(eleVal=="DataCollection")
+    {
+        rtn="Hi, "+customerName+",\nWork Order ID: "+customerWO+"\n\n"; 
+        rtn+="Your data recovery is complete. You may come down to view and transfer the files.We have a spare external hard drive used for the recovery, which is now holding your data. It's available for purchase at $55. If you're okay with that, you can collect it directly.\n\n";
+        rtn+="Alternatively, you may bring your own storage device to save the data. \n";
+    }
+    else if(eleVal=="IntCleaningMsg")
     {
         rtn="Hi, "+customerName+",\nWork Order ID: "+customerWO+"\n\n"; 
         //Your device had not been service for years,\nRecommend to do internal cleaning with thermal compound replacement, it can help to reduce the overheat issue.\nUsual cost is $50, doing together with ...... we can do at $30.\nKindly advice whether to do as well?";
         
         
         rtn+="Your device hasn't been serviced for quite some time. \n";
-        rtn+="We recommend performing a ventilation system cleaning along with thermal compound replacement. \n";
+        rtn+="We recommend performing a ventilation system servicing along with thermal compound replacement. \n";
         rtn+="This can help reduce overheating issues and improve overall performance. \n";
         rtn+="The usual cost is $50, but if done together with the current service, we can offer it at $30. \n";
         rtn+="Kindly advise if you would like to proceed? \n";
@@ -1711,23 +1732,23 @@ function generateQuotaion(eleVal,notetype)
                 }
                 if($(this).val()=="+IntCleaning")
                 {
-                    rtn+=count+". Internal Cleaning $80\n";
+                    rtn+=count+". Ventilation System Servicing $80\n";
                     rtn+="Includes thorough cleaning of the ventilation system and replacement of thermal compound.\n";
                     rtn+="This service helps maintain optimal CPU or/and GPU temperatures, improving system stability and extending the lifespan of your device.\n";
                     //rtn+="To maintain your device CPU and GPU temperature in healthy range.\n";
                     rtn+="We recommend internal cleaning every 6 months to 1 year for best performance.\n";
                 }
-                if($(this).val()=="+2-5Day")
+                /*if($(this).val()=="+2-5Day")
                 {
                     rtn+="Estimated time for repair 2 - 5 days. \n\n";
-                }
-                if($(this).val()=="+4-10Day")
+                }*/
+                if($(this).val()=="+3-7Day")
                 {
-                    rtn+="Estimated time for repair 4 - 10 days. \n\n";
+                    rtn+="Repairs usually take 3 - 7 working days; complex cases may require more time.\n\n";
                 }
-                if($(this).val()=="+5-15Day")
+                if($(this).val()=="+1-2Week")
                 {
-                    rtn+="Estimated time for repair 5 - 15 days. \n\n";
+                    rtn+="It may take about 1 to 2 weeks to complete the repairs.\n\n";
                 }
 
                 
@@ -1967,7 +1988,7 @@ function GenerateNCheckAntiVirusNCleaningService()
 
             $('table.pointofsale td').filter(function() 
                 {
-                    return /Ventilation System Cleaning|Internal Cleaning|Thermal Paste|Thermal Compound|AV 1 Year |AV 2 Year|AV 3 Year|Anti Virus/i.test($(this).text());
+                    return /Ventilation System Cleaning|Ventilation system servicing|Internal Cleaning|Thermal Paste|Thermal Compound|AV 1 Year |AV 2 Year|AV 3 Year|Anti Virus/i.test($(this).text());
                 }).each(function() 
                 {
                     //console.log($(this).text());
@@ -2107,7 +2128,7 @@ function cpyReceiptAntiVirusNCleaning()
                     var tdL1txt=$('table.pointofsale tr:eq('+index+') td:eq(1)').text();
 
 
-                    if(tdL1txt.search(/Ventilation System Cleaning|Internal Cleaning|Thermal Paste|Thermal Compound/i)!==-1) 
+                    if(tdL1txt.search(/Ventilation System Cleaning|ventilation system servicing|Internal Cleaning|Thermal Paste|Thermal Compound/i)!==-1) 
                     {
                         ftxt+="InternalCleaning";
                         fpri+=$('table.pointofsale tr:eq('+index+') td:eq(3)').text();
