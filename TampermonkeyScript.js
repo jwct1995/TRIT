@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      20.3.2
+// @version      20.3.3
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
@@ -1450,6 +1450,7 @@ function GenerateNoteTextGeneratorClick(notetype)
         div.append(GenerateCheckBoxForNote("+Trackpad",notetype));
         div.append(GenerateCheckBoxForNote("+Keyboard",notetype));
         div.append(GenerateCheckBoxForNote("+Speaker",notetype));
+        div.append(GenerateCheckBoxForNote("+WifiCard",notetype));
         div.append(GenerateCheckBoxForNote("+CFan",notetype));
         div.append(GenerateCheckBoxForNote("+Recovery",notetype));
         div.append(GenerateCheckBoxForNote("+IntCleaning",notetype));
@@ -1720,6 +1721,12 @@ function generateQuotaion(eleVal,notetype)
                         rtn+=count+". Speaker replacement - $120\n";
                     rtn+="90 days warranty included\n\n";
                 }
+                if($(this).val()=="+WifiCard")
+                {
+                    rtn+=count+". Wireless Module Replacement - $120\n";
+                    rtn+="90 days warranty included\n\n";
+                }
+                
                 if($(this).val()=="+CFan")
                 {
                     rtn+=count+". Ventilation System Smart Fan Replacement - $130\n";
