@@ -1,15 +1,13 @@
 // ==UserScript==
 // @name         TRIT
 // @namespace    http://tampermonkey.net/
-// @version      20.3.9
+// @version      20.3.10
 // @description  make life easy
 // @author       JWCT
 // @match        http://34.87.111.75/*
 // @match        http://fixlogy.com/*
 // @match        http://35.197.158.218/*
 
-// @updateURL    https://raw.githubusercontent.com/jwct1995/TRIT/master/TampermonkeyScript.js
-// @downloadURL  https://raw.githubusercontent.com/jwct1995/TRIT/master/TampermonkeyScript.js
 
 //// @icon         http://34.87.111.75/pcrt/v9/repair/images/logo.png
 // @require      https://code.jquery.com/jquery-3.5.1.min.js
@@ -22,6 +20,8 @@
 
 // @run-at document-end
 
+// @downloadURL https://update.greasyfork.org/scripts/431134/TRIT.user.js
+// @updateURL https://update.greasyfork.org/scripts/431134/TRIT.meta.js
 // ==/UserScript==
 var testmode=0; //9=J , 1=J1 , 0 = defaulty
 
@@ -840,9 +840,9 @@ function rtnTxtGoogleMapReview2(branch,phone)
     }
     if(branch=="Yishun")
     {
-        rtn="https://api.whatsapp.com/send?phone="+rphone+"&text=It%20will%20be%20great%20if%20you%20can%20help%20to%20Click%20the%20link%20below%20to%20rate%20and%20leave%20us%20your%20valuable%20review.%20Thank%20you!%0Ahttps%3A%2F%2Fg.page%2Fr%2FCc2YWe6qsRKMEBM%2Freview%20";
+        //rtn="https://api.whatsapp.com/send?phone="+rphone+"&text=It%20will%20be%20great%20if%20you%20can%20help%20to%20Click%20the%20link%20below%20to%20rate%20and%20leave%20us%20your%20valuable%20review.%20Thank%20you!%0Ahttps%3A%2F%2Fg.page%2Fr%2FCc2YWe6qsRKMEBM%2Freview%20";
+        rtn="https://api.whatsapp.com/send?phone="+rphone+"&text=Hi%20"+customerName+"%EF%BC%8C%0A%0AThank-You%20for%20your%20trust%20and%20choosing%20TRITcomputer%20for%20your%20recent%20service%20work%0A%0AIt%20will%20be%20great%20if%20you%20can%20help%20to%20Click%20the%20link%20below%20to%20rate%20and%20leave%20us%20your%20valuable%20review.%20Thank%20you!%0A%0Ahttps%3A%2F%2Fgoogle.reviewsg.site";
     }
-    
     else if(branch=="TECHMINAL")
     {
         rtn="https://api.whatsapp.com/send?phone="+rphone+"&text=It%20will%20be%20great%20if%20you%20can%20help%20to%20Click%20the%20link%20below%20to%20rate%20and%20leave%20us%20your%20valuable%20review.%20Thank%20you!%0Ahttps%3A%2F%2Fg.page%2Fr%2FCVaHFth9XKD6EBM%2Freview%20";
